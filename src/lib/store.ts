@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 
 interface User {
@@ -187,7 +188,9 @@ export const useStore = () => {
     const unsubscribe = store.subscribe(() => {
       forceUpdate({});
     });
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return store;
