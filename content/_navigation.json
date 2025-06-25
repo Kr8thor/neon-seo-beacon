@@ -1,0 +1,9 @@
+[
+  { "title": "Dashboard", "to": "/dashboard", "auth": true },
+  { "title": "SEO Tools", "to": "/tools", "auth": true },
+  { "title": "Knowledge Base", "to": "/seo-tips" },
+  { "title": "Documentation", "to": "/docs" },
+  { "title": "Help", "to": "/help" },
+  { "title": "API", "to": "/docs/api" },
+  { "title": "Pricing", "to": "/pricing" }
+]
