@@ -1,167 +1,279 @@
 ---
-title: "Getting Started with Neon SEO Beacon"
-description: "Learn how to set up your account and run your first SEO audit with Neon SEO Beacon"
-category: "Getting Started"
+title: Getting Started with Neon SEO Beacon
+description: Quick start guide to begin using Neon SEO Beacon for comprehensive SEO audits and optimization.
+image: /images/docs/getting-started.jpg
+author: Documentation Team
+publishedAt: 2024-12-15
+updatedAt: 2024-12-15
+category: Documentation
+tags:
+  - getting-started
+  - documentation
+  - setup
+  - tutorial
+featured: true
+readingTime: 8
+toc: true
 ---
 
 # Getting Started with Neon SEO Beacon
 
-Welcome to Neon SEO Beacon! This guide will help you set up your account and run your first comprehensive SEO audit.
+Welcome to Neon SEO Beacon! This guide will help you get started with our professional SEO audit platform and make the most of its powerful features.
 
-## Quick Start
+## What is Neon SEO Beacon?
 
-### 1. Create Your Account
+Neon SEO Beacon is a comprehensive SEO audit tool that combines advanced technical analysis with AI-powered insights to help you optimize your website's search engine performance.
 
-1. Visit [Neon SEO Beacon](https://neonseobeacon.com)
-2. Click "Sign Up" in the top right corner
-3. Enter your email and create a secure password
-4. Verify your email address
-5. Complete your profile setup
+### Key Features
 
-### 2. Choose Your Plan
+- **Comprehensive SEO Audits**: Technical, content, and performance analysis
+- **AI-Powered Recommendations**: Intelligent suggestions for optimization
+- **Real-Time Monitoring**: Track changes and improvements over time
+- **White-Label Reports**: Professional reports for agencies
+- **API Access**: Integrate with your existing workflow
 
-We offer three plans to suit different needs:
+## Account Setup
 
-- **Free Plan**: 5 audits per month, basic features
-- **Pro Plan**: 100 audits per month, advanced features
-- **Agency Plan**: 1000 audits per month, white-label options
+### 1. Creating Your Account
 
-### 3. Run Your First Audit
+1. Visit our [registration page](/auth/register)
+2. Enter your email address and create a secure password
+3. Verify your email address
+4. Complete your profile information
 
-1. Navigate to the Dashboard
-2. Click "New Audit"
-3. Enter your website URL
-4. Select audit options (mobile/desktop, regions)
+### 2. Choosing Your Plan
+
+We offer three pricing tiers:
+
+- **Starter (Free)**: 5 audits per month, basic analysis
+- **Professional ($49/month)**: 100 audits per month, AI insights, white-label reports
+- **Enterprise ($199/month)**: Unlimited audits, custom integrations, dedicated support
+
+### 3. Initial Configuration
+
+After account creation:
+
+1. Set your default audit preferences
+2. Configure notification settings
+3. Add team members (Pro and Enterprise plans)
+4. Set up integrations (if applicable)
+
+## Your First SEO Audit
+
+### Step 1: Navigate to the Dashboard
+
+After logging in, you'll see your dashboard with:
+- Recent audits
+- Account usage statistics
+- Quick action buttons
+- Performance overview
+
+### Step 2: Start a New Audit
+
+1. Click the "New Audit" button
+2. Enter the URL you want to analyze
+3. Select audit type (Quick, Standard, or Comprehensive)
+4. Choose additional options if needed
 5. Click "Start Audit"
-6. Watch the real-time progress
-7. Review your comprehensive results
 
-## Understanding Your Audit Results
+### Step 3: Monitor Progress
 
-### SEO Score
-Your overall SEO score (0-100) based on:
-- Technical SEO health
-- On-page optimization
+Audits typically take 30-60 seconds to complete. You can:
+- Watch real-time progress updates
+- Continue working on other tasks
+- Receive notifications when complete
+
+### Step 4: Review Results
+
+Once complete, your audit report includes:
+
+#### Overview Section
+- Overall SEO score (0-100)
+- Key issues summary
 - Performance metrics
-- Mobile friendliness
-- Content quality
+- Improvement recommendations
 
-### Key Sections
-
-#### Technical SEO
-- Meta tags analysis
-- URL structure
-- Site speed metrics
-- Mobile optimization
-- Schema markup
+#### Technical Analysis
+- Site speed and Core Web Vitals
+- Crawlability and indexing issues
+- Mobile-friendliness
+- HTTPS and security
+- Structured data validation
 
 #### Content Analysis
+- Meta tags optimization
+- Header structure
 - Content quality assessment
-- Keyword optimization
-- Heading structure
-- Internal linking
-
-#### Performance
-- Core Web Vitals
-- Page load times
-- Image optimization
-- Caching setup
+- Keyword analysis
+- Internal linking review
 
 #### AI Recommendations
-Our Claude AI integration provides:
 - Prioritized action items
-- Detailed explanations
-- Implementation guidance
-- Industry best practices
+- Implementation difficulty ratings
+- Expected impact estimates
+- Step-by-step guidance
 
-## Dashboard Features
+## Understanding Your Audit Report
 
-### Audit History
-Track all your previous audits with:
-- Audit dates and scores
-- Progress over time
-- Comparison tools
-- Export capabilities
+### SEO Score Breakdown
 
-### Project Management
-Organize your audits by:
-- Client projects
-- Website categories
-- Custom tags
-- Team collaboration
+Our scoring system evaluates multiple factors:
 
-### Reporting
-Generate professional reports with:
-- Executive summaries
-- Detailed findings
-- Action plan templates
-- White-label branding (Agency plan)
+- **90-100**: Excellent - Minor optimizations needed
+- **70-89**: Good - Some improvements recommended
+- **50-69**: Fair - Multiple issues to address
+- **30-49**: Poor - Significant optimization needed
+- **0-29**: Critical - Major issues require immediate attention
+
+### Issue Priority Levels
+
+**Critical Issues** 🔴
+- Block search engine crawling
+- Severely impact user experience
+- Require immediate attention
+
+**High Priority** 🟡
+- Notable impact on rankings
+- Should be addressed soon
+- Moderate implementation effort
+
+**Medium Priority** 🟠
+- Minor ranking impact
+- Nice-to-have improvements
+- Low implementation effort
+
+**Low Priority** 🟢
+- Minimal impact
+- Future optimization opportunities
+- Very low effort required
+
+## Taking Action on Recommendations
+
+### 1. Export Your Report
+
+Download reports in multiple formats:
+- PDF for stakeholders
+- CSV for data analysis
+- JSON for developer integration
+
+### 2. Implement Fixes
+
+Start with critical and high-priority issues:
+
+1. **Technical Fixes**: Server configuration, site speed, mobile optimization
+2. **Content Improvements**: Meta tags, headers, content quality
+3. **Structural Changes**: URL structure, internal linking, navigation
+
+### 3. Track Progress
+
+Re-run audits after implementing changes:
+- Compare before/after scores
+- Track improvement trends
+- Identify remaining issues
 
 ## Advanced Features
 
 ### Scheduled Audits
-Set up recurring audits to:
-- Monitor SEO health over time
-- Track improvement progress
-- Catch issues early
-- Automate reporting
 
-### API Access
-Integrate with your existing tools:
-- Automated audit triggers
-- Custom dashboard creation
-- Third-party integrations
-- Bulk audit processing
+Set up automatic audits to monitor your site continuously:
+
+1. Go to "Scheduled Audits" in your dashboard
+2. Click "Create New Schedule"
+3. Configure frequency (daily, weekly, monthly)
+4. Set notification preferences
+5. Save your schedule
 
 ### Team Collaboration
-- Shared workspaces
-- Role-based permissions
-- Comment and annotation system
-- Task assignment
+
+Share audits and collaborate with team members:
+
+1. Invite team members to your account
+2. Assign different permission levels
+3. Share audit reports with stakeholders
+4. Add comments and notes to reports
+
+### API Integration
+
+Integrate audits into your existing workflow:
+
+```javascript
+// Example API call
+const audit = await fetch('https://api.neonseobeacon.com/v1/audits', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    url: 'https://example.com',
+    type: 'comprehensive'
+  })
+})
+
+const result = await audit.json()
+console.log('Audit ID:', result.id)
+```
 
 ## Best Practices
 
-### Before Running Audits
-1. Ensure your website is crawlable
-2. Check that important pages are accessible
-3. Consider running audits on key landing pages
-4. Plan audit frequency based on site changes
+### Regular Auditing
 
-### Interpreting Results
-1. Focus on high-impact issues first
-2. Understand the reasoning behind recommendations
-3. Consider your specific business goals
-4. Track progress over multiple audits
+- **New Sites**: Weekly audits during development
+- **Established Sites**: Monthly comprehensive audits
+- **After Changes**: Immediate audits after major updates
+- **Competitive Analysis**: Quarterly competitor comparisons
 
-### Taking Action
-1. Prioritize technical issues
-2. Address critical performance problems
-3. Optimize content based on AI recommendations
-4. Monitor improvements with follow-up audits
+### Prioritization Strategy
+
+1. Fix critical technical issues first
+2. Optimize high-traffic pages
+3. Address content quality issues
+4. Improve user experience factors
+5. Implement advanced optimizations
+
+### Measuring Success
+
+Track these metrics to measure SEO improvement:
+
+- **SEO Score**: Overall site health
+- **Core Web Vitals**: User experience metrics
+- **Organic Traffic**: Visitors from search engines
+- **Keyword Rankings**: Position for target terms
+- **Conversion Rate**: Visitors who complete goals
 
 ## Getting Help
 
-### Support Resources
-- **Knowledge Base**: Comprehensive guides and tutorials
-- **Live Chat**: Real-time support during business hours
-- **Email Support**: Detailed technical assistance
-- **Video Tutorials**: Step-by-step visual guides
+### Documentation
+- [Complete User Guide](/docs/user-guide)
+- [API Documentation](/docs/api)
+- [Integration Tutorials](/docs/integrations)
+- [Troubleshooting Guide](/docs/troubleshooting)
 
-### Community
-- **User Forum**: Connect with other SEO professionals
-- **Webinars**: Monthly SEO training sessions
-- **Blog**: Latest SEO tips and platform updates
+### Support Channels
+- **Help Center**: Searchable knowledge base
+- **Email Support**: Available for all plans
+- **Live Chat**: Pro and Enterprise plans
+- **Phone Support**: Enterprise plans only
+- **Community Forum**: Peer support and discussions
+
+### Learning Resources
+- [SEO Tips Blog](/seo-tips)
+- [Video Tutorials](/tutorials)
+- [Webinar Series](/webinars)
+- [Case Studies](/case-studies)
 
 ## Next Steps
 
-1. **Run your first audit** on your main website
-2. **Explore the results** and understand each section
-3. **Implement top recommendations** from the AI analysis
-4. **Schedule regular audits** to track progress
-5. **Join our community** for ongoing learning
+Now that you're familiar with the basics:
 
-Ready to improve your SEO? [Start your free audit now](/dashboard/new-audit)!
+1. **Run your first audit** and explore the results
+2. **Implement priority recommendations** for quick wins
+3. **Set up monitoring** to track improvements
+4. **Explore advanced features** like scheduling and API access
+5. **Join our community** to learn from other users
+
+Remember, SEO is an ongoing process. Regular auditing and continuous improvement will help you achieve and maintain better search engine rankings.
 
 ---
 
-*Questions? Contact our support team at support@neonseobeacon.com*
+*Questions about getting started? Check our [FAQ section](/help/faq) or [contact our support team](/contact).*
