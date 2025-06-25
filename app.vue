@@ -1,25 +1,21 @@
 <template>
-  <NuxtLayout>
-    <NuxtPage />
-  </NuxtLayout>
+  <div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
 </template>
 
 <script setup>
-// Global SEO setup
-const { generateOrganizationSchema, generateWebsiteSchema } = useSEO()
-
-// Set global meta tags
+// Global app configuration
 useHead({
   htmlAttrs: {
-    lang: 'en',
-    dir: 'ltr'
+    lang: 'en'
   },
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    { name: 'format-detection', content: 'telephone=no' },
-    { name: 'theme-color', content: '#2563eb' },
-    { name: 'msapplication-TileColor', content: '#2563eb' }
+    { name: 'format-detection', content: 'telephone=no' }
   ],
   link: [
     { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -27,31 +23,17 @@ useHead({
     { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
     { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
     { rel: 'manifest', href: '/site.webmanifest' }
-  ],
-  script: [
-    {
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(generateOrganizationSchema())
-    },
-    {
-      type: 'application/ld+json', 
-      innerHTML: JSON.stringify(generateWebsiteSchema())
-    }
   ]
 })
 
-// Global loading state
-const nuxtApp = useNuxtApp()
-const isLoading = ref(false)
-
-nuxtApp.hook('page:start', () => {
-  isLoading.value = true
+// Error handling
+onErrorCaptured((error) => {
+  console.error('Global error caught:', error)
+  // You can send error to monitoring service here
+  return false
 })
-
-nuxtApp.hook('page:finish', () => {
-  isLoading.value = false
-})
-
-// Provide global loading state
-provide('isLoading', isLoading)
 </script>
+
+<style>
+/* Global styles are imported via nuxt.config.ts */
+</style>
