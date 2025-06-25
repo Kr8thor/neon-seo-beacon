@@ -1,312 +1,277 @@
-# 🚀 Neon SEO Beacon - Nuxt 3 Edition
+# Neon SEO Beacon - Nuxt Migration
 
-![Neon SEO Beacon](https://img.shields.io/badge/Neon%20SEO%20Beacon-v2.0-blue?style=for-the-badge)
-![Nuxt 3](https://img.shields.io/badge/Nuxt-3.x-00DC82?style=for-the-badge&logo=nuxt.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-06B6D4?style=for-the-badge&logo=tailwind-css)
+This is the Nuxt.js version of the Neon SEO Beacon platform, featuring modern SSR/SSG capabilities with @nuxt/content for content management.
 
-> **Enterprise-grade SEO audit tool** built with Nuxt 3, featuring AI-powered insights, comprehensive analysis, and professional reporting capabilities.
+## 🚀 Features
 
-## ✨ Features
+- **Nuxt 3**: Modern Vue.js framework with SSR/SSG
+- **@nuxt/content**: File-based CMS for SEO tips and documentation
+- **Supabase Integration**: Authentication and database
+- **Tailwind CSS**: Utility-first CSS framework
+- **TypeScript**: Full type safety
+- **SEO Optimized**: Meta tags, structured data, and sitemap generation
+- **PWA Ready**: Offline support and app-like experience
+- **Component Library**: Reusable UI components
 
-### 🔍 SEO Analysis Engine
-- **Comprehensive Technical SEO Audit** - 50+ checkpoints
-- **AI-Powered Recommendations** - Claude AI integration
-- **Real-time Progress Tracking** - Live audit updates
-- **Performance Monitoring** - Core Web Vitals analysis
-- **Mobile-First Analysis** - Responsive design evaluation
-- **Content Quality Assessment** - Smart content analysis
+## 📋 Prerequisites
 
-### 📊 Professional Reporting
-- **White-label Reports** - Custom branding for agencies
-- **Executive Summaries** - Business-focused insights
-- **Detailed Technical Reports** - Developer-friendly outputs
-- **Historical Tracking** - Progress over time
-- **Export Capabilities** - PDF, CSV, JSON formats
+- Node.js 18.17.0 or higher
+- npm or yarn package manager
+- Supabase account and project
+- Anthropic API key (for AI features)
 
-### 🤖 AI Integration
-- **Claude AI Recommendations** - Intelligent insights
-- **Prioritized Action Items** - Impact-based suggestions
-- **Custom Analysis** - Context-aware recommendations
-- **Best Practice Guidance** - Industry standards
-
-### 🎯 Content Management
-- **SEO Knowledge Base** - Comprehensive guides
-- **Dynamic Documentation** - Always up-to-date
-- **Search Functionality** - Find content quickly
-- **Categorized Content** - Organized by difficulty
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **[Nuxt 3](https://nuxt.com/)** - Vue.js meta-framework
-- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript framework
-- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS
-- **[Heroicons](https://heroicons.com/)** - Beautiful SVG icons
-
-### Backend & Services
-- **[Supabase](https://supabase.com/)** - Backend as a Service
-- **[Anthropic Claude](https://www.anthropic.com/)** - AI recommendations
-- **[Nuxt Content](https://content.nuxt.com/)** - File-based CMS
-- **[Pinia](https://pinia.vuejs.org/)** - State management
-
-### Development Tools
-- **[Vite](https://vitejs.dev/)** - Lightning-fast build tool
-- **[ESLint](https://eslint.org/)** - Code linting
-- **[Prettier](https://prettier.io/)** - Code formatting
-- **[Vitest](https://vitest.dev/)** - Unit testing
-
-## 🚀 Quick Start
-
-### Prerequisites
-- **Node.js** 18.17.0 or higher
-- **npm** or **pnpm** package manager
-- **Supabase** account and project
-- **Anthropic API** key (optional)
-
-### Installation
+## 🛠️ Installation
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/Kr8thor/neon-seo-beacon.git
    cd neon-seo-beacon
+   git checkout nuxt-migration
    ```
 
 2. **Install dependencies**
    ```bash
    npm install
-   # or
-   pnpm install
    ```
 
-3. **Set up environment variables**
+3. **Environment Setup**
    ```bash
    cp .env.example .env
    ```
    
-   Edit `.env` with your configuration:
+   Update the following environment variables:
    ```env
-   # Supabase Configuration
+   # Supabase
    SUPABASE_URL=your_supabase_url
    SUPABASE_ANON_KEY=your_supabase_anon_key
-   SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+   SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
    
-   # Anthropic (Claude) API
+   # Anthropic AI
    ANTHROPIC_API_KEY=your_anthropic_api_key
    
-   # Application Settings
-   API_URL=http://localhost:3000
-   SITE_URL=http://localhost:3000
+   # Site Configuration
+   NUXT_PUBLIC_SITE_URL=http://localhost:3000
+   NUXT_PUBLIC_SITE_NAME="Neon SEO Beacon"
    ```
 
-4. **Set up Supabase database**
-   - Go to your Supabase dashboard
-   - Navigate to SQL Editor
-   - Run the database migrations (see `/docs/database-setup.md`)
+4. **Database Setup**
+   
+   Run the following SQL in your Supabase SQL editor:
+   ```sql
+   -- Create audits table
+   CREATE TABLE audits (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     user_id UUID REFERENCES auth.users(id),
+     url TEXT NOT NULL,
+     status TEXT DEFAULT 'processing',
+     score INTEGER CHECK (score >= 0 AND score <= 100),
+     results JSONB,
+     error TEXT,
+     processing_time_ms INTEGER,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+     completed_at TIMESTAMP WITH TIME ZONE,
+     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+   
+   -- Create audit progress table
+   CREATE TABLE audit_progress (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     audit_id UUID REFERENCES audits(id) ON DELETE CASCADE,
+     step INTEGER NOT NULL,
+     total_steps INTEGER NOT NULL,
+     message TEXT,
+     data JSONB,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+   
+   -- Enable RLS
+   ALTER TABLE audits ENABLE ROW LEVEL SECURITY;
+   ALTER TABLE audit_progress ENABLE ROW LEVEL SECURITY;
+   
+   -- Create policies
+   CREATE POLICY "Users can manage their own audits" ON audits
+     FOR ALL USING (auth.uid() = user_id);
+   
+   CREATE POLICY "Users can view their audit progress" ON audit_progress
+     FOR SELECT USING (
+       EXISTS (
+         SELECT 1 FROM audits 
+         WHERE audits.id = audit_progress.audit_id 
+         AND audits.user_id = auth.uid()
+       )
+     );
+   ```
 
-5. **Start development server**
+## 🚀 Development
+
+1. **Start the development server**
    ```bash
    npm run dev
    ```
    
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+   The application will be available at `http://localhost:3000`
+
+2. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+3. **Preview production build**
+   ```bash
+   npm run preview
+   ```
 
 ## 📁 Project Structure
 
 ```
-neon-seo-beacon/
-├── 📁 assets/              # Static assets (CSS, images)
-├── 📁 components/          # Vue components
-├── 📁 composables/         # Vue composables
-├── 📁 content/             # Content files (Markdown)
-│   ├── 📁 docs/           # Documentation
-│   ├── 📁 seo-tips/       # SEO guides
-│   ├── 📁 help/           # Help articles
-│   └── 📁 blog/           # Blog posts
-├── 📁 layouts/             # Application layouts
-├── 📁 pages/               # Application pages
-├── 📁 public/              # Public static files
-├── 📁 server/              # Server-side code
-│   ├── 📁 api/            # API routes
-│   └── 📁 routes/         # Server routes
-├── 📁 stores/              # Pinia stores
-├── 📁 types/               # TypeScript types
-├── 📁 utils/               # Utility functions
-├── 📄 nuxt.config.ts       # Nuxt configuration
-├── 📄 tailwind.config.js   # Tailwind configuration
-└── 📄 tsconfig.json        # TypeScript configuration
+├── assets/
+│   └── css/              # Global stylesheets
+├── components/
+│   ├── ui/               # Reusable UI components
+│   ├── AppNavigation.vue # Main navigation
+│   └── AppFooter.vue     # Site footer
+├── composables/
+│   ├── useContent.js     # Content management utilities
+│   └── useSEO.js         # SEO utilities
+├── content/
+│   ├── seo-tips/         # SEO guides and tips
+│   └── docs/             # Documentation
+├── layouts/
+│   └── default.vue       # Default layout
+├── middleware/
+│   ├── auth.js           # Authentication middleware
+│   └── guest.js          # Guest-only middleware
+├── pages/
+│   ├── auth/             # Authentication pages
+│   ├── dashboard.vue     # User dashboard
+│   ├── index.vue         # Homepage
+│   └── pricing.vue       # Pricing page
+├── plugins/
+│   └── pinia.client.js   # Pinia store setup
+├── server/
+│   └── api/              # Server API routes
+├── stores/
+│   └── notification.js   # Global notification store
+└── nuxt.config.ts        # Nuxt configuration
 ```
 
-## 🔧 Development
+## 🎨 Styling
 
-### Available Scripts
+- **Tailwind CSS**: Utility-first CSS framework
+- **Custom Components**: Pre-built component classes in `assets/css/main.css`
+- **Responsive Design**: Mobile-first approach
+- **Dark Mode Ready**: Prepared for dark mode implementation
+- **Accessibility**: WCAG compliant styles
 
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run generate     # Generate static site
+## 🔐 Authentication
 
-# Code Quality
-npm run lint         # Run ESLint
-npm run lint:fix     # Fix ESLint issues
-npm run type-check   # Run TypeScript checks
+- **Supabase Auth**: Email/password and OAuth providers
+- **Middleware Protection**: Route-level authentication
+- **Session Management**: Automatic token refresh
+- **User Profiles**: Extended user data
 
-# Testing
-npm run test         # Run tests
-npm run test:ui      # Run tests with UI
-npm run test:coverage # Run tests with coverage
-```
+## 📝 Content Management
 
-### Code Quality
+- **@nuxt/content**: File-based content management
+- **Markdown Support**: Rich content with frontmatter
+- **SEO Optimization**: Automatic meta tags and structured data
+- **Search Functionality**: Built-in content search
+- **Dynamic Routing**: Automatic page generation
 
-This project uses strict TypeScript and ESLint configurations:
+## 🔧 API Routes
 
-- **TypeScript**: Strict mode enabled with additional checks
-- **ESLint**: Nuxt-recommended configuration
-- **Prettier**: Automatic code formatting
-- **Husky**: Git hooks for quality checks
+- `POST /api/audits` - Create new audit
+- `GET /api/audits/[id]` - Get audit details
+- `GET /api/audits/[id]/progress` - SSE progress stream
+- `DELETE /api/audits/[id]` - Delete audit
 
-### Content Management
-
-Content is managed through **Nuxt Content** with Markdown files:
-
-```markdown
----
-title: "Your Article Title"
-description: "Article description"
-category: "Technical SEO"
-difficulty: "Beginner"
-readTime: "5 min"
-tags: ["seo", "technical"]
-publishedAt: 2024-01-01
-featured: true
----
-
-# Your Article Content
-
-Write your content in Markdown...
-```
-
-## 🌐 Deployment
+## 🚀 Deployment
 
 ### Vercel (Recommended)
 
 1. **Connect your repository** to Vercel
 2. **Set environment variables** in Vercel dashboard
-3. **Deploy** automatically on push to main
+3. **Deploy** - automatic deployments on push
 
 ### Netlify
 
-1. **Connect your repository** to Netlify
-2. **Set build command**: `npm run generate`
-3. **Set publish directory**: `dist`
-4. **Add environment variables**
+1. **Build command**: `npm run build`
+2. **Publish directory**: `.output/public`
+3. **Set environment variables** in Netlify dashboard
 
 ### Docker
 
 ```bash
-# Build Docker image
+# Build image
 docker build -t neon-seo-beacon .
 
 # Run container
 docker run -p 3000:3000 neon-seo-beacon
 ```
 
-## 📊 SEO Features
+## 🧪 Testing
 
-### Technical SEO Analysis
-- Meta tags validation
-- URL structure analysis
-- Site speed optimization
-- Mobile responsiveness
-- Schema markup validation
-- Robots.txt analysis
-- Sitemap validation
+```bash
+# Run unit tests
+npm run test
 
-### Content Analysis
-- Keyword optimization
-- Content quality assessment
-- Heading structure analysis
-- Internal linking evaluation
-- Image optimization
-- Alt text validation
+# Run E2E tests
+npm run test:e2e
 
-### Performance Monitoring
-- Core Web Vitals
-- Page load times
-- Resource optimization
-- Caching analysis
-- CDN utilization
+# Run linting
+npm run lint
 
-## 🔐 Security
+# Run type checking
+npm run typecheck
+```
 
-- **HTTPS Enforcement** - SSL/TLS certificates
-- **Content Security Policy** - XSS protection
-- **Rate Limiting** - API protection
-- **Input Validation** - Zod schema validation
-- **Authentication** - Supabase Auth
-- **CORS Configuration** - Cross-origin protection
+## 📈 Performance Optimization
 
-## 📈 Analytics & Monitoring
+- **SSR/SSG**: Server-side rendering and static generation
+- **Code Splitting**: Automatic route-based splitting
+- **Image Optimization**: Nuxt Image module
+- **Caching**: Aggressive caching strategies
+- **Bundle Analysis**: Built-in bundle analyzer
 
-### Built-in Analytics
-- User engagement tracking
-- Audit performance metrics
-- Feature usage statistics
-- Error monitoring
+## 🔍 SEO Features
 
-### External Integrations
-- Google Analytics 4
-- Sentry error tracking
-- Uptime monitoring
-- Performance monitoring
+- **Meta Tags**: Automatic meta tag generation
+- **Structured Data**: JSON-LD schema markup
+- **Sitemap**: Automatic sitemap generation
+- **Robots.txt**: SEO-friendly robots configuration
+- **Open Graph**: Social media optimization
+- **Core Web Vitals**: Performance optimization
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
-
-- Code of conduct
-- Development process
-- Submitting pull requests
-- Reporting issues
-
-### Development Workflow
-
-1. **Fork** the repository
-2. **Create** a feature branch
-3. **Make** your changes
-4. **Add** tests if applicable
-5. **Run** quality checks
-6. **Submit** a pull request
+1. **Fork the repository**
+2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
+3. **Commit changes**: `git commit -m 'Add amazing feature'`
+4. **Push to branch**: `git push origin feature/amazing-feature`
+5. **Open a Pull Request**
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 🆘 Support
 
-- **Nuxt Team** - For the amazing framework
-- **Anthropic** - For Claude AI integration
-- **Supabase** - For the backend infrastructure
-- **Tailwind CSS** - For the beautiful styling
-- **Vue.js Community** - For the ecosystem
-
-## 📞 Support
-
-- **Documentation**: [docs.neonseobeacon.com](https://docs.neonseobeacon.com)
-- **Community**: [GitHub Discussions](https://github.com/Kr8thor/neon-seo-beacon/discussions)
+- **Documentation**: [https://neonseobeacon.com/docs](https://neonseobeacon.com/docs)
 - **Issues**: [GitHub Issues](https://github.com/Kr8thor/neon-seo-beacon/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/Kr8thor/neon-seo-beacon/discussions)
 - **Email**: support@neonseobeacon.com
+
+## 🗺️ Roadmap
+
+- [ ] Advanced SEO analysis features
+- [ ] Real-time collaboration
+- [ ] Advanced reporting dashboard
+- [ ] Mobile app development
+- [ ] White-label solutions
+- [ ] API rate limiting and quotas
+- [ ] Advanced user management
+- [ ] Integration marketplace
 
 ---
 
-<div align="center">
-  <strong>Built with ❤️ by the Neon SEO Beacon Team</strong>
-  <br>
-  <a href="https://neonseobeacon.com">Website</a> •
-  <a href="https://docs.neonseobeacon.com">Documentation</a> •
-  <a href="https://github.com/Kr8thor/neon-seo-beacon">GitHub</a>
-</div>
+**Built with ❤️ using Nuxt 3, Supabase, and Tailwind CSS**
