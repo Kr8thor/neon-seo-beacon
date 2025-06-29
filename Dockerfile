@@ -1,5 +1,5 @@
-# Use Node.js 18 Alpine image
-FROM node:18-alpine
+# Use Node.js 20 LTS Alpine image (fixes undici compatibility)
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install ALL dependencies (including dev) for build
+RUN npm install && npm cache clean --force
 
 # Copy source code
 COPY . .
