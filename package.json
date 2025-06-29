@@ -57,6 +57,7 @@
     "@types/supertest": "^6.0.3",
     "@types/ua-parser-js": "^0.7.39",
     "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-vue": "^5.0.5",
     "@vitest/coverage-v8": "^1.6.1",
     "@vue/test-utils": "^2.4.3",
     "axe-core": "^4.10.3",
