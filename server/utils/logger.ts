@@ -1,14 +1,9 @@
 // Secure production logging system
-interface LogLevel {
-  ERROR: "error";
-  WARN: "warn";
-  INFO: "info";
-  DEBUG: "debug";
-}
+type LogLevel = "error" | "warn" | "info" | "debug";
 
 interface LogEntry {
   timestamp: string;
-  level: keyof LogLevel;
+  level: LogLevel;
   message: string;
   context?: Record<string, any>;
   userId?: string;

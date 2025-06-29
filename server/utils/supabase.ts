@@ -36,7 +36,6 @@ export function createSupabaseUserClient(accessToken?: string) {
     client.auth.setSession({
       access_token: accessToken,
       refresh_token: "",
-      user: null,
       token_type: "bearer",
       expires_in: 3600,
     });

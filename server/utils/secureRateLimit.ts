@@ -1,5 +1,6 @@
 // Production-ready rate limiting with Redis support
 import type { H3Event } from "h3";
+import { getQuery } from "h3";
 import { logger } from "./logger";
 
 interface RateLimitConfig {
@@ -165,7 +166,7 @@ export async function checkIPRateLimit(
     if (!result.allowed) {
       logger.error("[SECURITY] Rate limit exceeded for IP", {
         ip,
-        url: getURL(event),
+        url: event.node.req.url || "unknown",
         userAgent: getHeader(event, "user-agent"),
       });
     }

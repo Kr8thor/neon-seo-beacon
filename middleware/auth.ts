@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async (to, _from) => {
   // Get user from both client and server contexts
   const user = useSupabaseUser();
   const supabase = useSupabaseClient();

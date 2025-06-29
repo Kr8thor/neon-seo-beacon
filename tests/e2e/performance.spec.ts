@@ -19,7 +19,12 @@ test.describe("Performance Testing", () => {
     // Test Core Web Vitals
     const vitals = await page.evaluate(() => {
       return new Promise((resolve) => {
-        const vitals = {};
+        const vitals: {
+          fcp?: number;
+          lcp?: number;
+          cls?: number;
+          fid?: number;
+        } = {};
 
         // Measure FCP (First Contentful Paint)
         const fcpEntry = performance.getEntriesByName(

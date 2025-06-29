@@ -41,8 +41,8 @@ export function useAdvancedAnimations() {
       once = true,
     } = options;
 
-    const fromProps: any = { opacity };
-    const toProps: any = { opacity: 1, duration, delay, ease };
+    const fromProps: Record<string, unknown> = { opacity };
+    const toProps: Record<string, unknown> = { opacity: 1, duration, delay, ease };
 
     // Set initial transform based on direction
     switch (direction) {

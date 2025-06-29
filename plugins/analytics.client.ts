@@ -25,7 +25,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       analytics: {
-        track: (eventName: string, parameters?: Record<string, any>) => {
+        track: (eventName: string, parameters?: Record<string, unknown>) => {
           if (typeof gtag !== "undefined") {
             gtag("event", eventName, parameters);
           }

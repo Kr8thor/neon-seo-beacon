@@ -241,11 +241,11 @@
 </template>
 
 <script setup lang="ts">
-import type { SEOAuditResult } from "~/types";
+import type { SEOAuditResults } from "~/types";
 
 const auditUrl = ref("");
 const isLoading = ref(false);
-const auditResults = ref<SEOAuditResult | null>(null);
+const auditResults = ref<SEOAuditResults | null>(null);
 
 const handleQuickAudit = async () => {
   if (!auditUrl.value) return;
