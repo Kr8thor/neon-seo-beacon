@@ -12,15 +12,18 @@ Welcome to Neon SEO Beacon - your comprehensive SEO audit platform. This guide w
 ## Creating Your First Audit
 
 ### Step 1: Enter Your Website URL
+
 - Make sure to include the full URL (https://example.com)
 - We'll analyze your homepage and key pages
 
 ### Step 2: Wait for Analysis
+
 - Our AI-powered engine analyzes 15+ SEO factors
 - Real-time progress updates keep you informed
 - Analysis typically completes in 30-60 seconds
 
 ### Step 3: Review Your Results
+
 Your audit report includes:
 
 - **SEO Score**: Overall rating from 0-100
@@ -38,18 +41,21 @@ Your audit report includes:
 ## Common Issues We Find
 
 ### Technical SEO
+
 - Missing or duplicate title tags
 - Poor page loading speed
 - Mobile responsiveness issues
 - Missing SSL certificate
 
 ### Content Optimization
+
 - Thin or duplicate content
 - Missing meta descriptions
 - Poor heading structure
 - No structured data
 
 ### Performance
+
 - Large image files
 - Too many HTTP requests
 - Render-blocking resources

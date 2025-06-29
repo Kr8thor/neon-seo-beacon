@@ -1,0 +1,8 @@
+{
+  "url": "https://example.com",
+  "options": {
+    "includeImages": true,
+    "checkMobile": true,
+    "includePerformance": true
+  }
+}

@@ -83,6 +83,7 @@ Secure websites rank better and build user trust:
 ## Technical SEO Checklist
 
 ### Crawling and Indexing
+
 - [ ] Submit XML sitemap to search consoles
 - [ ] Optimize robots.txt file
 - [ ] Fix crawl errors in Search Console
@@ -90,6 +91,7 @@ Secure websites rank better and build user trust:
 - [ ] Remove duplicate content issues
 
 ### Site Performance
+
 - [ ] Achieve Core Web Vitals thresholds
 - [ ] Optimize images (WebP, lazy loading)
 - [ ] Minify CSS, JavaScript, and HTML
@@ -97,12 +99,14 @@ Secure websites rank better and build user trust:
 - [ ] Optimize database queries
 
 ### Mobile Experience
+
 - [ ] Pass Mobile-Friendly Test
 - [ ] Optimize for mobile page speed
 - [ ] Test on various devices and browsers
 - [ ] Implement AMP (if applicable)
 
 ### Schema and Structured Data
+
 - [ ] Implement relevant schema markup
 - [ ] Test structured data with Rich Results Test
 - [ ] Monitor rich snippet performance
@@ -136,12 +140,14 @@ Slow sites frustrate users and rank poorly:
 ## Tools for Technical SEO
 
 ### Free Tools
+
 - **Google Search Console**: Monitor site health and performance
 - **Google PageSpeed Insights**: Analyze page speed and Core Web Vitals
 - **Screaming Frog**: Crawl and analyze your site structure
 - **GTmetrix**: Comprehensive site speed analysis
 
 ### Paid Tools
+
 - **Ahrefs Site Audit**: Comprehensive technical SEO analysis
 - **SEMrush Site Audit**: Identify and fix technical issues
 - **DeepCrawl**: Enterprise-level technical SEO monitoring
@@ -169,4 +175,4 @@ Remember, technical SEO provides the foundation for all other SEO efforts. Witho
 
 ---
 
-*Need help with technical SEO? Our [SEO audit tool](/tools/seo-audit) can identify and prioritize technical issues on your website.*
+_Need help with technical SEO? Our [SEO audit tool](/tools/seo-audit) can identify and prioritize technical issues on your website._

@@ -1,0 +1,137 @@
+---
+
+**PROMPT FOR CLAUDE CODE - COPY AND SEND THIS:**
+
+---
+
+Hello Claude Code! You've been assigned as the **Backend Testing Specialist** for the Neon SEO Beacon project. This is a critical role that requires implementing comprehensive testing for the server-side functionality.
+
+## 🎯 **Your Mission**
+
+**Project**: Neon SEO Beacon - Professional SEO Analysis Platform  
+**Location**: `C:\Users\Leo\neon-seo-beacon`  
+**Your Role**: Backend Testing Implementation  
+**Priority**: 🔴 Critical - Start Immediately
+
+## 📚 **Essential Reading**
+
+Before you start coding, please read these files in order:
+
+1. **`CLAUDE_CODE_TESTING_ASSIGNMENT.md`** - Your specific assignments and responsibilities
+2. **`CLAUDE_CODE_START_PROMPT.md`** - Detailed implementation instructions  
+3. **`TESTING_MASTER_GUIDE.md`** - Overall testing strategy and coordination
+
+## 🚀 **Immediate First Steps**
+
+### Step 1: Setup Environment
+```bash
+cd C:\Users\Leo\neon-seo-beacon
+
+# Install testing dependencies
+npm install -D vitest @vue/test-utils happy-dom @testing-library/vue
+npm install -D @nuxt/test-utils supertest @types/supertest
+
+# Create test directory structure
+mkdir -p tests/unit/server tests/unit/utils
+mkdir -p tests/integration/api tests/integration/database
+mkdir -p tests/security tests/performance
+```
+
+### Step 2: Create Configuration
+Create `vitest.config.ts` in the project root:
+```typescript
+import { defineConfig } from 'vitest/config'
+import vue from '@vitejs/plugin-vue'
+import { resolve } from 'path'
+
+export default defineConfig({
+  plugins: [vue()],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: ['./tests/setup.ts'],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'tests/',
+        '.nuxt/',
+        'coverage/',
+        '**/*.d.ts',
+      ],
+      thresholds: {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80
+        }
+      }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, '.'),
+      '~': resolve(__dirname, '.'),
+    }
+  }
+})
+```
+
+### Step 3: Your First Priority Test
+Create `tests/unit/server/seoAnalysis.test.ts` and implement comprehensive testing for the SEO analysis engine.
+
+## 🎯 **Your Specific Focus**
+
+**✅ WORK ON** (Your territory):
+- `tests/unit/server/` - All server-side logic testing
+- `tests/integration/api/` - API endpoint testing  
+- `tests/integration/database/` - Database operations
+- `tests/security/` - Security validation testing
+
+**❌ DO NOT WORK ON** (Assigned to others):
+- `tests/unit/components/` - Vue component tests
+- `tests/e2e/` - End-to-end user journey tests
+- `tests/manual/` - Manual testing procedures
+
+## 📊 **Success Targets**
+
+- **Backend Unit Tests**: 95%+ coverage
+- **API Integration Tests**: 100% endpoint coverage
+- **Database Tests**: 90%+ operation coverage
+- **Security Tests**: Zero vulnerabilities
+
+## 📋 **Implementation Order**
+
+**Week 1 Priorities**:
+1. SEO analysis engine testing (`seoAnalysis.test.ts`)
+2. Input validation testing (`validation.test.ts`)
+3. Health check API test (`health.test.ts`)
+4. SEO analysis API test (`seo-analyze.test.ts`)
+
+## 🚨 **Important Notes**
+
+1. **Read the documentation first** - Everything you need is in the assignment files
+2. **Stay in your lane** - Only work on backend testing to avoid conflicts
+3. **Update progress** - Mark tasks as completed in `CLAUDE_CODE_TESTING_ASSIGNMENT.md`
+4. **Test everything** - Success/failure scenarios, edge cases, security validation
+
+## 📞 **Questions or Blockers?**
+
+If you encounter any issues:
+1. Check the troubleshooting section in `CLAUDE_CODE_TESTING_ASSIGNMENT.md`
+2. Review the master guide for additional context
+3. Document any blockers in the assignment file for review
+
+## 🔥 **Ready to Start?**
+
+1. **Read your assignment document** first
+2. **Setup the environment** as outlined above  
+3. **Start with SEO analysis testing** - this is the core functionality
+4. **Build momentum** with working tests and good coverage
+
+Your backend testing work is **critical** for the platform's success. Every test you write prevents bugs, builds confidence, and ensures security. 
+
+**Let's build something amazing!** 🚀
+
+---

@@ -63,6 +63,7 @@ After account creation:
 ### Step 1: Navigate to the Dashboard
 
 After logging in, you'll see your dashboard with:
+
 - Recent audits
 - Account usage statistics
 - Quick action buttons
@@ -79,6 +80,7 @@ After logging in, you'll see your dashboard with:
 ### Step 3: Monitor Progress
 
 Audits typically take 30-60 seconds to complete. You can:
+
 - Watch real-time progress updates
 - Continue working on other tasks
 - Receive notifications when complete
@@ -88,12 +90,14 @@ Audits typically take 30-60 seconds to complete. You can:
 Once complete, your audit report includes:
 
 #### Overview Section
+
 - Overall SEO score (0-100)
 - Key issues summary
 - Performance metrics
 - Improvement recommendations
 
 #### Technical Analysis
+
 - Site speed and Core Web Vitals
 - Crawlability and indexing issues
 - Mobile-friendliness
@@ -101,6 +105,7 @@ Once complete, your audit report includes:
 - Structured data validation
 
 #### Content Analysis
+
 - Meta tags optimization
 - Header structure
 - Content quality assessment
@@ -108,6 +113,7 @@ Once complete, your audit report includes:
 - Internal linking review
 
 #### AI Recommendations
+
 - Prioritized action items
 - Implementation difficulty ratings
 - Expected impact estimates
@@ -128,21 +134,25 @@ Our scoring system evaluates multiple factors:
 ### Issue Priority Levels
 
 **Critical Issues** 🔴
+
 - Block search engine crawling
 - Severely impact user experience
 - Require immediate attention
 
 **High Priority** 🟡
+
 - Notable impact on rankings
 - Should be addressed soon
 - Moderate implementation effort
 
 **Medium Priority** 🟠
+
 - Minor ranking impact
 - Nice-to-have improvements
 - Low implementation effort
 
 **Low Priority** 🟢
+
 - Minimal impact
 - Future optimization opportunities
 - Very low effort required
@@ -152,6 +162,7 @@ Our scoring system evaluates multiple factors:
 ### 1. Export Your Report
 
 Download reports in multiple formats:
+
 - PDF for stakeholders
 - CSV for data analysis
 - JSON for developer integration
@@ -167,6 +178,7 @@ Start with critical and high-priority issues:
 ### 3. Track Progress
 
 Re-run audits after implementing changes:
+
 - Compare before/after scores
 - Track improvement trends
 - Identify remaining issues
@@ -198,20 +210,20 @@ Integrate audits into your existing workflow:
 
 ```javascript
 // Example API call
-const audit = await fetch('https://api.neonseobeacon.com/v1/audits', {
-  method: 'POST',
+const audit = await fetch("https://api.neonseobeacon.com/v1/audits", {
+  method: "POST",
   headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
-    'Content-Type': 'application/json'
+    Authorization: "Bearer YOUR_API_KEY",
+    "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    url: 'https://example.com',
-    type: 'comprehensive'
-  })
-})
+    url: "https://example.com",
+    type: "comprehensive",
+  }),
+});
 
-const result = await audit.json()
-console.log('Audit ID:', result.id)
+const result = await audit.json();
+console.log("Audit ID:", result.id);
 ```
 
 ## Best Practices
@@ -244,12 +256,14 @@ Track these metrics to measure SEO improvement:
 ## Getting Help
 
 ### Documentation
+
 - [Complete User Guide](/docs/user-guide)
 - [API Documentation](/docs/api)
 - [Integration Tutorials](/docs/integrations)
 - [Troubleshooting Guide](/docs/troubleshooting)
 
 ### Support Channels
+
 - **Help Center**: Searchable knowledge base
 - **Email Support**: Available for all plans
 - **Live Chat**: Pro and Enterprise plans
@@ -257,6 +271,7 @@ Track these metrics to measure SEO improvement:
 - **Community Forum**: Peer support and discussions
 
 ### Learning Resources
+
 - [SEO Tips Blog](/seo-tips)
 - [Video Tutorials](/tutorials)
 - [Webinar Series](/webinars)
@@ -276,4 +291,4 @@ Remember, SEO is an ongoing process. Regular auditing and continuous improvement
 
 ---
 
-*Questions about getting started? Check our [FAQ section](/help/faq) or [contact our support team](/contact).*
+_Questions about getting started? Check our [FAQ section](/help/faq) or [contact our support team](/contact)._

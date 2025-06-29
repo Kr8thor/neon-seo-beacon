@@ -1,27 +1,27 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useNotificationStore = defineStore('notification', {
+export const useNotificationStore = defineStore("notification", {
   state: () => ({
-    notifications: []
+    notifications: [],
   }),
-  
+
   getters: {
     hasNotifications: (state) => state.notifications.length > 0,
     activeNotifications: (state) => state.notifications,
-    notificationCount: (state) => state.notifications.length
+    notificationCount: (state) => state.notifications.length,
   },
-  
+
   actions: {
     add(options) {
       const {
         message,
-        type = 'info',
+        type = "info",
         title = null,
         duration = 5000,
         action = null,
-        persistent = false
-      } = options
-      
+        persistent = false,
+      } = options;
+
       const notification = {
         id: `notification-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         message,
@@ -29,70 +29,70 @@ export const useNotificationStore = defineStore('notification', {
         title,
         duration: persistent ? null : duration,
         action, // { text: string, handler: function }
-        createdAt: Date.now()
-      }
-      
+        createdAt: Date.now(),
+      };
+
       // Add to notifications array
-      this.notifications.push(notification)
-      
+      this.notifications.push(notification);
+
       // Auto-remove after duration (if not persistent)
       if (!persistent && duration > 0) {
         setTimeout(() => {
-          this.remove(notification.id)
-        }, duration)
+          this.remove(notification.id);
+        }, duration);
       }
-      
-      return notification.id
+
+      return notification.id;
     },
-    
+
     remove(id) {
-      const index = this.notifications.findIndex(n => n.id === id)
+      const index = this.notifications.findIndex((n) => n.id === id);
       if (index > -1) {
-        this.notifications.splice(index, 1)
+        this.notifications.splice(index, 1);
       }
     },
-    
+
     clear() {
-      this.notifications = []
+      this.notifications = [];
     },
-    
+
     // Convenience methods
     success(message, options = {}) {
       return this.add({
         message,
-        type: 'success',
+        type: "success",
         duration: 5000,
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     error(message, options = {}) {
       return this.add({
         message,
-        type: 'error',
+        type: "error",
         duration: 8000,
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     warning(message, options = {}) {
       return this.add({
         message,
-        type: 'warning',
+        type: "warning",
         duration: 6000,
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     info(message, options = {}) {
       return this.add({
         message,
-        type: 'info',
+        type: "info",
         duration: 5000,
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     // Show notification with action button
     withAction(message, type, actionText, actionHandler, options = {}) {
       return this.add({
@@ -100,45 +100,45 @@ export const useNotificationStore = defineStore('notification', {
         type,
         action: {
           text: actionText,
-          handler: actionHandler
+          handler: actionHandler,
         },
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     // Show persistent notification (no auto-dismiss)
-    persistent(message, type = 'info', options = {}) {
+    persistent(message, type = "info", options = {}) {
       return this.add({
         message,
         type,
         persistent: true,
-        ...options
-      })
+        ...options,
+      });
     },
-    
+
     // Bulk operations
     removeByType(type) {
-      this.notifications = this.notifications.filter(n => n.type !== type)
+      this.notifications = this.notifications.filter((n) => n.type !== type);
     },
-    
+
     removeOldNotifications(maxAge = 30000) {
-      const now = Date.now()
-      this.notifications = this.notifications.filter(n => 
-        !n.duration || (now - n.createdAt) < maxAge
-      )
+      const now = Date.now();
+      this.notifications = this.notifications.filter(
+        (n) => !n.duration || now - n.createdAt < maxAge,
+      );
     },
-    
+
     // Get notification by ID
     getById(id) {
-      return this.notifications.find(n => n.id === id)
+      return this.notifications.find((n) => n.id === id);
     },
-    
+
     // Update notification
     update(id, updates) {
-      const notification = this.getById(id)
+      const notification = this.getById(id);
       if (notification) {
-        Object.assign(notification, updates)
+        Object.assign(notification, updates);
       }
-    }
-  }
-})
+    },
+  },
+});

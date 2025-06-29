@@ -1,19 +1,19 @@
 <template>
-  <div 
+  <div
     ref="containerRef"
     class="loading-container relative flex items-center justify-center"
     :class="containerClass"
   >
     <!-- Background Effects -->
     <div v-if="showBackground" class="absolute inset-0 glass rounded-2xl"></div>
-    
+
     <!-- Lottie Animation -->
-    <div 
+    <div
       v-if="type === 'lottie' && animationData"
       ref="lottieContainer"
       class="lottie-animation"
     ></div>
-    
+
     <!-- SVG Animations -->
     <div v-else-if="type === 'svg'" class="svg-loader">
       <!-- Orbital Loader -->
@@ -40,7 +40,7 @@
             stroke-linecap="round"
             stroke-dasharray="30 90"
             class="text-purple-500 animate-spin"
-            style="animation-direction: reverse; animation-duration: 1.5s;"
+            style="animation-direction: reverse; animation-duration: 1.5s"
           />
           <circle
             cx="32"
@@ -55,7 +55,7 @@
           />
         </svg>
       </div>
-      
+
       <!-- Pulse Loader -->
       <div v-else-if="variant === 'pulse'" class="flex space-x-2">
         <div
@@ -65,25 +65,25 @@
           :style="{ animationDelay: `${(i - 1) * 0.2}s` }"
         ></div>
       </div>
-      
+
       <!-- Wave Loader -->
       <div v-else-if="variant === 'wave'" class="flex items-end space-x-1 h-8">
         <div
           v-for="i in 5"
           :key="i"
           class="w-2 bg-gradient-to-t from-blue-500 to-purple-500 rounded-full animate-bounce"
-          :style="{ 
+          :style="{
             height: `${20 + (i % 2) * 10}px`,
             animationDelay: `${(i - 1) * 0.1}s`,
-            animationDuration: '0.6s'
+            animationDuration: '0.6s',
           }"
         ></div>
       </div>
-      
+
       <!-- DNA Helix -->
       <div v-else-if="variant === 'dna'" class="relative w-12 h-12">
         <svg class="w-full h-full" viewBox="0 0 48 48">
-          <g class="animate-spin" style="transform-origin: 24px 24px;">
+          <g class="animate-spin" style="transform-origin: 24px 24px">
             <path
               d="M12 12 Q24 6 36 12 Q24 18 12 12"
               fill="none"
@@ -98,37 +98,46 @@
               stroke-width="2"
               stroke-linecap="round"
             />
-            <line x1="24" y1="12" x2="24" y2="36" stroke="url(#gradient3)" stroke-width="1"/>
+            <line
+              x1="24"
+              y1="12"
+              x2="24"
+              y2="36"
+              stroke="url(#gradient3)"
+              stroke-width="1"
+            />
           </g>
           <defs>
             <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#3b82f6"/>
-              <stop offset="100%" style="stop-color:#8b5cf6"/>
+              <stop offset="0%" style="stop-color: #3b82f6" />
+              <stop offset="100%" style="stop-color: #8b5cf6" />
             </linearGradient>
             <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#8b5cf6"/>
-              <stop offset="100%" style="stop-color:#ec4899"/>
+              <stop offset="0%" style="stop-color: #8b5cf6" />
+              <stop offset="100%" style="stop-color: #ec4899" />
             </linearGradient>
             <linearGradient id="gradient3" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style="stop-color:#3b82f6"/>
-              <stop offset="50%" style="stop-color:#8b5cf6"/>
-              <stop offset="100%" style="stop-color:#ec4899"/>
+              <stop offset="0%" style="stop-color: #3b82f6" />
+              <stop offset="50%" style="stop-color: #8b5cf6" />
+              <stop offset="100%" style="stop-color: #ec4899" />
             </linearGradient>
           </defs>
         </svg>
       </div>
-      
+
       <!-- Morphing Shapes -->
       <div v-else-if="variant === 'morph'" class="w-16 h-16">
-        <div class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-morphing"></div>
+        <div
+          class="w-full h-full bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 animate-morphing"
+        ></div>
       </div>
     </div>
-    
+
     <!-- CSS Animations -->
     <div v-else-if="type === 'css'" class="css-loader">
       <!-- Spinner -->
       <div v-if="variant === 'spinner'" class="loading-spinner"></div>
-      
+
       <!-- Dots -->
       <div v-else-if="variant === 'dots'" class="loading-dots">
         <div></div>
@@ -136,22 +145,36 @@
         <div></div>
         <div></div>
       </div>
-      
+
       <!-- Progress Bar -->
-      <div v-else-if="variant === 'progress'" class="w-64 h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div class="h-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"></div>
+      <div
+        v-else-if="variant === 'progress'"
+        class="w-64 h-2 bg-gray-200 rounded-full overflow-hidden"
+      >
+        <div
+          class="h-full bg-gradient-to-r from-blue-500 to-purple-500 animate-pulse"
+        ></div>
       </div>
     </div>
-    
+
     <!-- Text -->
     <div v-if="text" class="mt-4 text-center">
-      <p class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ text }}</p>
-      <p v-if="subtext" class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ subtext }}</p>
+      <p class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        {{ text }}
+      </p>
+      <p v-if="subtext" class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+        {{ subtext }}
+      </p>
     </div>
-    
+
     <!-- Progress Percentage -->
-    <div v-if="showProgress && progress !== undefined" class="absolute bottom-2 right-2">
-      <div class="flex items-center space-x-2 text-xs font-medium text-gray-600 dark:text-gray-400">
+    <div
+      v-if="showProgress && progress !== undefined"
+      class="absolute bottom-2 right-2"
+    >
+      <div
+        class="flex items-center space-x-2 text-xs font-medium text-gray-600 dark:text-gray-400"
+      >
         <span>{{ Math.round(progress) }}%</span>
       </div>
     </div>
@@ -159,89 +182,99 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
-import lottie from 'lottie-web'
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import lottie from "lottie-web";
 
 interface Props {
-  type?: 'lottie' | 'svg' | 'css'
-  variant?: 'orbital' | 'pulse' | 'wave' | 'dna' | 'morph' | 'spinner' | 'dots' | 'progress'
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  text?: string
-  subtext?: string
-  showBackground?: boolean
-  showProgress?: boolean
-  progress?: number
-  animationData?: any
-  containerClass?: string
+  type?: "lottie" | "svg" | "css";
+  variant?:
+    | "orbital"
+    | "pulse"
+    | "wave"
+    | "dna"
+    | "morph"
+    | "spinner"
+    | "dots"
+    | "progress";
+  size?: "sm" | "md" | "lg" | "xl";
+  text?: string;
+  subtext?: string;
+  showBackground?: boolean;
+  showProgress?: boolean;
+  progress?: number;
+  animationData?: any;
+  containerClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'svg',
-  variant: 'orbital',
-  size: 'md',
+  type: "svg",
+  variant: "orbital",
+  size: "md",
   showBackground: true,
-  showProgress: false
-})
+  showProgress: false,
+});
 
-const containerRef = ref<HTMLElement>()
-const lottieContainer = ref<HTMLElement>()
-const lottieAnimation = ref<any>()
+const containerRef = ref<HTMLElement>();
+const lottieContainer = ref<HTMLElement>();
+const lottieAnimation = ref<any>();
 
 // Size classes
 const sizeClasses = {
-  sm: 'w-16 h-16 p-4',
-  md: 'w-24 h-24 p-6',
-  lg: 'w-32 h-32 p-8',
-  xl: 'w-48 h-48 p-12'
-}
+  sm: "w-16 h-16 p-4",
+  md: "w-24 h-24 p-6",
+  lg: "w-32 h-32 p-8",
+  xl: "w-48 h-48 p-12",
+};
 
 const containerClass = computed(() => {
-  return [
-    sizeClasses[props.size],
-    props.containerClass
-  ].filter(Boolean).join(' ')
-})
+  return [sizeClasses[props.size], props.containerClass]
+    .filter(Boolean)
+    .join(" ");
+});
 
 // Initialize Lottie animation
 const initLottie = () => {
-  if (props.type === 'lottie' && props.animationData && lottieContainer.value) {
+  if (props.type === "lottie" && props.animationData && lottieContainer.value) {
     lottieAnimation.value = lottie.loadAnimation({
       container: lottieContainer.value,
-      renderer: 'svg',
+      renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: props.animationData
-    })
+      animationData: props.animationData,
+    });
   }
-}
+};
 
 // Cleanup Lottie animation
 const destroyLottie = () => {
   if (lottieAnimation.value) {
-    lottieAnimation.value.destroy()
-    lottieAnimation.value = null
+    lottieAnimation.value.destroy();
+    lottieAnimation.value = null;
   }
-}
+};
 
-watch(() => props.animationData, () => {
-  destroyLottie()
-  nextTick(() => initLottie())
-})
+watch(
+  () => props.animationData,
+  () => {
+    destroyLottie();
+    nextTick(() => initLottie());
+  },
+);
 
 onMounted(() => {
-  if (props.type === 'lottie') {
-    initLottie()
+  if (props.type === "lottie") {
+    initLottie();
   }
-})
+});
 
 onUnmounted(() => {
-  destroyLottie()
-})
+  destroyLottie();
+});
 
 defineExpose({
   containerRef,
-  lottieAnimation
-})
+  lottieAnimation,
+});
 </script>
 
 <style scoped>
@@ -301,23 +334,39 @@ defineExpose({
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes loading-dots1 {
-  0% { transform: scale(0); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes loading-dots3 {
-  0% { transform: scale(1); }
-  100% { transform: scale(0); }
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
 
 @keyframes loading-dots2 {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(24px, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
 }
 
 /* Reduce motion for accessibility */

@@ -7,7 +7,7 @@ Learn how to improve your website's Core Web Vitals for better search rankings a
 Core Web Vitals are Google's essential metrics for measuring user experience:
 
 - **Largest Contentful Paint (LCP)**: Measures loading performance
-- **First Input Delay (FID)**: Measures interactivity  
+- **First Input Delay (FID)**: Measures interactivity
 - **Cumulative Layout Shift (CLS)**: Measures visual stability
 
 ## How to Improve LCP

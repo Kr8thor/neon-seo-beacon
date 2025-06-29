@@ -4,7 +4,8 @@ description: "Boost your website's loading speed with proven optimization techni
 category: "Technical SEO"
 difficulty: "Intermediate"
 readingTime: "10 min read"
-tags: ["page speed", "performance", "optimization", "loading time", "web vitals"]
+tags:
+  ["page speed", "performance", "optimization", "loading time", "web vitals"]
 date: "2024-12-29"
 author: "Neon SEO Beacon"
 featured: true
@@ -17,12 +18,14 @@ Page speed is one of the most critical factors for both SEO rankings and user ex
 ## Why Page Speed Matters
 
 ### SEO Impact
+
 - **Google Ranking Factor**: Official ranking signal since 2010
 - **Mobile-First Indexing**: Mobile speed crucial for all rankings
 - **Core Web Vitals**: Speed metrics directly impact search visibility
 - **Crawl Budget**: Faster sites get crawled more efficiently
 
 ### Business Impact
+
 - **Conversion Rates**: Amazon found 100ms delay = 1% revenue loss
 - **User Experience**: 53% of users abandon sites taking over 3 seconds
 - **Bounce Rates**: Page speed and bounce rate strongly correlated
@@ -33,21 +36,25 @@ Page speed is one of the most critical factors for both SEO rankings and user ex
 ### Key Performance Indicators
 
 **1. Time to First Byte (TTFB)**
+
 - **Target**: Under 200ms
 - **Measures**: Server response time
 - **Impact**: Foundation for all other metrics
 
 **2. First Contentful Paint (FCP)**
+
 - **Target**: Under 1.5 seconds
 - **Measures**: When first content appears
 - **Impact**: User perception of loading
 
 **3. Largest Contentful Paint (LCP)**
+
 - **Target**: Under 2.5 seconds
 - **Measures**: Main content load time
 - **Impact**: Core Web Vital ranking factor
 
 **4. Time to Interactive (TTI)**
+
 - **Target**: Under 3.5 seconds
 - **Measures**: When page becomes fully interactive
 - **Impact**: User engagement capability
@@ -57,6 +64,7 @@ Page speed is one of the most critical factors for both SEO rankings and user ex
 ### Hosting and Infrastructure
 
 **1. Choose the Right Hosting**
+
 ```bash
 # Performance comparison by hosting type:
 Shared Hosting:     500-2000ms TTFB
@@ -66,6 +74,7 @@ Cloud (AWS/GCP):    50-200ms TTFB
 ```
 
 **2. Enable Server-Side Caching**
+
 ```nginx
 # Nginx caching configuration
 location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
@@ -75,7 +84,7 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
 
 location / {
     try_files $uri $uri/ /index.php?$query_string;
-    
+
     # Enable gzip compression
     gzip on;
     gzip_types text/css application/javascript image/svg+xml;
@@ -83,18 +92,20 @@ location / {
 ```
 
 **3. Content Delivery Network (CDN)**
+
 ```javascript
 // CDN implementation reduces latency globally
 const cdnUrls = {
-  images: 'https://images.cdn.example.com',
-  static: 'https://static.cdn.example.com',
-  api: 'https://api.cdn.example.com'
+  images: "https://images.cdn.example.com",
+  static: "https://static.cdn.example.com",
+  api: "https://api.cdn.example.com",
 };
 ```
 
 ### Database Optimization
 
 **1. Query Optimization**
+
 ```sql
 -- Slow query example
 SELECT * FROM posts WHERE category = 'tech' ORDER BY date DESC;
@@ -105,6 +116,7 @@ SELECT id, title, excerpt FROM posts WHERE category = 'tech' ORDER BY date DESC 
 ```
 
 **2. Database Caching**
+
 ```php
 // Redis caching implementation
 $redis = new Redis();
@@ -124,6 +136,7 @@ return $posts;
 ### HTML Optimization
 
 **1. Minimize HTML**
+
 ```html
 <!-- Before: Verbose HTML -->
 <div class="container wrapper main-content">
@@ -141,42 +154,58 @@ return $posts;
 ```
 
 **2. Critical Resource Hints**
+
 ```html
 <!-- DNS prefetch for external domains -->
-<link rel="dns-prefetch" href="//fonts.googleapis.com">
-<link rel="dns-prefetch" href="//cdn.example.com">
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//cdn.example.com" />
 
 <!-- Preconnect for critical third-party origins -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 <!-- Preload critical resources -->
-<link rel="preload" href="/critical.css" as="style">
-<link rel="preload" href="/hero-image.webp" as="image">
+<link rel="preload" href="/critical.css" as="style" />
+<link rel="preload" href="/hero-image.webp" as="image" />
 ```
 
 ### CSS Optimization
 
 **1. Critical CSS Inlining**
+
 ```html
 <style>
-/* Critical above-the-fold CSS inline */
-body { font-family: system-ui; margin: 0; }
-.hero { height: 100vh; background: #000; }
+  /* Critical above-the-fold CSS inline */
+  body {
+    font-family: system-ui;
+    margin: 0;
+  }
+  .hero {
+    height: 100vh;
+    background: #000;
+  }
 </style>
 
 <!-- Load non-critical CSS asynchronously -->
-<link rel="preload" href="/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/styles.css"></noscript>
+<link
+  rel="preload"
+  href="/styles.css"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+/>
+<noscript><link rel="stylesheet" href="/styles.css" /></noscript>
 ```
 
 **2. CSS Optimization Techniques**
+
 ```css
 /* Use efficient selectors */
 /* Avoid: */
-.container .sidebar .widget .title { }
+.container .sidebar .widget .title {
+}
 
 /* Prefer: */
-.widget-title { }
+.widget-title {
+}
 
 /* Minimize repaints and reflows */
 .animated-element {
@@ -188,16 +217,17 @@ body { font-family: system-ui; margin: 0; }
 ### JavaScript Optimization
 
 **1. Code Splitting and Lazy Loading**
+
 ```javascript
 // Dynamic imports for code splitting
-const LazyComponent = React.lazy(() => import('./LazyComponent'));
+const LazyComponent = React.lazy(() => import("./LazyComponent"));
 
 // Lazy load heavy libraries
-const loadChartLibrary = () => import('chart.js');
+const loadChartLibrary = () => import("chart.js");
 
 // Intersection Observer for lazy loading
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     if (entry.isIntersecting) {
       loadComponent(entry.target);
     }
@@ -206,6 +236,7 @@ const observer = new IntersectionObserver((entries) => {
 ```
 
 **2. Efficient Script Loading**
+
 ```html
 <!-- Critical scripts in head -->
 <script src="/critical.js"></script>
@@ -226,28 +257,31 @@ const observer = new IntersectionObserver((entries) => {
 ### Modern Image Formats
 
 **1. WebP and AVIF Implementation**
+
 ```html
 <picture>
-  <source srcset="image.avif" type="image/avif">
-  <source srcset="image.webp" type="image/webp">
-  <img src="image.jpg" alt="Optimized image" width="800" height="600">
+  <source srcset="image.avif" type="image/avif" />
+  <source srcset="image.webp" type="image/webp" />
+  <img src="image.jpg" alt="Optimized image" width="800" height="600" />
 </picture>
 ```
 
 **2. Responsive Images**
+
 ```html
-<img 
+<img
   srcset="small.jpg 480w, medium.jpg 800w, large.jpg 1200w"
   sizes="(max-width: 480px) 100vw, (max-width: 800px) 50vw, 25vw"
   src="medium.jpg"
   alt="Responsive image"
   loading="lazy"
->
+/>
 ```
 
 ### Image Optimization Tools
 
 **1. Automated Compression**
+
 ```bash
 # ImageOptim CLI for batch optimization
 imageoptim --imagealpha --imagemagick --jpegmini *.jpg *.png
@@ -261,20 +295,21 @@ sharp('input.jpg')
 ```
 
 **2. Lazy Loading Implementation**
+
 ```javascript
 // Native lazy loading with fallback
-const images = document.querySelectorAll('img[data-src]');
+const images = document.querySelectorAll("img[data-src]");
 
-if ('loading' in HTMLImageElement.prototype) {
+if ("loading" in HTMLImageElement.prototype) {
   // Native lazy loading
-  images.forEach(img => {
+  images.forEach((img) => {
     img.src = img.dataset.src;
-    img.loading = 'lazy';
+    img.loading = "lazy";
   });
 } else {
   // Fallback with Intersection Observer
   const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const img = entry.target;
         img.src = img.dataset.src;
@@ -282,8 +317,8 @@ if ('loading' in HTMLImageElement.prototype) {
       }
     });
   });
-  
-  images.forEach(img => imageObserver.observe(img));
+
+  images.forEach((img) => imageObserver.observe(img));
 }
 ```
 
@@ -292,25 +327,28 @@ if ('loading' in HTMLImageElement.prototype) {
 ### Service Workers for Caching
 
 **1. Cache Strategy Implementation**
+
 ```javascript
 // service-worker.js
-self.addEventListener('fetch', event => {
+self.addEventListener("fetch", (event) => {
   // Cache-first strategy for static assets
-  if (event.request.destination === 'image' || 
-      event.request.url.includes('/static/')) {
+  if (
+    event.request.destination === "image" ||
+    event.request.url.includes("/static/")
+  ) {
     event.respondWith(
-      caches.match(event.request).then(response => {
+      caches.match(event.request).then((response) => {
         return response || fetch(event.request);
-      })
+      }),
     );
   }
-  
+
   // Network-first strategy for API calls
-  if (event.request.url.includes('/api/')) {
+  if (event.request.url.includes("/api/")) {
     event.respondWith(
       fetch(event.request).catch(() => {
         return caches.match(event.request);
-      })
+      }),
     );
   }
 });
@@ -319,30 +357,31 @@ self.addEventListener('fetch', event => {
 ### Resource Bundling and Minification
 
 **1. Webpack Optimization**
+
 ```javascript
 // webpack.config.js
 module.exports = {
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        }
-      }
+          name: "vendors",
+          chunks: "all",
+        },
+      },
     },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
           compress: {
             drop_console: true, // Remove console.logs in production
-          }
-        }
-      })
-    ]
-  }
+          },
+        },
+      }),
+    ],
+  },
 };
 ```
 
@@ -351,6 +390,7 @@ module.exports = {
 ### Mobile-Specific Considerations
 
 **1. Touch-Friendly Design**
+
 ```css
 /* Optimize for touch devices */
 .button {
@@ -360,11 +400,14 @@ module.exports = {
 
 /* Reduce complex animations on mobile */
 @media (prefers-reduced-motion: reduce) {
-  .animation { animation: none; }
+  .animation {
+    animation: none;
+  }
 }
 ```
 
 **2. Progressive Web App Features**
+
 ```json
 /* manifest.json */
 {
@@ -387,18 +430,21 @@ module.exports = {
 ## How Neon SEO Beacon Helps
 
 ### Comprehensive Speed Analysis
+
 - **Real User Monitoring**: Actual user experience data
 - **Lab Testing**: Controlled environment performance testing
 - **Historical Tracking**: Performance trends over time
 - **Competitive Benchmarking**: Compare against competitors
 
 ### Actionable Optimization Recommendations
+
 - **Resource Analysis**: Identify largest performance bottlenecks
 - **Priority Scoring**: Focus on highest-impact optimizations
 - **Implementation Guides**: Step-by-step optimization instructions
 - **Progress Tracking**: Monitor improvement over time
 
 ### Advanced Diagnostics
+
 - **Render-Blocking Detection**: Find CSS/JS blocking page render
 - **Third-Party Impact Analysis**: Measure external script performance
 - **Mobile vs Desktop Comparison**: Optimize for all devices
@@ -407,6 +453,7 @@ module.exports = {
 ## Speed Optimization Checklist
 
 ### Quick Wins (< 2 hours)
+
 - [ ] Enable gzip/brotli compression
 - [ ] Optimize and compress images
 - [ ] Minify CSS and JavaScript
@@ -414,6 +461,7 @@ module.exports = {
 - [ ] Remove unused CSS and JavaScript
 
 ### Medium-term (1-2 weeks)
+
 - [ ] Implement lazy loading for images
 - [ ] Set up CDN for static assets
 - [ ] Optimize database queries
@@ -421,6 +469,7 @@ module.exports = {
 - [ ] Add resource hints (preload, prefetch)
 
 ### Long-term (1+ months)
+
 - [ ] Implement service worker caching
 - [ ] Migrate to modern image formats
 - [ ] Set up advanced monitoring
@@ -430,12 +479,14 @@ module.exports = {
 ## Common Speed Mistakes
 
 ### Technical Anti-Patterns
+
 - **Blocking resources**: CSS and JS that prevent rendering
 - **Oversized images**: Using high-resolution images without optimization
 - **Too many HTTP requests**: Not bundling resources appropriately
 - **Inefficient caching**: Missing or incorrect cache headers
 
 ### Measurement Mistakes
+
 - **Testing only on fast networks**: Real users often have slower connections
 - **Ignoring mobile performance**: Mobile optimization is crucial
 - **Not measuring real user data**: Lab data doesn't capture real experience
@@ -444,12 +495,14 @@ module.exports = {
 ## Performance Monitoring
 
 ### Key Metrics to Track
+
 - **Loading Speed**: TTFB, FCP, LCP trends
 - **User Experience**: Bounce rate correlation with speed
 - **Business Impact**: Conversion rate vs page speed
 - **Technical Health**: Error rates and uptime
 
 ### Monitoring Tools
+
 1. **Neon SEO Beacon**: Comprehensive performance analysis
 2. **Google PageSpeed Insights**: Official Google metrics
 3. **GTmetrix**: Detailed performance reporting
@@ -463,4 +516,4 @@ Start with the quick wins, measure the impact, and gradually implement more adva
 
 ---
 
-*Ready to boost your page speed? Use Neon SEO Beacon's comprehensive speed analysis to identify your biggest optimization opportunities and track your progress over time.*
+_Ready to boost your page speed? Use Neon SEO Beacon's comprehensive speed analysis to identify your biggest optimization opportunities and track your progress over time._

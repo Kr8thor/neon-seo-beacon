@@ -33,7 +33,7 @@ https://api.neon-seo-beacon.com/v1
 ### Rate Limits
 
 - **Free Plan**: 100 requests per hour
-- **Pro Plan**: 1,000 requests per hour  
+- **Pro Plan**: 1,000 requests per hour
 - **Enterprise Plan**: 10,000 requests per hour
 
 Rate limit headers are included in all responses:
@@ -58,6 +58,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 ```
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -79,6 +80,7 @@ Perform comprehensive SEO analysis on any publicly accessible URL.
 **POST** `/seo/analyze`
 
 **Request Body:**
+
 ```json
 {
   "url": "https://example.com",
@@ -93,6 +95,7 @@ Perform comprehensive SEO analysis on any publicly accessible URL.
 ```
 
 **Parameters:**
+
 - `url` (required): The URL to analyze
 - `options` (optional): Analysis configuration object
   - `includeImages`: Analyze image optimization (default: true)
@@ -102,6 +105,7 @@ Perform comprehensive SEO analysis on any publicly accessible URL.
   - `includeLinks`: Analyze link structure (default: true)
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -188,6 +192,7 @@ Create, retrieve, and manage SEO audits with progress tracking.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -211,6 +216,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -233,6 +239,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 **GET** `/audits`
 
 **Query Parameters:**
+
 - `limit`: Number of results (default: 20, max: 100)
 - `offset`: Pagination offset (default: 0)
 - `status`: Filter by status (processing, completed, failed)
@@ -244,6 +251,7 @@ curl -H "Authorization: Bearer YOUR_API_KEY" \
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -276,25 +284,26 @@ Monitor audit progress in real-time using Server-Sent Events (SSE).
 
 ```javascript
 const eventSource = new EventSource(
-  'https://api.neon-seo-beacon.com/v1/audits/audit_abc123/progress',
+  "https://api.neon-seo-beacon.com/v1/audits/audit_abc123/progress",
   {
     headers: {
-      'Authorization': 'Bearer YOUR_API_KEY'
-    }
-  }
+      Authorization: "Bearer YOUR_API_KEY",
+    },
+  },
 );
 
-eventSource.onmessage = function(event) {
+eventSource.onmessage = function (event) {
   const progress = JSON.parse(event.data);
-  console.log('Progress:', progress);
+  console.log("Progress:", progress);
 };
 
-eventSource.onerror = function(event) {
-  console.error('SSE Error:', event);
+eventSource.onerror = function (event) {
+  console.error("SSE Error:", event);
 };
 ```
 
 **Progress Event Data:**
+
 ```json
 {
   "audit_id": "audit_abc123",
@@ -330,6 +339,7 @@ Process multiple URLs efficiently with bulk operations.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -359,12 +369,16 @@ Process multiple URLs efficiently with bulk operations.
       {
         "url": "https://example.com",
         "score": 85,
-        "analysis": { /* full analysis */ }
+        "analysis": {
+          /* full analysis */
+        }
       },
       {
         "url": "https://example.com/about",
         "score": 78,
-        "analysis": { /* full analysis */ }
+        "analysis": {
+          /* full analysis */
+        }
       }
     ]
   }
@@ -382,6 +396,7 @@ Set webhook URLs when creating audits or configure default webhooks in your acco
 ### Webhook Payload
 
 **Audit Complete Event:**
+
 ```json
 {
   "event": "audit.completed",
@@ -398,6 +413,7 @@ Set webhook URLs when creating audits or configure default webhooks in your acco
 ```
 
 **Audit Failed Event:**
+
 ```json
 {
   "event": "audit.failed",
@@ -417,17 +433,17 @@ Set webhook URLs when creating audits or configure default webhooks in your acco
 Verify webhook authenticity using the signature header:
 
 ```javascript
-const crypto = require('crypto');
+const crypto = require("crypto");
 
 function verifyWebhook(payload, signature, secret) {
   const expectedSignature = crypto
-    .createHmac('sha256', secret)
+    .createHmac("sha256", secret)
     .update(payload)
-    .digest('hex');
-  
+    .digest("hex");
+
   return crypto.timingSafeEqual(
     Buffer.from(signature),
-    Buffer.from(expectedSignature)
+    Buffer.from(expectedSignature),
   );
 }
 ```
@@ -474,29 +490,31 @@ function verifyWebhook(payload, signature, secret) {
 ### Official SDKs
 
 **Node.js SDK:**
+
 ```bash
 npm install @neon-seo-beacon/node-sdk
 ```
 
 ```javascript
-const NeonSEO = require('@neon-seo-beacon/node-sdk');
+const NeonSEO = require("@neon-seo-beacon/node-sdk");
 
 const client = new NeonSEO({
-  apiKey: 'YOUR_API_KEY'
+  apiKey: "YOUR_API_KEY",
 });
 
 // Analyze URL
-const analysis = await client.analyze('https://example.com');
-console.log('SEO Score:', analysis.score);
+const analysis = await client.analyze("https://example.com");
+console.log("SEO Score:", analysis.score);
 
 // Create audit with progress tracking
-const audit = await client.createAudit('https://example.com');
+const audit = await client.createAudit("https://example.com");
 audit.onProgress((progress) => {
   console.log(`Progress: ${progress.percentage}%`);
 });
 ```
 
 **Python SDK:**
+
 ```bash
 pip install neon-seo-beacon
 ```
@@ -533,7 +551,7 @@ results = client.bulk_analyze([
 function neon_seo_analyze_post($post_id) {
     $url = get_permalink($post_id);
     $api_key = get_option('neon_seo_api_key');
-    
+
     $response = wp_remote_post('https://api.neon-seo-beacon.com/v1/seo/analyze', [
         'headers' => [
             'Authorization' => 'Bearer ' . $api_key,
@@ -547,14 +565,14 @@ function neon_seo_analyze_post($post_id) {
             ]
         ])
     ]);
-    
+
     if (is_wp_error($response)) {
         return false;
     }
-    
+
     $data = json_decode(wp_remote_retrieve_body($response), true);
     update_post_meta($post_id, 'seo_score', $data['data']['score']);
-    
+
     return $data['data'];
 }
 ?>
@@ -567,17 +585,17 @@ function neon_seo_analyze_post($post_id) {
 name: SEO Audit
 on:
   pull_request:
-    paths: ['src/**', 'content/**']
+    paths: ["src/**", "content/**"]
 
 jobs:
   seo-audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
       - name: Deploy to staging
         run: ./deploy-staging.sh
-        
+
       - name: Run SEO Audit
         run: |
           curl -X POST \
@@ -592,44 +610,44 @@ jobs:
 
 ```javascript
 // React component for SEO dashboard
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function SEODashboard() {
   const [audits, setAudits] = useState([]);
-  
+
   useEffect(() => {
     fetchAudits();
   }, []);
-  
+
   const fetchAudits = async () => {
-    const response = await fetch('/api/neon-seo/audits', {
+    const response = await fetch("/api/neon-seo/audits", {
       headers: {
-        'Authorization': `Bearer ${process.env.NEON_SEO_API_KEY}`
-      }
+        Authorization: `Bearer ${process.env.NEON_SEO_API_KEY}`,
+      },
     });
     const data = await response.json();
     setAudits(data.data.audits);
   };
-  
+
   const createAudit = async (url) => {
-    const response = await fetch('/api/neon-seo/audits', {
-      method: 'POST',
+    const response = await fetch("/api/neon-seo/audits", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${process.env.NEON_SEO_API_KEY}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${process.env.NEON_SEO_API_KEY}`,
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url }),
     });
-    
+
     if (response.ok) {
       fetchAudits();
     }
   };
-  
+
   return (
     <div>
       <h2>SEO Dashboard</h2>
-      {audits.map(audit => (
+      {audits.map((audit) => (
         <div key={audit.id}>
           <h3>{audit.url}</h3>
           <p>Score: {audit.score}</p>
@@ -658,17 +676,15 @@ function SEODashboard() {
 const batchAnalysis = async (urls) => {
   const batches = [];
   const batchSize = 10;
-  
+
   for (let i = 0; i < urls.length; i += batchSize) {
     batches.push(urls.slice(i, i + batchSize));
   }
-  
+
   const results = await Promise.all(
-    batches.map(batch => 
-      client.bulkAnalyze(batch)
-    )
+    batches.map((batch) => client.bulkAnalyze(batch)),
   );
-  
+
   return results.flat();
 };
 ```
@@ -681,34 +697,37 @@ const analyzeWithRetry = async (url, maxRetries = 3) => {
     try {
       return await client.analyze(url);
     } catch (error) {
-      if (error.code === 'RATE_LIMIT_EXCEEDED') {
-        await new Promise(resolve => 
-          setTimeout(resolve, Math.pow(2, i) * 1000)
+      if (error.code === "RATE_LIMIT_EXCEEDED") {
+        await new Promise((resolve) =>
+          setTimeout(resolve, Math.pow(2, i) * 1000),
         );
         continue;
       }
       throw error;
     }
   }
-  throw new Error('Max retries exceeded');
+  throw new Error("Max retries exceeded");
 };
 ```
 
 ## Support and Resources
 
 ### Documentation
+
 - **API Reference**: Complete endpoint documentation
 - **SDK Documentation**: Language-specific implementation guides
 - **Integration Examples**: Real-world usage patterns
 - **Best Practices**: Optimization and security guidelines
 
 ### Support Channels
+
 - **Email**: api-support@neon-seo-beacon.com
 - **Developer Forum**: https://community.neon-seo-beacon.com
 - **GitHub Issues**: https://github.com/neon-seo-beacon/api-issues
 - **Live Chat**: Available in dashboard for technical questions
 
 ### Rate Limit Information
+
 - Monitor usage in your dashboard
 - Upgrade plans for higher limits
 - Contact sales for enterprise solutions
@@ -718,4 +737,4 @@ Start building powerful SEO integrations with the Neon SEO Beacon API today!
 
 ---
 
-*Need help getting started? Contact our developer support team or check out our comprehensive SDK documentation and examples.*
+_Need help getting started? Contact our developer support team or check out our comprehensive SDK documentation and examples._

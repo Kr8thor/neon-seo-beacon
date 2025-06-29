@@ -7,24 +7,29 @@ This document outlines the migration from the original Vite + React setup to the
 ## Key Changes
 
 ### Framework Migration
+
 - **From**: Vite + React + TypeScript
 - **To**: Nuxt 3 + Vue 3 + TypeScript
 
 ### Content Management
+
 - **From**: Static content management
 - **To**: @nuxt/content with Markdown-based CMS
 
 ### Styling
+
 - **From**: Tailwind CSS (maintained)
 - **To**: Tailwind CSS with Nuxt integration
 
 ### Authentication
+
 - **From**: Custom Supabase integration
 - **To**: @nuxtjs/supabase module
 
 ## File Structure Changes
 
 ### Old Structure
+
 ```
 src/
 ├── components/
@@ -35,6 +40,7 @@ src/
 ```
 
 ### New Structure
+
 ```
 ├── components/
 ├── pages/
@@ -50,48 +56,52 @@ src/
 ### React to Vue 3 Composition API
 
 **Before (React):**
+
 ```jsx
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from "react";
 
 function MyComponent() {
-  const [count, setCount] = useState(0)
-  
+  const [count, setCount] = useState(0);
+
   useEffect(() => {
     // Effect logic
-  }, [count])
-  
-  return <div>{count}</div>
+  }, [count]);
+
+  return <div>{count}</div>;
 }
 ```
 
 **After (Vue 3):**
+
 ```vue
 <template>
   <div>{{ count }}</div>
 </template>
 
 <script setup>
-const count = ref(0)
+const count = ref(0);
 
 watch(count, () => {
   // Watcher logic
-})
+});
 </script>
 ```
 
 ### Routing Changes
 
 **Before (React Router):**
+
 ```jsx
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 <Routes>
   <Route path="/" element={<Home />} />
   <Route path="/about" element={<About />} />
-</Routes>
+</Routes>;
 ```
 
 **After (Nuxt Pages):**
+
 ```
 pages/
 ├── index.vue      # /
@@ -103,30 +113,32 @@ pages/
 ### From React Context to Pinia
 
 **Before (React Context):**
+
 ```jsx
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 ```
 
 **After (Pinia):**
+
 ```typescript
-export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null)
-  
+export const useAuthStore = defineStore("auth", () => {
+  const user = ref(null);
+
   function setUser(newUser) {
-    user.value = newUser
+    user.value = newUser;
   }
-  
-  return { user, setUser }
-})
+
+  return { user, setUser };
+});
 ```
 
 ## Content Management Migration
@@ -157,33 +169,35 @@ tags: ["seo", "technical"]
 ```typescript
 // server/api/audits.post.ts
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event)
+  const body = await readBody(event);
   // Handle audit creation
-  return { success: true }
-})
+  return { success: true };
+});
 ```
 
 ## Environment Variables
 
 ### Updated Variable Names
 
-| Old | New |
-|-----|-----|
-| `VITE_SUPABASE_URL` | `SUPABASE_URL` |
+| Old                      | New                 |
+| ------------------------ | ------------------- |
+| `VITE_SUPABASE_URL`      | `SUPABASE_URL`      |
 | `VITE_SUPABASE_ANON_KEY` | `SUPABASE_ANON_KEY` |
-| `VITE_API_URL` | `API_URL` |
+| `VITE_API_URL`           | `API_URL`           |
 
 ## Build and Deployment
 
 ### Build Commands
 
 **Before**:
+
 ```bash
 npm run build    # Vite build
 npm run preview  # Preview build
 ```
 
 **After**:
+
 ```bash
 npm run build     # Nuxt build
 npm run preview   # Preview build
@@ -199,21 +213,25 @@ npm run generate  # Static generation
 ## Benefits of Migration
 
 ### Performance
+
 - **Faster Initial Load**: SSR/SSG capabilities
 - **Better SEO**: Server-side rendering
 - **Optimized Bundles**: Automatic code splitting
 
 ### Developer Experience
+
 - **Hot Module Replacement**: Faster development
 - **TypeScript Integration**: Better type safety
 - **Auto-imports**: Reduced boilerplate
 
 ### Content Management
+
 - **Markdown Support**: Easy content creation
 - **Git-based**: Version controlled content
 - **Search**: Built-in content search
 
 ### SEO Improvements
+
 - **Meta Management**: Automatic meta tags
 - **Sitemap Generation**: Dynamic sitemap
 - **Structured Data**: Built-in schema support
@@ -221,12 +239,14 @@ npm run generate  # Static generation
 ## Migration Checklist
 
 ### Pre-Migration
+
 - [ ] Audit existing components
 - [ ] Document current API endpoints
 - [ ] Backup existing content
 - [ ] Plan content structure
 
 ### During Migration
+
 - [ ] Set up Nuxt 3 project
 - [ ] Migrate components to Vue 3
 - [ ] Convert content to Markdown
@@ -234,6 +254,7 @@ npm run generate  # Static generation
 - [ ] Configure environment variables
 
 ### Post-Migration
+
 - [ ] Test all functionality
 - [ ] Verify SEO improvements
 - [ ] Update deployment scripts
@@ -242,15 +263,19 @@ npm run generate  # Static generation
 ## Common Issues and Solutions
 
 ### Issue: Component Not Rendering
+
 **Solution**: Check for proper Vue 3 Composition API syntax
 
 ### Issue: API Routes Not Working
+
 **Solution**: Ensure server routes are in correct directory structure
 
 ### Issue: Content Not Loading
+
 **Solution**: Verify Markdown frontmatter format
 
 ### Issue: Build Errors
+
 **Solution**: Check TypeScript types and imports
 
 ## Resources
@@ -263,10 +288,11 @@ npm run generate  # Static generation
 ## Support
 
 For migration assistance:
+
 - Check the [troubleshooting guide](./TROUBLESHOOTING.md)
 - Review [code examples](./examples/)
 - Contact the development team
 
 ---
 
-*Migration completed: December 2024*
+_Migration completed: December 2024_

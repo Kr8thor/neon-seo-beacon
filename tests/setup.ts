@@ -1,7 +1,7 @@
-import { vi } from 'vitest'
+import { vi } from "vitest";
 
 // Mock Nuxt composables
-vi.mock('#app', () => ({
+vi.mock("#app", () => ({
   useNuxtApp: () => ({
     $supabase: {
       from: vi.fn(),
@@ -9,20 +9,20 @@ vi.mock('#app', () => ({
         signUp: vi.fn(),
         signIn: vi.fn(),
         signOut: vi.fn(),
-      }
-    }
+      },
+    },
   }),
   navigateTo: vi.fn(),
   useRuntimeConfig: () => ({
     public: {
-      supabaseUrl: 'test-url',
-      supabaseAnonKey: 'test-key'
-    }
-  })
-}))
+      supabaseUrl: "test-url",
+      supabaseAnonKey: "test-key",
+    },
+  }),
+}));
 
 // Mock GSAP globally
-vi.mock('gsap', () => ({
+vi.mock("gsap", () => ({
   gsap: {
     fromTo: vi.fn(),
     to: vi.fn(),
@@ -31,43 +31,43 @@ vi.mock('gsap', () => ({
       to: vi.fn(),
       from: vi.fn(),
       play: vi.fn(),
-      pause: vi.fn()
-    }))
+      pause: vi.fn(),
+    })),
   },
   ScrollTrigger: {
     create: vi.fn(),
     refresh: vi.fn(),
     getAll: vi.fn(() => []),
-    killAll: vi.fn()
-  }
-}))
+    killAll: vi.fn(),
+  },
+}));
 
 // Mock Chart.js globally
-vi.mock('chart.js/auto', () => ({
+vi.mock("chart.js/auto", () => ({
   Chart: vi.fn(() => ({
     destroy: vi.fn(),
     update: vi.fn(),
     resize: vi.fn(),
-    data: { datasets: [] }
-  }))
-}))
+    data: { datasets: [] },
+  })),
+}));
 
 // Mock Lottie-web globally
-vi.mock('lottie-web', () => ({
+vi.mock("lottie-web", () => ({
   loadAnimation: vi.fn(() => ({
     play: vi.fn(),
     pause: vi.fn(),
     stop: vi.fn(),
-    destroy: vi.fn()
+    destroy: vi.fn(),
   })),
   setSpeed: vi.fn(),
-  setDirection: vi.fn()
-}))
+  setDirection: vi.fn(),
+}));
 
 // Mock Canvas API for browser-only libraries
-Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
   value: vi.fn(() => ({
-    fillStyle: '',
+    fillStyle: "",
     fillRect: vi.fn(),
     clearRect: vi.fn(),
     getImageData: vi.fn(() => ({ data: new Array(4) })),
@@ -76,24 +76,24 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
     setTransform: vi.fn(),
     drawImage: vi.fn(),
     save: vi.fn(),
-    restore: vi.fn()
-  }))
-})
+    restore: vi.fn(),
+  })),
+});
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn(() => ({
   observe: vi.fn(),
   disconnect: vi.fn(),
-  unobserve: vi.fn()
-}))
+  unobserve: vi.fn(),
+}));
 
 // Mock IntersectionObserver
 global.IntersectionObserver = vi.fn(() => ({
   observe: vi.fn(),
   disconnect: vi.fn(),
-  unobserve: vi.fn()
-}))
+  unobserve: vi.fn(),
+}));
 
 // Environment variables
-process.env.NUXT_SUPABASE_URL = 'test-url'
-process.env.NUXT_SUPABASE_ANON_KEY = 'test-key'
+process.env.NUXT_SUPABASE_URL = "test-url";
+process.env.NUXT_SUPABASE_ANON_KEY = "test-key";

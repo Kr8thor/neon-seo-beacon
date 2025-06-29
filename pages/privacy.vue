@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="bg-white rounded-lg shadow-lg p-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-8">Privacy Policy</h1>
-        
+
         <div class="prose prose-lg max-w-none">
           <p class="text-gray-600 mb-6">
             <strong>Last updated:</strong> {{ new Date().toLocaleDateString() }}
@@ -41,12 +41,18 @@
           </ul>
 
           <h2>3. Information Sharing</h2>
-          <p>We do not sell, trade, or rent your personal information to third parties. We may share information in these limited circumstances:</p>
+          <p>
+            We do not sell, trade, or rent your personal information to third
+            parties. We may share information in these limited circumstances:
+          </p>
           <ul>
             <li>With your explicit consent</li>
             <li>To comply with legal obligations</li>
             <li>To protect our rights and prevent fraud</li>
-            <li>With service providers who assist our operations (under strict confidentiality agreements)</li>
+            <li>
+              With service providers who assist our operations (under strict
+              confidentiality agreements)
+            </li>
           </ul>
 
           <h2>4. Data Security</h2>
@@ -60,8 +66,9 @@
 
           <h2>5. Data Retention</h2>
           <p>
-            We retain your personal information for as long as your account is active or as needed to provide services. 
-            You may request deletion of your data at any time.
+            We retain your personal information for as long as your account is
+            active or as needed to provide services. You may request deletion of
+            your data at any time.
           </p>
 
           <h2>6. Your Rights</h2>
@@ -75,8 +82,9 @@
 
           <h2>7. Cookies and Tracking</h2>
           <p>
-            We use cookies to improve your experience and analyze usage patterns. 
-            You can control cookie settings through your browser preferences.
+            We use cookies to improve your experience and analyze usage
+            patterns. You can control cookie settings through your browser
+            preferences.
           </p>
 
           <h2>8. Third-Party Services</h2>
@@ -89,26 +97,31 @@
 
           <h2>9. International Data Transfers</h2>
           <p>
-            Your data may be processed in countries outside your residence. 
-            We ensure appropriate safeguards are in place for international transfers.
+            Your data may be processed in countries outside your residence. We
+            ensure appropriate safeguards are in place for international
+            transfers.
           </p>
 
           <h2>10. Children's Privacy</h2>
           <p>
-            Our service is not intended for children under 13. 
-            We do not knowingly collect personal information from children.
+            Our service is not intended for children under 13. We do not
+            knowingly collect personal information from children.
           </p>
 
           <h2>11. Changes to This Policy</h2>
           <p>
-            We may update this privacy policy periodically. 
-            We will notify you of significant changes via email or service notifications.
+            We may update this privacy policy periodically. We will notify you
+            of significant changes via email or service notifications.
           </p>
 
           <h2>12. Contact Us</h2>
           <p>
             For privacy-related questions or requests:
-            <a href="mailto:privacy@mardenseo.com" class="text-blue-600 hover:underline">privacy@mardenseo.com</a>
+            <a
+              href="mailto:privacy@mardenseo.com"
+              class="text-blue-600 hover:underline"
+              >privacy@mardenseo.com</a
+            >
           </p>
         </div>
       </div>
@@ -119,13 +132,14 @@
 <script setup lang="ts">
 // Set page metadata
 useHead({
-  title: 'Privacy Policy - Neon SEO Beacon',
+  title: "Privacy Policy - Neon SEO Beacon",
   meta: [
     {
-      name: 'description',
-      content: 'Privacy Policy for Neon SEO Beacon - Learn how we protect and use your data.'
+      name: "description",
+      content:
+        "Privacy Policy for Neon SEO Beacon - Learn how we protect and use your data.",
     },
-    { name: 'robots', content: 'noindex' }
-  ]
-})
+    { name: "robots", content: "noindex" },
+  ],
+});
 </script>

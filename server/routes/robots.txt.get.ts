@@ -1,7 +1,7 @@
 export default defineEventHandler((event: any) => {
-  const config = useRuntimeConfig()
-  const siteUrl = config.public.siteUrl || 'https://audit.mardenseo.com'
-  
+  const config = useRuntimeConfig();
+  const siteUrl = config.public.siteUrl || "https://audit.mardenseo.com";
+
   const robotsTxt = `# Robots.txt for Marden SEO Audit
 # Generated automatically
 
@@ -47,10 +47,10 @@ User-agent: anthropic-ai
 Disallow: /
 
 User-agent: Claude-Web
-Disallow: /`
-  
-  setHeader(event, 'Content-Type', 'text/plain')
-  setHeader(event, 'Cache-Control', 'public, max-age=86400') // Cache for 24 hours
-  
-  return robotsTxt
-})
+Disallow: /`;
+
+  setHeader(event, "Content-Type", "text/plain");
+  setHeader(event, "Cache-Control", "public, max-age=86400"); // Cache for 24 hours
+
+  return robotsTxt;
+});

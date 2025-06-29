@@ -4,7 +4,14 @@ description: "Master structured data implementation to enhance search visibility
 category: "Technical SEO"
 difficulty: "Intermediate"
 readingTime: "11 min read"
-tags: ["structured data", "schema markup", "rich snippets", "json-ld", "technical seo"]
+tags:
+  [
+    "structured data",
+    "schema markup",
+    "rich snippets",
+    "json-ld",
+    "technical seo",
+  ]
 date: "2024-12-29"
 author: "Neon SEO Beacon"
 featured: true
@@ -21,6 +28,7 @@ Structured data helps search engines understand your content better, leading to 
 Structured data is a standardized format for providing information about a page and classifying the page content. It helps search engines understand the context and meaning of your content.
 
 **Key Benefits:**
+
 - **Rich snippets**: Enhanced search results with additional information
 - **Knowledge panels**: Detailed information boxes in search results
 - **Voice search optimization**: Better understanding for voice assistants
@@ -31,6 +39,7 @@ Structured data is a standardized format for providing information about a page 
 Schema.org provides a shared vocabulary for structured data markup. Major search engines (Google, Bing, Yahoo, Yandex) support Schema.org markup.
 
 **Common Schema Types:**
+
 - **Article**: Blog posts, news articles, content pieces
 - **Product**: E-commerce products and services
 - **Organization**: Company information and details
@@ -47,23 +56,25 @@ Schema.org provides a shared vocabulary for structured data markup. Major search
 JSON-LD (JavaScript Object Notation for Linked Data) is Google's preferred format for structured data.
 
 **Basic JSON-LD Structure:**
+
 ```html
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Your Article Title",
-  "author": {
-    "@type": "Person",
-    "name": "Author Name"
-  },
-  "datePublished": "2024-12-29",
-  "image": "https://example.com/article-image.jpg"
-}
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Your Article Title",
+    "author": {
+      "@type": "Person",
+      "name": "Author Name"
+    },
+    "datePublished": "2024-12-29",
+    "image": "https://example.com/article-image.jpg"
+  }
 </script>
 ```
 
 **Advantages of JSON-LD:**
+
 - Easy to implement and maintain
 - Doesn't interfere with page content
 - Can be added to `<head>` or `<body>`
@@ -77,13 +88,14 @@ Microdata adds structured data directly to HTML elements using specific attribut
 ```html
 <article itemscope itemtype="https://schema.org/Article">
   <h1 itemprop="headline">Your Article Title</h1>
-  <p>By <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-    <span itemprop="name">Author Name</span>
-  </span></p>
+  <p>
+    By
+    <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+      <span itemprop="name">Author Name</span>
+    </span>
+  </p>
   <time itemprop="datePublished" datetime="2024-12-29">December 29, 2024</time>
-  <div itemprop="articleBody">
-    Article content goes here...
-  </div>
+  <div itemprop="articleBody">Article content goes here...</div>
 </article>
 ```
 
@@ -94,9 +106,12 @@ RDFa (Resource Description Framework in Attributes) extends HTML with semantic a
 ```html
 <article vocab="https://schema.org/" typeof="Article">
   <h1 property="headline">Your Article Title</h1>
-  <p>By <span property="author" typeof="Person">
-    <span property="name">Author Name</span>
-  </span></p>
+  <p>
+    By
+    <span property="author" typeof="Person">
+      <span property="name">Author Name</span>
+    </span>
+  </p>
   <time property="datePublished" datetime="2024-12-29">December 29, 2024</time>
 </article>
 ```
@@ -235,11 +250,7 @@ Critical for local SEO and Google My Business optimization.
     "latitude": "40.7128",
     "longitude": "-74.0060"
   },
-  "openingHours": [
-    "Mo-Th 11:00-22:00",
-    "Fr-Sa 11:00-23:00",
-    "Su 12:00-21:00"
-  ],
+  "openingHours": ["Mo-Th 11:00-22:00", "Fr-Sa 11:00-23:00", "Su 12:00-21:00"],
   "servesCuisine": "Italian",
   "acceptsReservations": true,
   "priceRange": "$$",
@@ -493,6 +504,7 @@ https://validator.schema.org/
 Monitor structured data performance in production.
 
 **Enhancement Reports:**
+
 - Product rich results
 - Article rich results
 - FAQ rich results
@@ -500,6 +512,7 @@ Monitor structured data performance in production.
 - Organization information
 
 **Common Issues to Monitor:**
+
 - Missing required properties
 - Invalid property values
 - Markup not recognized
@@ -510,6 +523,7 @@ Monitor structured data performance in production.
 ### Markup Errors
 
 **1. Missing Required Properties**
+
 ```json
 // Incorrect: Missing required properties
 {
@@ -525,7 +539,7 @@ Monitor structured data performance in production.
   "@type": "Article",
   "headline": "Article Title",
   "author": {
-    "@type": "Person", 
+    "@type": "Person",
     "name": "Author Name"
   },
   "datePublished": "2024-12-29",
@@ -537,6 +551,7 @@ Monitor structured data performance in production.
 ```
 
 **2. Incorrect Property Values**
+
 ```json
 // Incorrect: Invalid date format
 "datePublished": "December 29, 2024"
@@ -555,6 +570,7 @@ Monitor structured data performance in production.
 ### Content Mismatch
 
 **1. Markup vs. Visible Content**
+
 ```json
 // Incorrect: Markup doesn't match visible content
 {
@@ -566,7 +582,7 @@ Monitor structured data performance in production.
 
 // Correct: Markup matches visible content
 {
-  "@type": "Product", 
+  "@type": "Product",
   "name": "Premium Headphones",
   "price": "299.99"
 }
@@ -578,6 +594,7 @@ Monitor structured data performance in production.
 ### Prioritization Framework
 
 **High Priority Schema Types:**
+
 1. **Organization**: Essential for brand identity
 2. **Article**: For content-heavy sites
 3. **Product**: For e-commerce sites
@@ -585,6 +602,7 @@ Monitor structured data performance in production.
 5. **Person**: For personal brands and authors
 
 **Medium Priority Schema Types:**
+
 - FAQ for question-based content
 - HowTo for tutorial content
 - Event for event-based businesses
@@ -592,6 +610,7 @@ Monitor structured data performance in production.
 - BreadcrumbList for navigation
 
 **Implementation Order:**
+
 1. Start with core business schema (Organization/LocalBusiness)
 2. Add content-specific schema (Article/Product)
 3. Enhance with rich features (FAQ/HowTo)
@@ -600,6 +619,7 @@ Monitor structured data performance in production.
 ### Automated Implementation
 
 **WordPress Integration**
+
 ```php
 // Add schema to WordPress posts
 function add_article_schema() {
@@ -620,9 +640,9 @@ function add_article_schema() {
                 'name' => get_bloginfo('name')
             )
         );
-        
-        echo '<script type="application/ld+json">' . 
-             json_encode($schema, JSON_UNESCAPED_SLASHES) . 
+
+        echo '<script type="application/ld+json">' .
+             json_encode($schema, JSON_UNESCAPED_SLASHES) .
              '</script>';
     }
 }
@@ -630,34 +650,35 @@ add_action('wp_head', 'add_article_schema');
 ```
 
 **Dynamic Schema Generation**
+
 ```javascript
 // Generate product schema dynamically
 function generateProductSchema(product) {
-    return {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": product.name,
-        "description": product.description,
-        "image": product.images,
-        "brand": {
-            "@type": "Brand",
-            "name": product.brand
-        },
-        "offers": {
-            "@type": "Offer",
-            "price": product.price,
-            "priceCurrency": product.currency,
-            "availability": product.inStock ? 
-                "https://schema.org/InStock" : 
-                "https://schema.org/OutOfStock"
-        }
-    };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images,
+    brand: {
+      "@type": "Brand",
+      name: product.brand,
+    },
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: product.currency,
+      availability: product.inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
 }
 
 // Add schema to page
 const schema = generateProductSchema(productData);
-const script = document.createElement('script');
-script.type = 'application/ld+json';
+const script = document.createElement("script");
+script.type = "application/ld+json";
 script.textContent = JSON.stringify(schema);
 document.head.appendChild(script);
 ```
@@ -667,18 +688,21 @@ document.head.appendChild(script);
 ### Structured Data Analysis
 
 **1. Schema Detection and Validation**
+
 - Automatic detection of existing structured data
 - Validation against Schema.org specifications
 - Identification of missing required properties
 - Rich results eligibility assessment
 
 **2. Implementation Recommendations**
+
 - Priority-based schema implementation suggestions
 - Custom schema templates for your content type
 - Step-by-step implementation guides
 - Code examples and snippets
 
 **3. Performance Monitoring**
+
 - Track rich results appearance in search
 - Monitor structured data errors and warnings
 - Analyze impact on click-through rates
@@ -687,12 +711,14 @@ document.head.appendChild(script);
 ### Advanced Features
 
 **1. Schema Generator Tools**
+
 - Interactive schema markup generators
 - Content-specific templates
 - Bulk schema generation for multiple pages
 - Export capabilities for easy implementation
 
 **2. Rich Results Tracking**
+
 - Monitor when your content appears with rich features
 - Track performance of different schema types
 - Analyze CTR improvements from rich snippets
@@ -728,4 +754,4 @@ Structured data implementation is a powerful way to enhance your search presence
 
 ---
 
-*Ready to implement structured data? Use Neon SEO Beacon's schema analysis tools to identify opportunities and generate proper markup for your content.*
+_Ready to implement structured data? Use Neon SEO Beacon's schema analysis tools to identify opportunities and generate proper markup for your content._

@@ -32,6 +32,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -54,20 +55,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### JWT Tokens (Recommended)
 
 **Advantages:**
+
 - Secure and stateless
 - Contains user information
 - Automatic expiration
 - No server-side session storage needed
 
 **Usage:**
-```javascript
-const token = 'your_jwt_token';
 
-fetch('/api/audits', {
+```javascript
+const token = "your_jwt_token";
+
+fetch("/api/audits", {
   headers: {
-    'Authorization': `Bearer ${token}`,
-    'Content-Type': 'application/json'
-  }
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
 });
 ```
 
@@ -102,6 +105,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "access_token": "new_access_token",
@@ -123,7 +127,7 @@ Authorization: Bearer your_token
 API requests are rate limited based on your plan:
 
 - **Free Plan**: 100 requests/hour
-- **Pro Plan**: 1,000 requests/hour  
+- **Pro Plan**: 1,000 requests/hour
 - **Agency Plan**: 10,000 requests/hour
 
 ### Rate Limit Headers
@@ -166,25 +170,25 @@ async function makeAuthenticatedRequest(url, token) {
   try {
     const response = await fetch(url, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     });
-    
+
     if (response.status === 401) {
       // Token expired or invalid
-      throw new Error('Authentication failed');
+      throw new Error("Authentication failed");
     }
-    
+
     if (response.status === 429) {
       // Rate limit exceeded
-      const retryAfter = response.headers.get('Retry-After');
+      const retryAfter = response.headers.get("Retry-After");
       throw new Error(`Rate limit exceeded. Retry after ${retryAfter} seconds`);
     }
-    
+
     return await response.json();
   } catch (error) {
-    console.error('API request failed:', error);
+    console.error("API request failed:", error);
     throw error;
   }
 }
@@ -199,54 +203,54 @@ class NeonSEOAPI {
   constructor(apiKey, apiSecret) {
     this.apiKey = apiKey;
     this.apiSecret = apiSecret;
-    this.baseURL = 'https://api.neonseobeacon.com';
+    this.baseURL = "https://api.neonseobeacon.com";
     this.token = null;
   }
-  
+
   async authenticate() {
     const response = await fetch(`${this.baseURL}/api/auth/token`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         api_key: this.apiKey,
-        api_secret: this.apiSecret
-      })
+        api_secret: this.apiSecret,
+      }),
     });
-    
+
     const data = await response.json();
     this.token = data.access_token;
     return this.token;
   }
-  
+
   async makeRequest(endpoint, options = {}) {
     if (!this.token) {
       await this.authenticate();
     }
-    
+
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
       headers: {
-        'Authorization': `Bearer ${this.token}`,
-        'Content-Type': 'application/json',
-        ...options.headers
-      }
+        Authorization: `Bearer ${this.token}`,
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
     });
-    
+
     if (response.status === 401) {
       // Token expired, re-authenticate
       await this.authenticate();
       return this.makeRequest(endpoint, options);
     }
-    
+
     return response.json();
   }
 }
 
 // Usage
-const api = new NeonSEOAPI('your_api_key', 'your_api_secret');
-const audits = await api.makeRequest('/api/audits');
+const api = new NeonSEOAPI("your_api_key", "your_api_secret");
+const audits = await api.makeRequest("/api/audits");
 ```
 
 ### Python
@@ -263,35 +267,35 @@ class NeonSEOAPI:
         self.base_url = 'https://api.neonseobeacon.com'
         self.token = None
         self.token_expires = None
-    
+
     def authenticate(self):
         response = requests.post(f'{self.base_url}/api/auth/token', json={
             'api_key': self.api_key,
             'api_secret': self.api_secret
         })
-        
+
         data = response.json()
         self.token = data['access_token']
         self.token_expires = datetime.now() + timedelta(seconds=data['expires_in'])
-        
+
         return self.token
-    
+
     def make_request(self, endpoint, method='GET', **kwargs):
         if not self.token or datetime.now() >= self.token_expires:
             self.authenticate()
-        
+
         headers = kwargs.get('headers', {})
         headers['Authorization'] = f'Bearer {self.token}'
         kwargs['headers'] = headers
-        
+
         response = requests.request(method, f'{self.base_url}{endpoint}', **kwargs)
-        
+
         if response.status_code == 401:
             # Token expired, re-authenticate
             self.authenticate()
             headers['Authorization'] = f'Bearer {self.token}'
             response = requests.request(method, f'{self.base_url}{endpoint}', **kwargs)
-        
+
         return response.json()
 
 # Usage
@@ -309,6 +313,7 @@ Authorization: Bearer your_token
 ```
 
 **Response:**
+
 ```json
 {
   "user_id": "12345",
@@ -347,4 +352,4 @@ X-Debug: true
 
 ---
 
-*Need help with authentication? Contact our support team at api-support@neonseobeacon.com*
+_Need help with authentication? Contact our support team at api-support@neonseobeacon.com_

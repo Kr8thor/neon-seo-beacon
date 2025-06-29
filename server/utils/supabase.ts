@@ -1,45 +1,46 @@
 // Supabase client utility for server-side operations
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
 export function createSupabaseClient() {
-  const config = useRuntimeConfig()
-  
-  const supabaseUrl = config.supabaseUrl || config.public.supabaseUrl
-  const supabaseServiceKey = config.supabaseServiceRoleKey
-  
+  const config = useRuntimeConfig();
+
+  const supabaseUrl = config.supabaseUrl || config.public.supabaseUrl;
+  const supabaseServiceKey = config.supabaseServiceRoleKey;
+
   if (!supabaseUrl || !supabaseServiceKey) {
-    throw new Error('Missing Supabase configuration')
+    throw new Error("Missing Supabase configuration");
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey, {
     auth: {
       autoRefreshToken: false,
-      persistSession: false
-    }
-  })
+      persistSession: false,
+    },
+  });
 }
 
 export function createSupabaseUserClient(accessToken?: string) {
-  const config = useRuntimeConfig()
-  
-  const supabaseUrl = config.supabaseUrl || config.public.supabaseUrl
-  const supabaseAnonKey = config.supabaseAnonKey || config.public.supabaseAnonKey
-  
+  const config = useRuntimeConfig();
+
+  const supabaseUrl = config.supabaseUrl || config.public.supabaseUrl;
+  const supabaseAnonKey =
+    config.supabaseAnonKey || config.public.supabaseAnonKey;
+
   if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase configuration')
+    throw new Error("Missing Supabase configuration");
   }
-  
-  const client = createClient(supabaseUrl, supabaseAnonKey)
-  
+
+  const client = createClient(supabaseUrl, supabaseAnonKey);
+
   if (accessToken) {
     client.auth.setSession({
       access_token: accessToken,
-      refresh_token: '',
+      refresh_token: "",
       user: null,
-      token_type: 'bearer',
-      expires_in: 3600
-    })
+      token_type: "bearer",
+      expires_in: 3600,
+    });
   }
-  
-  return client
+
+  return client;
 }

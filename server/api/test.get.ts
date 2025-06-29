@@ -3,6 +3,6 @@ export default defineEventHandler(async (event) => {
     message: "Test endpoint working",
     timestamp: new Date().toISOString(),
     method: event.node.req.method,
-    url: event.node.req.url
-  }
-})
+    url: event.node.req.url,
+  };
+});

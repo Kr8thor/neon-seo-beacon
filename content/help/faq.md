@@ -25,6 +25,7 @@ Neon SEO Beacon is an enterprise-grade SEO audit tool that provides comprehensiv
 ### What websites can I audit?
 
 You can audit any publicly accessible website. This includes:
+
 - Your own websites
 - Client websites (with permission)
 - Competitor websites (for analysis)
@@ -37,12 +38,14 @@ You can audit any publicly accessible website. This includes:
 ### What plans do you offer?
 
 **Free Plan** - $0/month
+
 - 5 audits per month
 - Basic SEO analysis
 - Core Web Vitals
 - Email support
 
 **Pro Plan** - $49/month
+
 - 100 audits per month
 - Advanced AI recommendations
 - Historical tracking
@@ -50,6 +53,7 @@ You can audit any publicly accessible website. This includes:
 - API access
 
 **Agency Plan** - $199/month
+
 - 1,000 audits per month
 - White-label reports
 - Team collaboration
@@ -69,6 +73,7 @@ We offer a 30-day money-back guarantee for paid plans. If you're not satisfied, 
 ### How long does an audit take?
 
 Most audits complete within 30-60 seconds, depending on:
+
 - Website size and complexity
 - Server response times
 - Number of pages analyzed
@@ -77,6 +82,7 @@ Most audits complete within 30-60 seconds, depending on:
 ### What does the SEO score mean?
 
 Our SEO score (0-100) is calculated based on:
+
 - **Technical SEO** (40%): Meta tags, site structure, crawlability
 - **Performance** (30%): Core Web Vitals, page speed
 - **Content** (20%): Content quality, keyword optimization
@@ -89,6 +95,7 @@ Currently, we can only audit publicly accessible pages. Support for password-pro
 ### How accurate are the results?
 
 Our audits use the same technologies as major search engines:
+
 - Chrome DevTools for performance metrics
 - Google's mobile-friendly test algorithms
 - W3C validation standards
@@ -101,6 +108,7 @@ Results are highly accurate, but should be verified with additional tools for cr
 ### Can I schedule recurring audits?
 
 Yes! Pro and Agency plans include scheduled audits:
+
 - Weekly, monthly, or quarterly frequency
 - Automatic email reports
 - Progress tracking over time
@@ -109,6 +117,7 @@ Yes! Pro and Agency plans include scheduled audits:
 ### How do I export audit results?
 
 Audit results can be exported in multiple formats:
+
 - **PDF Reports**: Professional, branded reports
 - **CSV Data**: Raw data for analysis
 - **JSON**: For developer integrations
@@ -121,6 +130,7 @@ Currently, each audit focuses on a single page for detailed analysis. Bulk audit
 ### What browsers do you support?
 
 Neon SEO Beacon works in all modern browsers:
+
 - Chrome (recommended)
 - Firefox
 - Safari
@@ -133,6 +143,7 @@ For best results, use the latest version of your browser.
 ### Do you offer API access?
 
 Yes! Pro and Agency plans include full API access:
+
 - RESTful API with comprehensive documentation
 - Real-time audit triggering
 - Result retrieval and export
@@ -142,6 +153,7 @@ Yes! Pro and Agency plans include full API access:
 ### Can I integrate with other tools?
 
 We support integrations with popular tools:
+
 - Google Analytics
 - Google Search Console
 - Slack notifications
@@ -151,6 +163,7 @@ We support integrations with popular tools:
 ### Is there an API rate limit?
 
 Yes, rate limits depend on your plan:
+
 - **Pro Plan**: 1,000 requests/hour
 - **Agency Plan**: 10,000 requests/hour
 
@@ -159,16 +172,19 @@ Yes, rate limits depend on your plan:
 ### What support do you offer?
 
 **Free Plan**:
+
 - Email support (48-hour response)
 - Knowledge base access
 - Community forum
 
 **Pro Plan**:
+
 - Priority email support (24-hour response)
 - Live chat during business hours
 - Video tutorials
 
 **Agency Plan**:
+
 - Dedicated support representative
 - Phone support
 - Custom training sessions
@@ -177,6 +193,7 @@ Yes, rate limits depend on your plan:
 ### Do you provide training?
 
 Yes! We offer various training resources:
+
 - **Free Webinars**: Monthly SEO training sessions
 - **Video Tutorials**: Step-by-step guides
 - **Knowledge Base**: Comprehensive documentation
@@ -194,6 +211,7 @@ Yes! We offer various training resources:
 ### Is my data secure?
 
 Yes, we take security seriously:
+
 - All data encrypted in transit and at rest
 - SOC 2 Type II compliant infrastructure
 - Regular security audits
@@ -217,6 +235,7 @@ Yes, you can delete individual audits or your entire account at any time. Data d
 ### Why did my audit fail?
 
 Common reasons for audit failures:
+
 - Website is offline or inaccessible
 - Server blocking our crawler
 - Invalid or malformed URL
@@ -228,6 +247,7 @@ Try running the audit again, or contact support if problems persist.
 ### Why is my SEO score lower than expected?
 
 SEO scores reflect technical implementation, not content quality or rankings. Common reasons for lower scores:
+
 - Missing or duplicate meta tags
 - Slow page loading times
 - Mobile usability issues
@@ -239,6 +259,7 @@ Use our AI recommendations to identify specific improvements.
 ### Can I get a second opinion on results?
 
 Absolutely! We recommend:
+
 - Cross-referencing with Google Search Console
 - Using additional SEO tools for verification
 - Consulting with SEO professionals
@@ -255,4 +276,4 @@ Can't find what you're looking for? We're here to help!
 - **Join the Community**: [community.neonseobeacon.com]()
 - **Schedule a Demo**: [Book a 15-minute demo call]()
 
-*Most support requests are answered within 24 hours.*
+_Most support requests are answered within 24 hours._

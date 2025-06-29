@@ -1,29 +1,33 @@
-import js from "@eslint/js";
-import globals from "globals";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
-import tseslint from "typescript-eslint";
-
-export default tseslint.config(
-  { ignores: ["dist"] },
+// Simple ESLint config for Nuxt project
+export default [
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ["**/*.{ts,tsx}"],
+    ignores: [
+      'node_modules/**',
+      '.nuxt/**',
+      '.output/**',
+      'dist/**',
+      'coverage/**',
+      '*.min.js',
+      'public/**',
+      '.git/**',
+      'test-results/**',
+      'playwright-report/**',
+      '**/*.d.ts'
+    ]
+  },
+  {
+    files: ['**/*.{js,ts}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-    },
-    plugins: {
-      "react-hooks": reactHooks,
-      "react-refresh": reactRefresh,
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly'
+      }
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
-      "@typescript-eslint/no-unused-vars": "off",
-    },
+      'no-console': 'warn',
+      'no-debugger': 'error'
+    }
   }
-);
+]
