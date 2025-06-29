@@ -1,41 +1,33 @@
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
-
-export default createConfigForNuxt({
-  features: {
-    tooling: true,
-    stylistic: {
-      commaDangle: 'never',
-      braceStyle: '1tbs'
-    }
-  },
-  dirs: {
-    src: [
-      './components',
-      './composables', 
-      './layouts',
-      './middleware',
-      './pages',
-      './plugins',
-      './server',
-      './utils'
-    ]
-  }
-}).append(
+// Simple ESLint config for Nuxt project
+export default [
   {
     ignores: [
-      'dist/**',
+      'node_modules/**',
       '.nuxt/**',
       '.output/**',
-      'node_modules/**',
-      '*.d.ts'
+      'dist/**',
+      'coverage/**',
+      '*.min.js',
+      'public/**',
+      '.git/**',
+      'test-results/**',
+      'playwright-report/**',
+      '**/*.d.ts'
     ]
   },
   {
+    files: ['**/*.{js,ts}'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        console: 'readonly',
+        process: 'readonly'
+      }
+    },
     rules: {
-      '@typescript-eslint/no-unused-vars': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      'vue/multi-word-component-names': 'off',
-      'vue/no-multiple-template-root': 'off'
+      'no-console': 'warn',
+      'no-debugger': 'error'
     }
   }
-)
+]

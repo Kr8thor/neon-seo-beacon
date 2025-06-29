@@ -1,279 +1,200 @@
----
-title: "Frequently Asked Questions"
-description: "Common questions and answers about Neon SEO Beacon"
-category: "Support"
----
-
 # Frequently Asked Questions
 
-Find answers to the most common questions about Neon SEO Beacon.
+*Quick answers to common questions about Neon SEO Beacon*
 
-## General Questions
+## 🚀 Getting Started
 
 ### What is Neon SEO Beacon?
+Neon SEO Beacon is an AI-powered SEO audit platform that analyzes websites in under 2 seconds and provides actionable recommendations for improving search engine rankings.
 
-Neon SEO Beacon is an enterprise-grade SEO audit tool that provides comprehensive website analysis, technical SEO insights, and AI-powered recommendations. It's designed for agencies, consultants, and businesses who need professional-level SEO auditing capabilities.
+### How is this different from other SEO tools?
+- **Speed**: 1-2 second audits vs. 5+ minutes for competitors
+- **AI Intelligence**: Claude AI provides contextual recommendations
+- **Actionable Results**: Step-by-step fixes, not just problem identification
+- **Modern Interface**: Clean, intuitive dashboard vs. cluttered interfaces
+- **Transparent Pricing**: Clear, simple pricing without hidden fees
 
-### How is Neon SEO Beacon different from other SEO tools?
+### Do I need to install anything?
+No! Neon SEO Beacon is a web-based platform. Simply create an account and start auditing immediately.
 
-- **AI-Powered Analysis**: Integration with Claude AI for intelligent recommendations
-- **Real-time Auditing**: Live progress tracking during audits
-- **Comprehensive Coverage**: 50+ technical SEO checkpoints
-- **Professional Reporting**: White-label reports for agencies
-- **Developer-Friendly**: Full API access for integrations
+## 🔍 Audit Process
 
-### What websites can I audit?
+### How accurate are the audit results?
+Our audits use the same core metrics as Google Search Console and PageSpeed Insights, enhanced with AI analysis for deeper insights. Results are highly accurate and aligned with Google's ranking factors.
 
-You can audit any publicly accessible website. This includes:
+### What does a comprehensive audit include?
+- **Technical SEO**: SSL, speed, mobile-friendliness, crawlability
+- **Content Analysis**: Title tags, meta descriptions, headers, keyword optimization
+- **Performance Metrics**: Core Web Vitals, loading speed, compression
+- **Link Analysis**: Internal/external links, anchor text, link quality
+- **AI Recommendations**: Personalized improvement strategies
 
+### How often should I run audits?
+- **After changes**: Immediately after implementing SEO improvements
+- **Weekly**: During active optimization periods
+- **Monthly**: For ongoing monitoring and maintenance
+- **Before campaigns**: Prior to launching new content or features
+
+### Can I audit any website?
+Yes! You can audit any publicly accessible website, including:
 - Your own websites
-- Client websites (with permission)
-- Competitor websites (for analysis)
-- E-commerce sites
-- Blogs and content sites
+- Competitor websites
+- Client websites (for agencies)
 - Local business websites
 
-## Pricing and Plans
+## 💰 Pricing & Plans
 
-### What plans do you offer?
+### Is there a free trial?
+Yes! Every new account includes 3 free audits to test the platform and see the quality of our analysis.
 
-**Free Plan** - $0/month
-
-- 5 audits per month
-- Basic SEO analysis
-- Core Web Vitals
-- Email support
-
-**Pro Plan** - $49/month
-
-- 100 audits per month
-- Advanced AI recommendations
-- Historical tracking
-- Priority support
-- API access
-
-**Agency Plan** - $199/month
-
-- 1,000 audits per month
-- White-label reports
-- Team collaboration
-- Custom branding
-- Dedicated support
+### What's included in each plan?
+- **Starter ($29/month)**: 50 audits, basic reports, email support
+- **Professional ($99/month)**: 200 audits, advanced features, priority support
+- **Agency ($299/month)**: 1000 audits, white-label reports, team collaboration
+- **Enterprise (Custom)**: Unlimited audits, custom integrations, dedicated support
 
 ### Can I change plans anytime?
+Absolutely! Upgrade or downgrade your plan at any time. Changes take effect immediately, and you're only charged for what you use.
 
-Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately, and billing is prorated.
+### Do you offer discounts?
+- **Annual billing**: Save 20% when paying yearly
+- **Non-profits**: 50% discount for qualified organizations
+- **Students**: Educational discounts available
+- **Agencies**: Volume discounts for 10+ team members
 
-### Do you offer refunds?
-
-We offer a 30-day money-back guarantee for paid plans. If you're not satisfied, contact support for a full refund.
-
-## Technical Questions
-
-### How long does an audit take?
-
-Most audits complete within 30-60 seconds, depending on:
-
-- Website size and complexity
-- Server response times
-- Number of pages analyzed
-- Current system load
-
-### What does the SEO score mean?
-
-Our SEO score (0-100) is calculated based on:
-
-- **Technical SEO** (40%): Meta tags, site structure, crawlability
-- **Performance** (30%): Core Web Vitals, page speed
-- **Content** (20%): Content quality, keyword optimization
-- **Mobile** (10%): Mobile-friendliness, responsive design
-
-### Can I audit password-protected sites?
-
-Currently, we can only audit publicly accessible pages. Support for password-protected sites is planned for a future release.
-
-### How accurate are the results?
-
-Our audits use the same technologies as major search engines:
-
-- Chrome DevTools for performance metrics
-- Google's mobile-friendly test algorithms
-- W3C validation standards
-- Industry best practices
-
-Results are highly accurate, but should be verified with additional tools for critical decisions.
-
-## Features and Usage
-
-### Can I schedule recurring audits?
-
-Yes! Pro and Agency plans include scheduled audits:
-
-- Weekly, monthly, or quarterly frequency
-- Automatic email reports
-- Progress tracking over time
-- Alert notifications for issues
-
-### How do I export audit results?
-
-Audit results can be exported in multiple formats:
-
-- **PDF Reports**: Professional, branded reports
-- **CSV Data**: Raw data for analysis
-- **JSON**: For developer integrations
-- **White-label PDF**: Agency plan only
-
-### Can I audit multiple pages at once?
-
-Currently, each audit focuses on a single page for detailed analysis. Bulk auditing features are planned for future releases.
+## 🔧 Technical Questions
 
 ### What browsers do you support?
-
-Neon SEO Beacon works in all modern browsers:
-
+Neon SEO Beacon works on all modern browsers:
 - Chrome (recommended)
 - Firefox
 - Safari
 - Edge
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-For best results, use the latest version of your browser.
+### Do you have an API?
+Yes! Our RESTful API allows you to:
+- Integrate audits into your workflow
+- Build custom dashboards
+- Automate regular monitoring
+- Create white-label solutions
 
-## API and Integrations
-
-### Do you offer API access?
-
-Yes! Pro and Agency plans include full API access:
-
-- RESTful API with comprehensive documentation
-- Real-time audit triggering
-- Result retrieval and export
-- Webhook notifications
-- Rate limiting based on plan
-
-### Can I integrate with other tools?
-
-We support integrations with popular tools:
-
-- Google Analytics
-- Google Search Console
-- Slack notifications
-- Zapier workflows
-- Custom webhooks
-
-### Is there an API rate limit?
-
-Yes, rate limits depend on your plan:
-
-- **Pro Plan**: 1,000 requests/hour
-- **Agency Plan**: 10,000 requests/hour
-
-## Support and Training
-
-### What support do you offer?
-
-**Free Plan**:
-
-- Email support (48-hour response)
-- Knowledge base access
-- Community forum
-
-**Pro Plan**:
-
-- Priority email support (24-hour response)
-- Live chat during business hours
-- Video tutorials
-
-**Agency Plan**:
-
-- Dedicated support representative
-- Phone support
-- Custom training sessions
-- Implementation assistance
-
-### Do you provide training?
-
-Yes! We offer various training resources:
-
-- **Free Webinars**: Monthly SEO training sessions
-- **Video Tutorials**: Step-by-step guides
-- **Knowledge Base**: Comprehensive documentation
-- **Custom Training**: Available for Agency plans
-
-### How do I contact support?
-
-- **Email**: support@neonseobeacon.com
-- **Live Chat**: Available in your dashboard
-- **Phone**: Agency plan customers receive direct phone support
-- **Community**: Join our user forum for peer support
-
-## Data and Privacy
+### Can I export my data?
+Yes! Export options include:
+- **PDF Reports**: Professional, branded reports
+- **CSV Data**: Raw data for analysis
+- **JSON**: Developer-friendly format
+- **API Access**: Real-time data integration
 
 ### Is my data secure?
+Absolutely! We implement:
+- **SSL encryption** for all data transmission
+- **SOC 2 compliance** for enterprise security
+- **GDPR compliance** for data privacy
+- **Regular security audits** and penetration testing
 
-Yes, we take security seriously:
+## 🎯 Features & Functionality
 
-- All data encrypted in transit and at rest
-- SOC 2 Type II compliant infrastructure
-- Regular security audits
-- GDPR compliant data processing
-- No data sharing with third parties
+### What makes your AI recommendations special?
+Our AI uses Claude (Anthropic) to analyze your specific website context and provide:
+- **Personalized strategies** based on your industry and goals
+- **Implementation prioritization** by impact and difficulty
+- **Step-by-step instructions** with time estimates
+- **Competitive insights** and opportunity identification
 
-### How long do you store audit data?
+### Can I track my progress over time?
+Yes! Our dashboard includes:
+- **Historical score tracking** with trend analysis
+- **Before/after comparisons** for implemented changes
+- **Issue resolution monitoring** to track fixed problems
+- **Performance benchmarking** against industry standards
 
-- **Free Plan**: 30 days
-- **Pro Plan**: 1 year
-- **Agency Plan**: 2 years
+### Do you support team collaboration?
+Professional and higher plans include:
+- **Multi-user accounts** with role-based permissions
+- **Shared dashboards** for team visibility
+- **Audit assignment** and progress tracking
+- **Notification systems** for important updates
 
-You can export your data at any time before deletion.
+### Can I white-label reports for clients?
+Yes! Agency and Enterprise plans include:
+- **Custom branding** with your logo and colors
+- **Branded PDF reports** for client delivery
+- **Custom domain** options for your audit portal
+- **Reseller licensing** opportunities
 
-### Can I delete my data?
+## 🆘 Support & Help
 
-Yes, you can delete individual audits or your entire account at any time. Data deletion is permanent and cannot be recovered.
+### How do I get help if I'm stuck?
+Multiple support options available:
+- **Knowledge Base**: Comprehensive guides and tutorials
+- **Email Support**: Direct help from our expert team
+- **Live Chat**: Real-time assistance during business hours
+- **Video Tutorials**: Step-by-step visual guides
 
-## Troubleshooting
+### What's your response time for support?
+- **Starter Plan**: 24-48 hours via email
+- **Professional Plan**: 12-24 hours via email
+- **Agency Plan**: 4-12 hours with priority support
+- **Enterprise Plan**: 1-4 hours with dedicated account manager
 
-### Why did my audit fail?
+### Do you offer training or onboarding?
+Yes! We provide:
+- **Self-service onboarding** with guided tutorials
+- **Group training sessions** for teams
+- **One-on-one consultations** for Enterprise clients
+- **Best practices workshops** for agencies
 
-Common reasons for audit failures:
+## 🌟 Advanced Features
 
-- Website is offline or inaccessible
-- Server blocking our crawler
-- Invalid or malformed URL
-- Website requires authentication
-- Temporary network issues
+### Can I integrate with other tools?
+Yes! Popular integrations include:
+- **Google Analytics**: Correlate SEO improvements with traffic
+- **Google Search Console**: Enhanced keyword and performance data
+- **WordPress**: Direct plugin for automatic monitoring
+- **Slack/Teams**: Notifications and alerts
+- **Zapier**: Connect with 5000+ apps
 
-Try running the audit again, or contact support if problems persist.
+### Do you monitor competitor websites?
+Absolutely! You can:
+- **Audit competitor sites** to identify their strengths/weaknesses
+- **Set up monitoring** for regular competitor analysis
+- **Compare performance** side-by-side with benchmarking
+- **Identify opportunities** where you can outperform competition
 
-### Why is my SEO score lower than expected?
+### What about international SEO?
+Our platform supports:
+- **Multi-language websites** with proper analysis
+- **Regional performance** testing from different locations
+- **Hreflang validation** for international targeting
+- **Local SEO factors** for location-based businesses
 
-SEO scores reflect technical implementation, not content quality or rankings. Common reasons for lower scores:
+## 🚀 Future Development
 
-- Missing or duplicate meta tags
-- Slow page loading times
-- Mobile usability issues
-- Technical SEO problems
-- Large image files
+### What new features are coming?
+Our roadmap includes:
+- **Enhanced AI capabilities** with GPT-4 integration
+- **Automated monitoring** with smart alerts
+- **Content optimization** suggestions and generation
+- **Advanced competitor analysis** with market insights
+- **Mobile app** for on-the-go monitoring
 
-Use our AI recommendations to identify specific improvements.
-
-### Can I get a second opinion on results?
-
-Absolutely! We recommend:
-
-- Cross-referencing with Google Search Console
-- Using additional SEO tools for verification
-- Consulting with SEO professionals
-- Testing recommendations in staging environments
+### How do I request new features?
+We love feedback! Submit requests through:
+- **Feature request form** in your dashboard
+- **Email our product team** directly
+- **Community forum** where others can vote on ideas
+- **Quarterly user surveys** and feedback sessions
 
 ---
 
-## Still Have Questions?
+## 📞 Still Have Questions?
 
 Can't find what you're looking for? We're here to help!
 
-- **Search our Knowledge Base**: [help.neonseobeacon.com]()
-- **Contact Support**: support@neonseobeacon.com
-- **Join the Community**: [community.neonseobeacon.com]()
-- **Schedule a Demo**: [Book a 15-minute demo call]()
+- **Email**: support@neonseobeacon.com
+- **Live Chat**: Available 9 AM - 6 PM EST
+- **Knowledge Base**: [docs.neonseobeacon.com](/)
+- **Community**: [community.neonseobeacon.com](/)
 
-_Most support requests are answered within 24 hours._
+*We typically respond within 2 hours during business hours.*
