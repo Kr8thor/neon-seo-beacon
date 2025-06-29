@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run type-check:*)",
+      "Bash(npm run lint)",
+      "Bash(npm install)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(npm run dev:*)",
+      "Bash(rm:*)",
+      "Bash(grep:*)",
+      "Bash(node:*)",
+      "Bash(npm --version)",
+      "Bash(cp:*)",
+      "Bash(curl:*)",
+      "Bash(ss:*)",
+      "Bash(for file in server/api/audits/index.get.ts server/api/audits/[id]/progress.get.ts server/api/audits/[id].get.ts server/api/seo/analyze.post.ts)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(done)",
+      "Bash(timeout 30s npm run dev)",
+      "Bash(npm install:*)",
+      "Bash(npx nuxt build:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(npx playwright:*)",
+      "Bash(./fix-phase3-v2.bat)",
+      "Bash(npm run test:all:phase3:*)",
+      "Bash(VITEST=true npm run test:all:phase3)",
+      "Bash(pkill:*)",
+      "Bash(true)",
+      "Bash(npm run test:unit:*)",
+      "Bash(npm run test:integration:*)",
+      "Bash(./verify-phase3.bat)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 300 npm run build)",
+      "Bash(git rm:*)",
+      "Bash(railway --version)",
+      "Bash(npm ci:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": []
+  }
+}
