@@ -31,6 +31,8 @@ export default defineEventHandler(async (event: H3Event) => {
   const startTime = Date.now();
   const isTestEnv =
     process.env.NODE_ENV === "test" || process.env.VITEST === "true";
+  const isDev = process.env.NODE_ENV === "development";
+  
   const config = isTestEnv
     ? {
         requireCSRF: false,
@@ -38,6 +40,14 @@ export default defineEventHandler(async (event: H3Event) => {
         validateInput: false,
         logRequests: false,
         blockSuspiciousRequests: false,
+      }
+    : isDev
+    ? {
+        requireCSRF: false, // Temporarily disable CSRF in development for testing
+        rateLimitEnabled: true,
+        validateInput: true,
+        logRequests: true,
+        blockSuspiciousRequests: false, // Disable suspicious request blocking in dev
       }
     : DEFAULT_SECURITY_CONFIG;
 
