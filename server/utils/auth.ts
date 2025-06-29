@@ -10,10 +10,10 @@ interface User {
 }
 
 export async function getCurrentUser(event: H3Event): Promise<User | null> {
+  const config = useRuntimeConfig();
+  const authHeader = getHeader(event, "authorization");
+  
   try {
-    const config = useRuntimeConfig();
-    const authHeader = getHeader(event, "authorization");
-
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return null;
     }
@@ -39,10 +39,10 @@ export async function getCurrentUser(event: H3Event): Promise<User | null> {
 export async function getUserFromSupabase(
   event: H3Event,
 ): Promise<User | null> {
+  const supabase = createSupabaseClient();
+  const authHeader = getHeader(event, "authorization");
+  
   try {
-    const supabase = createSupabaseClient();
-    const authHeader = getHeader(event, "authorization");
-
     if (!authHeader) {
       return null;
     }

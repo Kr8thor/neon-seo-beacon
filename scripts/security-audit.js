@@ -5,8 +5,8 @@
  * Tests all security implementations and configurations
  */
 
-const { execSync } = require("child_process");
-const { readFileSync, existsSync } = require("fs");
+import { execSync } from "child_process";
+import { readFileSync, existsSync } from "fs";
 
 class SecurityAuditor {
   constructor() {
@@ -283,9 +283,15 @@ class SecurityAuditor {
 }
 
 // Run the security audit
-if (require.main === module) {
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+if (import.meta.url === `file://${process.argv[1]}`) {
   const auditor = new SecurityAuditor();
   auditor.runAllTests().catch(console.error);
 }
 
-module.exports = SecurityAuditor;
+export default SecurityAuditor;
