@@ -1,113 +1,108 @@
 <template>
-  <div :class="containerClass">
-    <div :class="spinnerClass"></div>
-    <p v-if="message" :class="messageClass">{{ message }}</p>
+  <div 
+    class="inline-flex items-center justify-center"
+    :class="containerClasses"
+  >
+    <!-- Modern gradient spinner -->
+    <div 
+      class="relative"
+      :class="sizeClasses"
+    >
+      <div 
+        class="absolute inset-0 rounded-full animate-spin"
+        :class="[
+          sizeClasses,
+          spinnerClasses
+        ]"
+        style="background: conic-gradient(from 90deg, transparent, #3B82F6, transparent);"
+      />
+      <div 
+        class="absolute inset-1 rounded-full bg-white dark:bg-gray-900"
+        :class="innerClasses"
+      />
+    </div>
+    
+    <!-- Progress dots -->
+    <div v-if="showDots" class="ml-3 flex space-x-1">
+      <div
+        v-for="i in 3"
+        :key="i"
+        class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"
+        :style="{ animationDelay: `${(i - 1) * 0.15}s` }"
+      />
+    </div>
+    
+    <span v-if="text" class="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+      {{ text }}
+    </span>
   </div>
 </template>
 
-<script setup>
-const props = defineProps({
-  size: {
-    type: String,
-    default: 'md',
-    validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
-  },
-  message: {
-    type: String,
-    default: ''
-  },
-  center: {
-    type: Boolean,
-    default: true
-  },
-  color: {
-    type: String,
-    default: 'blue',
-    validator: (value) => ['blue', 'white', 'gray'].includes(value)
-  }
+<script setup lang="ts">
+interface Props {
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  variant?: 'primary' | 'secondary' | 'accent'
+  text?: string
+  showDots?: boolean
+  fullScreen?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  variant: 'primary',
+  text: '',
+  showDots: true,
+  fullScreen: false
 })
 
-const containerClass = computed(() => {
-  const classes = []
-  
-  if (props.center) {
-    classes.push('flex flex-col items-center justify-center')
-  }
-  
-  if (props.message) {
-    classes.push('space-y-2')
-  }
-  
-  return classes.join(' ')
-})
-
-const spinnerClass = computed(() => {
-  const classes = ['animate-spin rounded-full border-2']
-  
-  // Size classes
+const sizeClasses = computed(() => {
   switch (props.size) {
-    case 'sm':
-      classes.push('w-4 h-4')
-      break
-    case 'md':
-      classes.push('w-6 h-6')
-      break
-    case 'lg':
-      classes.push('w-8 h-8')
-      break
-    case 'xl':
-      classes.push('w-12 h-12')
-      break
+    case 'sm': return 'h-4 w-4'
+    case 'lg': return 'h-8 w-8'
+    case 'xl': return 'h-12 w-12'
+    default: return 'h-6 w-6'
   }
-  
-  // Color classes
-  switch (props.color) {
-    case 'blue':
-      classes.push('border-gray-300 border-t-blue-600')
-      break
-    case 'white':
-      classes.push('border-gray-400 border-t-white')
-      break
-    case 'gray':
-      classes.push('border-gray-300 border-t-gray-600')
-      break
-  }
-  
-  return classes.join(' ')
 })
 
-const messageClass = computed(() => {
-  const classes = ['text-center']
-  
-  // Size-based text classes
+const innerClasses = computed(() => {
   switch (props.size) {
-    case 'sm':
-      classes.push('text-xs')
-      break
-    case 'md':
-      classes.push('text-sm')
-      break
-    case 'lg':
-      classes.push('text-base')
-      break
-    case 'xl':
-      classes.push('text-lg')
-      break
+    case 'sm': return 'inset-0.5'
+    case 'lg': return 'inset-1.5'
+    case 'xl': return 'inset-2'
+    default: return 'inset-1'
   }
-  
-  // Color classes for text
-  switch (props.color) {
-    case 'blue':
-      classes.push('text-gray-600')
-      break
-    case 'white':
-      classes.push('text-white')
-      break
-    case 'gray':
-      classes.push('text-gray-600')
-      break
+})
+
+const spinnerClasses = computed(() => {
+  const base = 'opacity-75'
+  switch (props.variant) {
+    case 'secondary': 
+      return `${base} shadow-lg`
+    case 'accent': 
+      return `${base} shadow-xl`
+    default: 
+      return `${base} shadow-md`
   }
-  
-  return classes.join(' ')
+})
+
+const containerClasses = computed(() => {
+  return props.fullScreen 
+    ? 'fixed inset-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm'
+    : 'p-2'
 })
 </script>
+
+<style scoped>
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+</style>

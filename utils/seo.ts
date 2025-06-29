@@ -51,15 +51,15 @@ export function calculateReadingTime(text: string, wordsPerMinute = 200): string
  */
 export function extractMetaDescription(html: string): string {
   const match = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["'][^>]*>/i)
-  return match ? match[1] : ''
+  return match?.[1] ?? ''
 }
 
 /**
  * Extract title from HTML
  */
 export function extractTitle(html: string): string {
-  const match = html.match(/<title[^>]*>([^<]*)<\/title>/i)
-  return match ? match[1] : ''
+  const match = html.match(/<title[^>]*>(.*?)<\/title>/is)
+  return match?.[1] ?? ''
 }
 
 /**
@@ -157,8 +157,8 @@ export function generateOGImage({
   template?: string
 }): string {
   const params = new URLSearchParams({
-    title,
-    template
+    title: title || '',
+    template: template || 'default'
   })
   
   if (description) {
@@ -280,7 +280,7 @@ export function generateBreadcrumbStructuredData(breadcrumbs: Array<{ name: stri
 /**
  * Check if image has proper alt text
  */
-export function validateImageAlt(altText: string, filename: string): {
+export function validateImageAlt(altText: string, filename?: string): {
   isValid: boolean
   feedback: string
 } {
@@ -305,11 +305,19 @@ export function validateImageAlt(altText: string, filename: string): {
     }
   }
   
-  // Check if alt text is just the filename
-  if (altText.toLowerCase().includes(filename.toLowerCase().replace(/\.[^/.]+$/, ""))) {
-    return {
-      isValid: false,
-      feedback: 'Alt text appears to be just the filename - make it more descriptive'
+  // Check if alt text is just the filename (only if filename provided)
+  if (filename) {
+    const baseFilename = filename.toLowerCase().replace(/\.[^/.]+$/, "")
+    const altTextLower = altText.toLowerCase().trim()
+    
+    // Only reject if alt text is EXACTLY the filename or very similar (not if it just contains the word)
+    if (altTextLower === baseFilename || 
+        altTextLower === baseFilename.replace(/[-_]/g, ' ') ||
+        altTextLower.split(/\s+/).length <= 2 && altTextLower.includes(baseFilename)) {
+      return {
+        isValid: false,
+        feedback: 'Alt text appears to be just the filename - make it more descriptive'
+      }
     }
   }
   

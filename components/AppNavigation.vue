@@ -8,9 +8,14 @@
             <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
               <span class="text-white font-bold text-sm">N</span>
             </div>
-            <span class="font-bold text-xl text-gray-900">
-              Neon SEO Beacon
-            </span>
+            <div class="flex flex-col">
+              <span class="font-bold text-xl text-gray-900">
+                Neon SEO Beacon
+              </span>
+              <span class="text-xs text-gray-500 font-medium -mt-1">
+                Powered by MardenSEO
+              </span>
+            </div>
           </NuxtLink>
         </div>
         
@@ -151,6 +156,9 @@
 <script setup>
 import { ChevronDownIcon, Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
+// Nuxt composables
+const route = useRoute()
+
 // Supabase auth
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
@@ -214,7 +222,7 @@ onMounted(() => {
 })
 
 // Close mobile menu on route change
-watch(() => $route.path, () => {
+watch(() => route.path, () => {
   showMobileMenu.value = false
   showUserMenu.value = false
 })

@@ -1,4 +1,9 @@
-export default defineEventHandler(async (event) => {
+import type { H3Event } from 'h3'
+import { createSupabaseClient } from '~/server/utils/supabase'
+import { logger } from '~/server/utils/logger'
+import { getCurrentUser } from '~/server/utils/auth'
+
+export default defineEventHandler(async (event: H3Event) => {
   try {
     const auditId = getRouterParam(event, 'id')
     
@@ -26,7 +31,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Verify audit belongs to user
-    const supabase = serverSupabaseServiceRole(event)
+    const supabase = createSupabaseClient()
     const { data: audit, error } = await supabase
       .from('audits')
       .select('id, status, user_id')
@@ -90,7 +95,7 @@ export default defineEventHandler(async (event) => {
               }
             }
           } catch (error) {
-            console.error('Progress monitoring error:', error)
+            logger.error('Progress monitoring error', error)
             clearInterval(progressInterval)
             controller.error(error)
           }
@@ -105,8 +110,8 @@ export default defineEventHandler(async (event) => {
     })
 
     return stream
-  } catch (error) {
-    console.error('Progress stream error:', error)
+  } catch (error: any) {
+    logger.error('Progress stream error', error)
     
     if (error.statusCode) {
       throw error
@@ -118,8 +123,3 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
-
-async function getCurrentUser(event) {
-  const supabase = serverSupabaseUser(event)
-  return supabase
-}

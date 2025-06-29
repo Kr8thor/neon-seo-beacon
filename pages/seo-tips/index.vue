@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
     <!-- Header -->
-    <section class="bg-white border-b">
+    <section class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
       <div class="max-w-7xl mx-auto px-4 py-12">
         <div class="text-center">
-          <h1 class="text-4xl font-bold text-gray-900 mb-4">
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             SEO Tips & Guides
           </h1>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Learn the latest SEO strategies, techniques, and best practices to improve your website's search rankings.
           </p>
         </div>
@@ -20,169 +20,85 @@
                 v-model="searchQuery"
                 type="text"
                 placeholder="Search articles..."
-                class="input w-full"
+                class="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm transition-all duration-200"
               />
             </div>
             <select 
               v-model="selectedCategory"
-              class="input sm:w-48"
+              class="px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent backdrop-blur-sm transition-all duration-200 sm:w-48"
             >
               <option value="">All Categories</option>
-              <option 
-                v-for="category in categories" 
-                :key="category.category"
-                :value="category.category"
-              >
-                {{ category.category }} ({{ category.count }})
-              </option>
+              <option value="technical">Technical SEO</option>
+              <option value="content">Content Optimization</option>
+              <option value="local">Local SEO</option>
+              <option value="analytics">Analytics & Tracking</option>
             </select>
-          </div>
-          
-          <!-- Tags Filter -->
-          <div v-if="tags.length" class="mt-4">
-            <div class="flex flex-wrap gap-2">
-              <button
-                v-for="tag in tags.slice(0, 10)" 
-                :key="tag.tag"
-                @click="toggleTag(tag.tag)"
-                :class="[
-                  'px-3 py-1 rounded-full text-sm transition-colors',
-                  selectedTags.includes(tag.tag)
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                ]"
-              >
-                #{{ tag.tag }} ({{ tag.count }})
-              </button>
-            </div>
           </div>
         </div>
       </div>
     </section>
     
-    <!-- Featured Articles -->
-    <section v-if="featuredArticles.length && !searchQuery && !selectedCategory && !selectedTags.length" class="py-16">
+    <!-- Articles Section -->
+    <section class="py-16">
       <div class="max-w-7xl mx-auto px-4">
-        <h2 class="text-2xl font-bold text-gray-900 mb-8">Featured Articles</h2>
-        <div class="grid md:grid-cols-3 gap-8">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+          {{ getArticlesSectionTitle() }}
+        </h2>
+        
+        <!-- Loading State -->
+        <div v-if="isLoading" class="flex justify-center py-12">
+          <LoadingSpinner size="lg" text="Loading articles..." />
+        </div>
+        
+        <!-- Articles Grid -->
+        <div v-else-if="filteredArticles.length > 0" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <article 
-            v-for="article in featuredArticles" 
-            :key="article._path"
-            class="group"
+            v-for="article in paginatedArticles" 
+            :key="article.id"
+            class="group glass rounded-2xl overflow-hidden border border-white/20 hover-scale"
           >
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-              <div v-if="article.image" class="aspect-video">
-                <img 
-                  :src="article.image" 
-                  :alt="article.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
+            <div v-if="article.image" class="aspect-video">
+              <img 
+                :src="article.image" 
+                :alt="article.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-6">
+              <div v-if="article.category" class="mb-3">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                  {{ article.category }}
+                </span>
               </div>
-              <div class="p-6">
-                <div v-if="article.category" class="mb-3">
-                  <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    {{ article.category }}
-                  </span>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                  <NuxtLink :to="article._path">
-                    {{ article.title }}
-                  </NuxtLink>
-                </h3>
-                <p class="text-gray-600 mb-4">{{ article.description }}</p>
-                <div class="flex items-center justify-between text-sm text-gray-500">
-                  <span>{{ formatDate(article.publishedAt) }}</span>
-                  <span v-if="article.readingTime">{{ article.readingTime }} min read</span>
-                </div>
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <a :href="article.url" class="hover:underline">
+                  {{ article.title }}
+                </a>
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">{{ article.description }}</p>
+              <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                <span>{{ formatDate(article.publishedAt) }}</span>
+                <span v-if="article.readingTime">{{ article.readingTime }} min read</span>
               </div>
             </div>
           </article>
-        </div>
-      </div>
-    </section>
-    
-    <!-- Articles Grid -->
-    <section class="py-16">
-      <div class="max-w-7xl mx-auto px-4">
-        <div class="flex items-center justify-between mb-8">
-          <h2 class="text-2xl font-bold text-gray-900">
-            {{ getArticlesSectionTitle() }}
-          </h2>
-          <span class="text-gray-500">
-            {{ filteredArticles.length }} article{{ filteredArticles.length !== 1 ? 's' : '' }}
-          </span>
-        </div>
-        
-        <!-- Loading State -->
-        <div v-if="pending" class="flex justify-center py-12">
-          <LoadingSpinner message="Loading articles..." />
         </div>
         
         <!-- No Results -->
-        <div v-else-if="filteredArticles.length === 0" class="text-center py-12">
-          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <MagnifyingGlassIcon class="w-8 h-8 text-gray-400" />
+        <div v-else class="text-center py-12">
+          <div class="text-gray-400 dark:text-gray-500 mb-4">
+            <svg class="mx-auto h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">No articles found</h3>
-          <p class="text-gray-600 mb-4">Try adjusting your search or filter criteria.</p>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No articles found</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Try adjusting your search or filters</p>
           <button 
             @click="clearFilters"
-            class="btn btn-outline"
+            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
           >
             Clear Filters
           </button>
-        </div>
-        
-        <!-- Articles List -->
-        <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <article 
-            v-for="article in paginatedArticles" 
-            :key="article._path"
-            class="group"
-          >
-            <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden h-full flex flex-col">
-              <div v-if="article.image" class="aspect-video">
-                <img 
-                  :src="article.image" 
-                  :alt="article.title"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div class="p-6 flex-1 flex flex-col">
-                <div class="flex-1">
-                  <div v-if="article.category" class="mb-3">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {{ article.category }}
-                    </span>
-                  </div>
-                  <h3 class="text-lg font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                    <NuxtLink :to="article._path">
-                      {{ article.title }}
-                    </NuxtLink>
-                  </h3>
-                  <p class="text-gray-600 mb-4">{{ article.description }}</p>
-                  
-                  <!-- Tags -->
-                  <div v-if="article.tags?.length" class="mb-4">
-                    <div class="flex flex-wrap gap-1">
-                      <span 
-                        v-for="tag in article.tags.slice(0, 3)" 
-                        :key="tag"
-                        class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded"
-                      >
-                        #{{ tag }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="flex items-center justify-between text-sm text-gray-500 mt-auto">
-                  <span>{{ formatDate(article.publishedAt) }}</span>
-                  <span v-if="article.readingTime">{{ article.readingTime }} min read</span>
-                </div>
-              </div>
-            </div>
-          </article>
         </div>
         
         <!-- Pagination -->
@@ -191,7 +107,7 @@
             <button 
               @click="currentPage = Math.max(1, currentPage - 1)"
               :disabled="currentPage === 1"
-              class="btn btn-outline disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
@@ -205,7 +121,7 @@
                   'px-3 py-2 text-sm font-medium rounded-lg transition-colors',
                   currentPage === page 
                     ? 'bg-blue-600 text-white' 
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                 ]"
               >
                 {{ page }}
@@ -215,7 +131,7 @@
             <button 
               @click="currentPage = Math.min(totalPages, currentPage + 1)"
               :disabled="currentPage === totalPages"
-              class="btn btn-outline disabled:opacity-50 disabled:cursor-not-allowed"
+              class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
@@ -226,43 +142,81 @@
   </div>
 </template>
 
-<script setup>
-import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-
-const { getFeaturedTips, getAllTags, getAllCategories } = useContent()
-const { setPageMeta } = useSEO()
+<script setup lang="ts">
+// Mock SEO articles data (replace with real data from your CMS/API)
+const mockArticles = [
+  {
+    id: 1,
+    title: "Technical SEO Fundamentals: A Complete Guide",
+    description: "Master the technical aspects of SEO including site structure, crawling, indexing, and Core Web Vitals optimization.",
+    category: "technical",
+    image: "/images/seo-tips/technical-seo.jpg",
+    url: "/seo-tips/technical-seo-fundamentals",
+    publishedAt: "2025-06-20",
+    readingTime: 12
+  },
+  {
+    id: 2,
+    title: "Content Optimization Strategies That Work",
+    description: "Learn how to create and optimize content that ranks well and provides value to your audience.",
+    category: "content",
+    image: "/images/seo-tips/content-optimization.jpg",
+    url: "/seo-tips/content-optimization-strategies",
+    publishedAt: "2025-06-18",
+    readingTime: 8
+  },
+  {
+    id: 3,
+    title: "Local SEO: Dominate Your Local Market",
+    description: "Complete guide to local SEO including Google My Business optimization, local citations, and review management.",
+    category: "local",
+    image: "/images/seo-tips/local-seo.jpg",
+    url: "/seo-tips/local-seo-guide",
+    publishedAt: "2025-06-15",
+    readingTime: 10
+  },
+  {
+    id: 4,
+    title: "SEO Analytics: Measuring What Matters",
+    description: "Set up proper SEO tracking and learn which metrics actually indicate SEO success.",
+    category: "analytics",
+    image: "/images/seo-tips/seo-analytics.jpg",
+    url: "/seo-tips/seo-analytics-guide",
+    publishedAt: "2025-06-12",
+    readingTime: 15
+  },
+  {
+    id: 5,
+    title: "Core Web Vitals Optimization Guide",
+    description: "Improve your Core Web Vitals scores and boost both user experience and search rankings.",
+    category: "technical",
+    image: "/images/seo-tips/core-web-vitals.jpg",
+    url: "/seo-tips/core-web-vitals-optimization",
+    publishedAt: "2025-06-10",
+    readingTime: 9
+  },
+  {
+    id: 6,
+    title: "Keyword Research in 2025: Advanced Techniques",
+    description: "Modern keyword research strategies using semantic search and user intent analysis.",
+    category: "content",
+    image: "/images/seo-tips/keyword-research.jpg",
+    url: "/seo-tips/keyword-research-2025",
+    publishedAt: "2025-06-08",
+    readingTime: 11
+  }
+]
 
 // Reactive data
 const searchQuery = ref('')
 const selectedCategory = ref('')
-const selectedTags = ref([])
 const currentPage = ref(1)
-const articlesPerPage = 12
-
-// Load data
-const { data: allArticles, pending } = await useAsyncData('seo-tips', () => {
-  return queryContent('/seo-tips')
-    .sort({ publishedAt: -1 })
-    .find()
-})
-
-const { data: featuredArticles } = await useAsyncData('featured-tips', () => {
-  return getFeaturedTips(3)
-})
-
-const { data: tags } = await useAsyncData('seo-tips-tags', () => {
-  return getAllTags()
-})
-
-const { data: categories } = await useAsyncData('seo-tips-categories', () => {
-  return getAllCategories()
-})
+const isLoading = ref(false)
+const articlesPerPage = 6
 
 // Computed properties
 const filteredArticles = computed(() => {
-  if (!allArticles.value) return []
-  
-  let filtered = allArticles.value
+  let filtered = mockArticles
   
   // Search filter
   if (searchQuery.value) {
@@ -270,7 +224,7 @@ const filteredArticles = computed(() => {
     filtered = filtered.filter(article => 
       article.title.toLowerCase().includes(query) ||
       article.description.toLowerCase().includes(query) ||
-      article.tags?.some(tag => tag.toLowerCase().includes(query))
+      article.category.toLowerCase().includes(query)
     )
   }
   
@@ -279,21 +233,16 @@ const filteredArticles = computed(() => {
     filtered = filtered.filter(article => article.category === selectedCategory.value)
   }
   
-  // Tags filter
-  if (selectedTags.value.length) {
-    filtered = filtered.filter(article => 
-      selectedTags.value.every(tag => article.tags?.includes(tag))
-    )
-  }
-  
   return filtered
 })
 
 const totalPages = computed(() => {
+  if (!filteredArticles.value || filteredArticles.value.length === 0) return 1
   return Math.ceil(filteredArticles.value.length / articlesPerPage)
 })
 
 const paginatedArticles = computed(() => {
+  if (!filteredArticles.value) return []
   const start = (currentPage.value - 1) * articlesPerPage
   const end = start + articlesPerPage
   return filteredArticles.value.slice(start, end)
@@ -304,6 +253,8 @@ const visiblePages = computed(() => {
   const current = currentPage.value
   const total = totalPages.value
   
+  if (total <= 1) return [1]
+  
   // Show 5 pages around current page
   const start = Math.max(1, current - 2)
   const end = Math.min(total, current + 2)
@@ -312,39 +263,36 @@ const visiblePages = computed(() => {
     pages.push(i)
   }
   
-  return pages
+  return pages.length > 0 ? pages : [1]
 })
 
 // Watch for filter changes and reset pagination
-watch([searchQuery, selectedCategory, selectedTags], () => {
+watch([searchQuery, selectedCategory], () => {
   currentPage.value = 1
 })
 
 // Methods
-function toggleTag(tag) {
-  const index = selectedTags.value.indexOf(tag)
-  if (index > -1) {
-    selectedTags.value.splice(index, 1)
-  } else {
-    selectedTags.value.push(tag)
-  }
-}
-
 function clearFilters() {
   searchQuery.value = ''
   selectedCategory.value = ''
-  selectedTags.value = []
   currentPage.value = 1
 }
 
 function getArticlesSectionTitle() {
   if (searchQuery.value) return 'Search Results'
-  if (selectedCategory.value) return `${selectedCategory.value} Articles`
-  if (selectedTags.value.length) return 'Tagged Articles'
-  return 'All Articles'
+  if (selectedCategory.value) {
+    const categoryNames: Record<string, string> = {
+      technical: 'Technical SEO',
+      content: 'Content Optimization',
+      local: 'Local SEO',
+      analytics: 'Analytics & Tracking'
+    }
+    return `${categoryNames[selectedCategory.value] || selectedCategory.value} Articles`
+  }
+  return 'Latest SEO Articles'
 }
 
-function formatDate(dateString) {
+function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -353,9 +301,11 @@ function formatDate(dateString) {
 }
 
 // SEO
-setPageMeta({
+useHead({
   title: 'SEO Tips & Guides | Neon SEO Beacon',
-  description: 'Learn the latest SEO strategies, techniques, and best practices. Comprehensive guides on technical SEO, content optimization, and search rankings.',
-  keywords: 'SEO tips, SEO guides, search engine optimization, SEO strategies, SEO best practices, technical SEO, content SEO'
+  meta: [
+    { name: 'description', content: 'Learn the latest SEO strategies, techniques, and best practices. Comprehensive guides on technical SEO, content optimization, and search rankings.' },
+    { name: 'keywords', content: 'SEO tips, SEO guides, search engine optimization, SEO strategies, SEO best practices, technical SEO, content SEO' }
+  ]
 })
 </script>

@@ -1,0 +1,161 @@
+import type { H3Event } from 'h3'
+import { createSupabaseClient } from '~/server/utils/supabase'
+
+export default defineEventHandler(async (event: H3Event) => {
+  try {
+    // Get request body
+    const body = await readBody(event)
+    const { url, type = 'standard' } = body
+
+    // Validate URL with comprehensive domain validation
+    if (!url || !isValidUrl(url)) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: 'Please enter a valid website URL (e.g., example.com, website.org)'
+      })
+    }
+
+    // Format URL
+    let formattedUrl = url.trim()
+    if (!formattedUrl.match(/^https?:\/\//)) {
+      formattedUrl = 'https://' + formattedUrl
+    }
+
+    // Create audit record without user requirement
+    const supabase = createSupabaseClient()
+    const { data: audit, error } = await supabase
+      .from('audits')
+      .insert({
+        user_id: null, // Public audit
+        url: formattedUrl,
+        type,
+        status: 'queued',
+        created_at: new Date().toISOString(),
+        is_public: true
+      })
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Database error:', error)
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to create audit. Please try again.'
+      })
+    }
+
+    return {
+      success: true,
+      audit: {
+        id: audit.id,
+        url: audit.url,
+        status: audit.status,
+        created_at: audit.created_at,
+        is_public: true
+      }
+    }
+    
+  } catch (error: any) {
+    console.error('Public audit error:', error)
+    
+    if (error.statusCode) {
+      throw error
+    }
+    
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Internal server error. Please try again.'
+    })
+  }
+})
+
+// Enhanced URL validation for flexible domain input
+function isValidUrl(input: string): boolean {
+  try {
+    let url = input.trim()
+    
+    // Remove protocol if present for domain validation
+    const domainParts = url.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')
+    const domain = domainParts[0]
+    
+    // Ensure domain exists and is valid
+    if (!domain || domain.length === 0) {
+      return false
+    }
+    
+    // Check if it's a valid domain with TLD (domain is guaranteed to be string here)
+    const validTLDs = /\.(com|org|net|edu|gov|mil|int|co|io|ai|app|dev|tech|biz|info|name|pro|museum|travel|jobs|mobi|tel|asia|cat|coop|xxx|post|geo|ly|me|tv|cc|tk|ml|ga|cf|ws|be|to|it|fr|de|uk|us|ca|au|jp|cn|in|br|mx|es|ru|nl|se|no|dk|fi|pl|cz|at|ch|gr|pt|ie|hu|bg|ro|hr|si|sk|lt|lv|ee|is|lu|mt|cy|ad|mc|sm|va|li|fo|gi|im|je|gg|ax|wf|pf|nc|vu|to|nu|nf|ck|pw|fm|mh|ki|nr|tv|ws|as|gu|mp|pr|vi|um)$/i
+    
+    const domainStr: string = domain; // Type assertion
+    const isValidDomain = validTLDs.test(domainStr) && domainStr.includes('.') && domainStr.length > 3
+    
+    if (!isValidDomain) {
+      return false
+    }
+    
+    // Try to create a valid URL for final validation
+    if (!url.match(/^https?:\/\//)) {
+      url = 'https://' + url
+    }
+    
+    const urlObject = new URL(url)
+    return urlObject.protocol === 'http:' || urlObject.protocol === 'https:'
+    
+  } catch (_) {
+    return false
+  }
+}
+
+// IP-based rate limiting for public access
+async function checkPublicIPRateLimit(event: H3Event): Promise<{ allowed: boolean; resetTime?: number }> {
+  const ip = getClientIP(event)
+  const now = Date.now()
+  const windowMs = 15 * 60 * 1000 // 15 minutes
+  const maxRequests = 5 // 5 audits per 15 minutes per IP
+  
+  // Simple in-memory rate limiting (use Redis in production)
+  if (!globalThis.publicRateLimitStore) {
+    globalThis.publicRateLimitStore = new Map()
+  }
+  
+  const key = `public_audit_${ip}`
+  const record = globalThis.publicRateLimitStore.get(key)
+  
+  if (!record) {
+    globalThis.publicRateLimitStore.set(key, {
+      count: 1,
+      resetTime: now + windowMs
+    })
+    return { allowed: true }
+  }
+  
+  if (now > record.resetTime) {
+    // Window expired, reset
+    globalThis.publicRateLimitStore.set(key, {
+      count: 1,
+      resetTime: now + windowMs
+    })
+    return { allowed: true }
+  }
+  
+  if (record.count >= maxRequests) {
+    return { 
+      allowed: false, 
+      resetTime: record.resetTime 
+    }
+  }
+  
+  // Increment count
+  record.count++
+  globalThis.publicRateLimitStore.set(key, record)
+  return { allowed: true }
+}
+
+// Get client IP address
+function getClientIP(event: H3Event): string {
+  return getHeader(event, 'x-forwarded-for') || 
+         getHeader(event, 'x-real-ip') || 
+         getHeader(event, 'cf-connecting-ip') || 
+         getHeader(event, 'x-client-ip') ||
+         'unknown'
+}

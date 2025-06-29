@@ -1,8 +1,8 @@
-export default defineEventHandler((event) => {
+export default defineEventHandler((event: any) => {
   const config = useRuntimeConfig()
-  const siteUrl = config.public.siteUrl || 'https://neonseobeacon.com'
+  const siteUrl = config.public.siteUrl || 'https://audit.mardenseo.com'
   
-  const robotsTxt = `# Robots.txt for Neon SEO Beacon
+  const robotsTxt = `# Robots.txt for Marden SEO Audit
 # Generated automatically
 
 User-agent: *

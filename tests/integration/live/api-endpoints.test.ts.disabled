@@ -1,0 +1,93 @@
+// tests/integration/live/api-endpoints.test.ts
+import { describe, it, expect, beforeAll, afterEach } from 'vitest'
+import { setup, $fetch } from '@nuxt/test-utils'
+import { createClient } from '@supabase/supabase-js'
+
+describe('Live API Integration Tests', () => {
+  let supabase: any
+  let testUserId: string
+
+  beforeAll(async () => {
+    await setup({
+      rootDir: process.cwd(),
+      server: true
+    })
+
+    supabase = createClient(
+      process.env.NUXT_SUPABASE_URL!,
+      process.env.NUXT_SUPABASE_SERVICE_ROLE_KEY!
+    )
+  })
+
+  afterEach(async () => {
+    // Cleanup test data after each test
+    if (testUserId) {
+      await supabase.from('audits').delete().eq('user_id', testUserId)
+      await supabase.auth.admin.deleteUser(testUserId)
+    }
+  })
+
+  it('should create user and perform complete audit flow', async () => {
+    // Step 1: Create test user
+    const { data: user, error: userError } = await supabase.auth.admin.createUser({
+      email: `test-${Date.now()}@example.com`,
+      password: 'testpassword123',
+      email_confirm: true
+    })
+
+    expect(userError).toBeNull()
+    expect(user.user).toBeDefined()
+    testUserId = user.user.id
+
+    // Step 2: Test audit creation
+    const auditResponse = await $fetch('/api/audits', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${user.session?.access_token}`
+      },
+      body: {
+        url: 'https://example.com',
+        options: {
+          includePerformance: true,
+          includeImages: true
+        }
+      }
+    })
+
+    expect(auditResponse.success).toBe(true)
+    expect(auditResponse.data).toHaveProperty('auditId')
+    
+    const auditId = auditResponse.data.auditId
+
+    // Step 3: Test progress tracking
+    let progressCompleted = false
+    let attempts = 0
+    const maxAttempts = 30
+
+    while (!progressCompleted && attempts < maxAttempts) {
+      const progressResponse = await $fetch(`/api/audits/${auditId}/progress`)
+      
+      expect(progressResponse.success).toBe(true)
+      expect(progressResponse.data).toHaveProperty('percentage')
+      
+      if (progressResponse.data.percentage === 100) {
+        progressCompleted = true
+      }
+      
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      attempts++
+    }
+
+    expect(progressCompleted).toBe(true)
+
+    // Step 4: Test audit results retrieval
+    const resultsResponse = await $fetch(`/api/audits/${auditId}`)
+    
+    expect(resultsResponse.success).toBe(true)
+    expect(resultsResponse.data).toHaveProperty('url', 'https://example.com')
+    expect(resultsResponse.data).toHaveProperty('score')
+    expect(resultsResponse.data.score).toBeGreaterThanOrEqual(0)
+    expect(resultsResponse.data.score).toBeLessThanOrEqual(100)
+    expect(resultsResponse.data).toHaveProperty('results')
+  })
+})

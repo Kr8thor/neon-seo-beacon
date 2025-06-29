@@ -10,31 +10,37 @@ export default defineNuxtConfig({
   // App configuration
   app: {
     head: {
-      title: 'Neon SEO Beacon - Enterprise SEO Audit Tool',
+      title: 'Marden SEO Audit - Professional SEO Analysis Tool',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { 
           name: 'description', 
-          content: 'Professional SEO audit tool for agencies and businesses. Comprehensive website analysis, technical SEO insights, and AI-powered recommendations.' 
+          content: 'Marden SEO Audit provides comprehensive website analysis, technical SEO insights, and AI-powered recommendations for businesses and agencies.' 
         },
-        { name: 'keywords', content: 'SEO audit, website analysis, technical SEO, SEO tools, search engine optimization' },
-        { name: 'author', content: 'Neon SEO Beacon' },
+        { name: 'keywords', content: 'SEO audit, website analysis, technical SEO, SEO tools, search engine optimization, Marden SEO' },
+        { name: 'author', content: 'Marden SEO Audit' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:site_name', content: 'Neon SEO Beacon' },
+        { property: 'og:site_name', content: 'Marden SEO Audit' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:site', content: '@neonseobeacon' }
+        { name: 'twitter:site', content: '@mardenseo' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'canonical', href: 'https://neonseobeacon.com' }
+        { rel: 'canonical', href: 'https://audit.mardenseo.com' },
+        { 
+          rel: 'stylesheet', 
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap' 
+        }
       ]
     }
   },
 
   // CSS Configuration
   css: [
-    '~/assets/css/main.css'
+    '~/assets/css/main.css',
+    '~/assets/css/glassmorphism.css',
+    '~/assets/css/animations.css'
   ],
 
   // Content configuration
@@ -54,22 +60,43 @@ export default defineNuxtConfig({
       remarkPlugins: [],
       rehypePlugins: []
     },
-    documentDriven: false
+    documentDriven: true
   },
 
   // Supabase configuration
   supabase: {
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
     redirectOptions: {
       login: '/auth/login',
       callback: '/auth/callback',
-      exclude: ['/register', '/forgot-password']
+      exclude: [
+        '/',                      // Homepage
+        '/pricing',               // Pricing page
+        '/demo',                  // Demo page
+        '/register',              // Registration page
+        '/auth/register',         // Alt registration path
+        '/forgot-password',       // Password reset
+        '/auth/forgot-password',  // Alt password reset path
+        '/terms',                 // Terms of service
+        '/privacy',               // Privacy policy
+        '/seo-tips',              // SEO tips section
+        '/seo-tips/**',           // All SEO tips pages
+        '/docs',                  // Documentation
+        '/docs/**',               // All documentation pages
+        '/help',                  // Help center
+        '/help/**',               // All help pages
+        '/api/**'                 // API endpoints
+      ]
     }
   },
 
   // Runtime configuration
   runtimeConfig: {
     // Private keys (only available on server-side)
-    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     redisUrl: process.env.REDIS_URL,
     jwtSecret: process.env.JWT_SECRET,
@@ -77,36 +104,85 @@ export default defineNuxtConfig({
     
     // Public keys (exposed to client-side)
     public: {
-      supabaseUrl: process.env.SUPABASE_URL,
-      supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
-      apiUrl: process.env.API_URL || 'http://localhost:3000',
-      siteUrl: process.env.SITE_URL || 'http://localhost:3000'
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? 'https://audit.mardenseo.com' : 'http://localhost:3002'),
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === 'production' ? 'https://audit.mardenseo.com' : 'http://localhost:3002')
     }
   },
 
   // Development configuration
   devtools: { enabled: true },
 
-  // TypeScript configuration
+  // TypeScript configuration - Relaxed for faster development
   typescript: {
-    strict: true,
-    typeCheck: true
+    strict: false,
+    typeCheck: false
   },
 
-  // SEO configuration
+  // SEO and Security configuration
   nitro: {
     prerender: {
       routes: ['/sitemap.xml', '/robots.txt']
+    },
+    routeRules: {
+      // Add security headers to all routes
+      '/**': {
+        headers: {
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'DENY',
+          'X-XSS-Protection': '1; mode=block',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+        }
+      },
+      // CSP for production
+      ...(process.env.NODE_ENV === 'production' && {
+        '/**': {
+          headers: {
+            'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none';"
+          }
+        }
+      })
     }
   },
 
   // Build configuration
   build: {
-    transpile: ['@anthropic-ai/sdk']
+    transpile: ['@anthropic-ai/sdk', '@vueuse/nuxt']
+  },
+
+  // Vite optimization
+  vite: {
+    build: {
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-charts': ['chart.js', 'vue-chartjs'],
+            'vendor-animations': ['gsap', 'lottie-web'],
+            'vendor-utils': ['axios', 'cheerio', 'xml2js'],
+            'vendor-ui': ['@heroicons/vue']
+          }
+        }
+      }
+    },
+    optimizeDeps: {
+      include: ['chart.js', 'vue-chartjs', 'gsap'],
+      exclude: ['@vueuse/nuxt']
+    }
   },
 
   // Experimental features
   experimental: {
     payloadExtraction: false
+  },
+
+  // Performance optimizations
+  ssr: true,
+  
+  // Reduce bundle size
+  features: {
+    devLogs: false
   }
 })

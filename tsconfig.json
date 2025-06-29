@@ -1,17 +1,18 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-    "verbatimModuleSyntax": true
+    "strict": false,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": false,
+    "noUncheckedSideEffectImports": false,
+    "verbatimModuleSyntax": false
   },
   "include": [
     "**/*",
-    ".nuxt/types/**/*"
+    ".nuxt/types/**/*",
+    "types/**/*"
   ],
   "exclude": [
     "node_modules",

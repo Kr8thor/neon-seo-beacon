@@ -1,9 +1,97 @@
 [
-  { "title": "Dashboard", "to": "/dashboard", "auth": true },
-  { "title": "SEO Tools", "to": "/tools", "auth": true },
-  { "title": "Knowledge Base", "to": "/seo-tips" },
-  { "title": "Documentation", "to": "/docs" },
-  { "title": "Help", "to": "/help" },
-  { "title": "API", "to": "/docs/api" },
-  { "title": "Pricing", "to": "/pricing" }
+  {
+    "title": "Getting Started",
+    "icon": "🚀",
+    "children": [
+      {
+        "title": "Getting Started Guide",
+        "to": "/help/getting-started/getting-started-guide",
+        "description": "Complete setup and onboarding guide for new users"
+      },
+      {
+        "title": "Complete SEO Checklist",
+        "to": "/help/getting-started/complete-seo-checklist",
+        "description": "100+ point comprehensive SEO implementation checklist"
+      }
+    ]
+  },
+  {
+    "title": "Technical SEO",
+    "icon": "🔧",
+    "children": [
+      {
+        "title": "Core Web Vitals Optimization",
+        "to": "/seo-tips/technical/core-web-vitals-optimization",
+        "description": "Master LCP, FID, and CLS optimization for better rankings"
+      },
+      {
+        "title": "Page Speed Optimization",
+        "to": "/seo-tips/technical/page-speed-optimization",
+        "description": "Comprehensive guide to faster website performance"
+      },
+      {
+        "title": "Mobile SEO Optimization",
+        "to": "/seo-tips/technical/mobile-seo-optimization",
+        "description": "Complete mobile-first optimization strategies"
+      },
+      {
+        "title": "Structured Data & Schema Markup",
+        "to": "/seo-tips/technical/structured-data-schema-markup",
+        "description": "Implement rich snippets with proper schema markup"
+      }
+    ]
+  },
+  {
+    "title": "On-Page SEO",
+    "icon": "📝",
+    "children": [
+      {
+        "title": "Title Tag Optimization",
+        "to": "/seo-tips/on-page/title-tag-optimization",
+        "description": "Write compelling titles that boost click-through rates"
+      },
+      {
+        "title": "Meta Description Optimization",
+        "to": "/seo-tips/on-page/meta-description-optimization",
+        "description": "Create descriptions that drive clicks from search results"
+      },
+      {
+        "title": "Header Tag Structure",
+        "to": "/seo-tips/on-page/header-tag-structure",
+        "description": "Master H1-H6 hierarchy for better content organization"
+      },
+      {
+        "title": "Internal Linking Strategies",
+        "to": "/seo-tips/on-page/internal-linking-strategies",
+        "description": "Build smart link architecture to boost page authority"
+      }
+    ]
+  },
+  {
+    "title": "Off-Page SEO",
+    "icon": "🌐",
+    "children": [
+      {
+        "title": "Link Building Strategies",
+        "to": "/seo-tips/off-page/link-building-strategies",
+        "description": "Advanced techniques for earning high-quality backlinks"
+      },
+      {
+        "title": "Local SEO Complete Guide",
+        "to": "/seo-tips/off-page/local-seo-guide",
+        "description": "Dominate local search with Google My Business optimization"
+      }
+    ]
+  },
+  {
+    "title": "API Documentation",
+    "icon": "💻",
+    "children": [
+      {
+        "title": "API Reference",
+        "to": "/docs/api/api-documentation",
+        "description": "Complete REST API documentation for developers"
+      }
+    ]
+  }
 ]

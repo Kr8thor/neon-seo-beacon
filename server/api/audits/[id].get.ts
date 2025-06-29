@@ -1,4 +1,9 @@
-export default defineEventHandler(async (event) => {
+import type { H3Event } from 'h3'
+import { createSupabaseClient } from '~/server/utils/supabase'
+import { getCurrentUser } from '~/server/utils/auth'
+import { logger } from '~/server/utils/logger'
+
+export default defineEventHandler(async (event: H3Event) => {
   try {
     const auditId = getRouterParam(event, 'id')
     
@@ -19,7 +24,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Get audit from database
-    const supabase = serverSupabaseServiceRole(event)
+    const supabase = createSupabaseClient()
     const { data: audit, error } = await supabase
       .from('audits')
       .select('*')
@@ -48,8 +53,8 @@ export default defineEventHandler(async (event) => {
         completed_at: audit.completed_at
       }
     }
-  } catch (error) {
-    console.error('Get audit error:', error)
+  } catch (error: any) {
+    logger.error('Get audit error', error)
     
     if (error.statusCode) {
       throw error
@@ -61,8 +66,3 @@ export default defineEventHandler(async (event) => {
     })
   }
 })
-
-async function getCurrentUser(event) {
-  const supabase = serverSupabaseUser(event)
-  return supabase
-}

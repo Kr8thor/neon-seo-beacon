@@ -4,17 +4,17 @@
   "description": "Professional SEO audit tool with AI-powered insights",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/favicon.ico",
+      "sizes": "16x16 32x32",
+      "type": "image/x-icon"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/favicon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "theme_color": "#2563eb",
+  "theme_color": "#1e40af",
   "background_color": "#ffffff",
   "display": "standalone",
   "start_url": "/",

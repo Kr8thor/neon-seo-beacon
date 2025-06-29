@@ -57,7 +57,7 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 
 // Global notification system
 const notificationStore = useNotificationStore()
-const notification = computed(() => notificationStore.notification)
+const notification = computed(() => notificationStore.currentNotification)
 
 function clearNotification() {
   notificationStore.clear()
@@ -75,11 +75,7 @@ watch(notification, (newNotification) => {
 // Global error handling
 onErrorCaptured((error) => {
   console.error('Global error:', error)
-  notificationStore.show({
-    type: 'error',
-    title: 'Something went wrong',
-    message: 'Please try again or contact support if the problem persists.'
-  })
+  notificationStore.error('Something went wrong. Please try again or contact support if the problem persists.')
   return false
 })
 </script>

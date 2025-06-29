@@ -2,6 +2,8 @@ import { z } from 'zod'
 import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { UAParser } from 'ua-parser-js'
+import { withCircuitBreaker } from '~/server/utils/circuitBreaker'
+import { logger } from '~/server/utils/logger'
 
 // Request validation schema
 const analyzeSchema = z.object({
@@ -13,7 +15,7 @@ const analyzeSchema = z.object({
   }).default({})
 })
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: any) => {
   const config = useRuntimeConfig()
   
   try {
@@ -21,8 +23,39 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event)
     const { url, options } = analyzeSchema.parse(body)
     
-    // Basic SEO analysis
-    const analysis = await performSEOAnalysis(url, options)
+    // Basic SEO analysis with circuit breaker
+    const analysis = await withCircuitBreaker(
+      'seo-analysis',
+      () => performSEOAnalysis(url, options),
+      {
+        failureThreshold: 3,
+        timeout: 30000,
+        fallbackFunction: async () => ({
+          url,
+          title: 'Analysis Unavailable',
+          metaDescription: '',
+          h1Tags: [],
+          h2Tags: [],
+          metaTags: {},
+          images: null,
+          links: { internal: 0, external: 0, nofollow: 0, total: 0 },
+          performance: null,
+          technical: {
+            hasRobotsMeta: false,
+            hasCanonical: false,
+            hasViewport: false,
+            hasCharset: false,
+            hasLangAttribute: false,
+            structuredData: { count: 0, types: [] },
+            openGraph: {},
+            twitterCard: {}
+          },
+          score: 0,
+          processingTime: 0,
+          error: 'SEO analysis service temporarily unavailable'
+        })
+      }
+    )
     
     // Return results
     return {
@@ -31,7 +64,7 @@ export default defineEventHandler(async (event) => {
       timestamp: new Date().toISOString()
     }
   } catch (error) {
-    console.error('SEO analysis error:', error)
+    logger.error('SEO analysis error', error)
     
     if (error instanceof z.ZodError) {
       setResponseStatus(event, 400)
@@ -46,7 +79,7 @@ export default defineEventHandler(async (event) => {
     return {
       success: false,
       error: 'Analysis failed',
-      message: error.message
+      message: (error as Error).message
     }
   }
 })
@@ -59,7 +92,7 @@ async function performSEOAnalysis(url: string, options: any) {
     const response = await axios.get(url, {
       timeout: 30000,
       headers: {
-        'User-Agent': 'Neon SEO Beacon Bot/2.0 (+https://neonseobeacon.com/bot)'
+        'User-Agent': 'Marden SEO Audit Bot/2.0 (+https://audit.mardenseo.com/bot)'
       }
     })
     
@@ -87,14 +120,14 @@ async function performSEOAnalysis(url: string, options: any) {
     
     return analysis
   } catch (error) {
-    throw new Error(`Failed to analyze ${url}: ${error.message}`)
+    throw new Error(`Failed to analyze ${url}: ${(error as Error).message}`)
   }
 }
 
-function extractMetaTags($: any) {
-  const metaTags = {}
+function extractMetaTags($: any): Record<string, string> {
+  const metaTags: Record<string, string> = {}
   
-  $('meta').each((i, element) => {
+  $('meta').each((i: number, element: any) => {
     const name = $(element).attr('name') || $(element).attr('property')
     const content = $(element).attr('content')
     
@@ -107,9 +140,9 @@ function extractMetaTags($: any) {
 }
 
 function analyzeImages($: any) {
-  const images = []
+  const images: any[] = []
   
-  $('img').each((i, element) => {
+  $('img').each((i: number, element: any) => {
     const src = $(element).attr('src')
     const alt = $(element).attr('alt')
     const title = $(element).attr('title')
@@ -139,7 +172,7 @@ function analyzeLinks($: any, baseUrl: string) {
     total: 0
   }
   
-  $('a[href]').each((i, element) => {
+  $('a[href]').each((i: number, element: any) => {
     const href = $(element).attr('href')
     const rel = $(element).attr('rel')
     
@@ -162,27 +195,45 @@ function analyzeLinks($: any, baseUrl: string) {
 }
 
 async function analyzePerformance(url: string) {
-  // Basic performance analysis
-  // In a real implementation, you'd integrate with Google PageSpeed Insights API
-  const startTime = Date.now()
-  
-  try {
-    const response = await axios.get(url, { timeout: 10000 })
-    const loadTime = Date.now() - startTime
-    
-    return {
-      loadTime,
-      status: response.status,
-      size: response.headers['content-length'] || 0,
-      compression: response.headers['content-encoding'] || 'none'
+  return withCircuitBreaker(
+    'performance-analysis',
+    async () => {
+      const startTime = Date.now()
+      
+      try {
+        const response = await axios.get(url, { 
+          timeout: 10000,
+          maxRedirects: 5,
+          headers: {
+            'User-Agent': 'Marden SEO Audit Performance Bot/2.0'
+          }
+        })
+        const loadTime = Date.now() - startTime
+        
+        return {
+          loadTime,
+          status: response.status,
+          size: response.headers['content-length'] || 0,
+          compression: response.headers['content-encoding'] || 'none'
+        }
+      } catch (error) {
+        return {
+          loadTime: Date.now() - startTime,
+          status: 'error',
+          error: (error as Error).message
+        }
+      }
+    },
+    {
+      failureThreshold: 5,
+      timeout: 15000,
+      fallbackFunction: async () => ({
+        loadTime: null,
+        status: 'unavailable',
+        error: 'Performance analysis temporarily unavailable'
+      })
     }
-  } catch (error) {
-    return {
-      loadTime: Date.now() - startTime,
-      status: 'error',
-      error: error.message
-    }
-  }
+  )
 }
 
 function analyzeTechnicalSEO($: any, html: string) {
@@ -199,9 +250,9 @@ function analyzeTechnicalSEO($: any, html: string) {
 }
 
 function analyzeStructuredData($: any) {
-  const structuredData = []
+  const structuredData: any[] = []
   
-  $('script[type="application/ld+json"]').each((i, element) => {
+  $('script[type="application/ld+json"]').each((i: number, element: any) => {
     try {
       const data = JSON.parse($(element).html() || '{}')
       structuredData.push(data)
@@ -216,10 +267,10 @@ function analyzeStructuredData($: any) {
   }
 }
 
-function analyzeOpenGraph($: any) {
-  const ogTags = {}
+function analyzeOpenGraph($: any): Record<string, string> {
+  const ogTags: Record<string, string> = {}
   
-  $('meta[property^="og:"]').each((i, element) => {
+  $('meta[property^="og:"]').each((i: number, element: any) => {
     const property = $(element).attr('property')
     const content = $(element).attr('content')
     
@@ -231,10 +282,10 @@ function analyzeOpenGraph($: any) {
   return ogTags
 }
 
-function analyzeTwitterCard($: any) {
-  const twitterTags = {}
+function analyzeTwitterCard($: any): Record<string, string> {
+  const twitterTags: Record<string, string> = {}
   
-  $('meta[name^="twitter:"]').each((i, element) => {
+  $('meta[name^="twitter:"]').each((i: number, element: any) => {
     const name = $(element).attr('name')
     const content = $(element).attr('content')
     
