@@ -39,7 +39,9 @@
       "Bash(git commit:*)",
       "Bash(npm run test:coverage:final:*)",
       "Bash(npm run test:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(railway status:*)",
+      "Bash(railway:*)"
     ],
     "deny": []
   }
