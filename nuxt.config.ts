@@ -145,6 +145,7 @@ export default defineNuxtConfig({
 
   // SEO and Security configuration
   nitro: {
+    preset: 'node-server',
     prerender: {
       routes: ["/sitemap.xml", "/robots.txt"],
     },
