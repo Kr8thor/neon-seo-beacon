@@ -1,20 +1,17 @@
-[phases.setup]
-nixPkgs = ["nodejs-18_x"]
-
-[phases.install]
-cmds = [
-  "npm install --production=false"
-]
-
-[phases.build]
-cmds = [
-  "npm run build"
-]
-
 [start]
 cmd = "node .output/server/index.mjs"
 
 [variables]
 NODE_ENV = "production"
 NITRO_PRESET = "node-server"
-PORT = "3000"
+
+[phases.build]
+dependsOn = ["setup"]
+cmds = [
+  "npm ci",
+  "npm run build"
+]
+
+[phases.setup]
+nixPkgs = ["nodejs-20_x"]
+nixLibs = ["nodejs-20_x"]

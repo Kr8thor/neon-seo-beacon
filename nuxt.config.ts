@@ -146,6 +146,11 @@ export default defineNuxtConfig({
   // SEO and Security configuration
   nitro: {
     preset: 'node-server',
+    output: {
+      dir: '.output',
+      serverDir: '.output/server',
+      publicDir: '.output/public'
+    },
     prerender: {
       routes: ["/sitemap.xml", "/robots.txt"],
     },
