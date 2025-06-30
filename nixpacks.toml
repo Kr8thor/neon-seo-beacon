@@ -1,9 +1,9 @@
 [phases.setup]
-nixPkgs = ["nodejs-18_x", "npm-9_x"]
+nixPkgs = ["nodejs-18_x"]
 
 [phases.install]
 cmds = [
-  "npm ci --prefer-offline --no-audit --progress=false"
+  "npm install --production=false"
 ]
 
 [phases.build]
@@ -17,3 +17,4 @@ cmd = "node .output/server/index.mjs"
 [variables]
 NODE_ENV = "production"
 NITRO_PRESET = "node-server"
+PORT = "3000"
