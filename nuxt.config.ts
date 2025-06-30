@@ -180,19 +180,36 @@ export default defineNuxtConfig({
   // Build configuration
   build: {
     transpile: ["@anthropic-ai/sdk", "@vueuse/nuxt"],
+    analyze: false,
   },
 
   // Vite optimization
   vite: {
     build: {
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 1500,
+      sourcemap: false,
       rollupOptions: {
         output: {
-          manualChunks: {
-            "vendor-charts": ["chart.js", "vue-chartjs"],
-            "vendor-animations": ["gsap", "lottie-web"],
-            "vendor-utils": ["axios", "cheerio", "xml2js"],
-            "vendor-ui": ["@heroicons/vue"],
+          manualChunks: (id) => {
+            // Create more efficient chunks
+            if (id.includes('node_modules')) {
+              if (id.includes('chart.js') || id.includes('vue-chartjs')) {
+                return 'vendor-charts';
+              }
+              if (id.includes('gsap') || id.includes('lottie-web')) {
+                return 'vendor-animations';
+              }
+              if (id.includes('axios') || id.includes('cheerio') || id.includes('xml2js')) {
+                return 'vendor-utils';
+              }
+              if (id.includes('@heroicons/vue')) {
+                return 'vendor-ui';
+              }
+              if (id.includes('vue') || id.includes('@vue')) {
+                return 'vendor-vue';
+              }
+              return 'vendor';
+            }
           },
         },
       },
@@ -200,6 +217,9 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: ["chart.js", "vue-chartjs", "gsap"],
       exclude: ["@vueuse/nuxt"],
+    },
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
     },
   },
 

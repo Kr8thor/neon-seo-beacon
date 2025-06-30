@@ -48,7 +48,7 @@ export default defineEventHandler(async (event: H3Event) => {
     status: "healthy",
     timestamp: new Date().toISOString(),
     version: "2.0.0",
-    environment: (config.public.environment || "development") as string,
+    environment: process.env.NODE_ENV || "development",
     uptime: process.uptime(),
     system: {
       nodeVersion: process.version,

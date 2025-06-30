@@ -3,12 +3,13 @@
     <!-- Floating Background Elements (Lazy loaded) -->
     <LazyWrapper
       v-if="!reducedMotion && showEnhancements"
-      :component="() => import('~/components/modern/FloatingElements.vue')"
+      :component="FloatingElementsComponent"
       skeleton-type="custom"
       skeleton-height="100vh"
       skeleton-width="100%"
     >
-      <ModernFloatingElements
+      <component
+        :is="FloatingElementsComponent"
         density="low"
         :show-orbs="true"
         :show-shapes="false"
@@ -21,12 +22,13 @@
     <!-- Custom Cursor (Lazy loaded) -->
     <LazyWrapper
       v-if="enableCustomCursor && showEnhancements"
-      :component="() => import('~/components/modern/CustomCursor.vue')"
+      :component="CustomCursorComponent"
       skeleton-type="custom"
       skeleton-height="0"
       skeleton-width="0"
     >
-      <ModernCustomCursor
+      <component
+        :is="CustomCursorComponent"
         :disabled="reducedMotion || isMobile"
         :show-ring="true"
         :show-trail="false"
@@ -40,12 +42,12 @@
     <!-- Notification System (Lazy loaded) -->
     <LazyWrapper
       v-if="showEnhancements"
-      :component="() => import('~/components/modern/NotificationSystem.vue')"
+      :component="NotificationSystemComponent"
       skeleton-type="custom"
       skeleton-height="0"
       skeleton-width="0"
     >
-      <ModernNotificationSystem />
+      <component :is="NotificationSystemComponent" />
     </LazyWrapper>
 
     <!-- Fast Loading Overlay -->
@@ -148,6 +150,17 @@ const isMobile = ref(false);
 const enableCustomCursor = ref(false); // Temporarily disabled due to positioning issues
 const showDevTools = ref(true);
 const showEnhancements = ref(false);
+
+// Dynamic component imports to avoid static/dynamic conflicts
+const FloatingElementsComponent = defineAsyncComponent(() => 
+  import('~/components/modern/FloatingElements.vue')
+);
+const CustomCursorComponent = defineAsyncComponent(() => 
+  import('~/components/modern/CustomCursor.vue')
+);
+const NotificationSystemComponent = defineAsyncComponent(() => 
+  import('~/components/modern/NotificationSystem.vue')
+);
 
 // Dark mode toggle
 const toggleDarkMode = () => {

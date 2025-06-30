@@ -1,6 +1,6 @@
 {
   "name": "marden-seo-audit",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Marden SEO Audit - Professional SEO Analysis Platform built with Nuxt 3",
   "type": "module",
   "private": true,

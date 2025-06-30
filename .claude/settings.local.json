@@ -41,7 +41,9 @@
       "Bash(npm run test:*)",
       "Bash(git add:*)",
       "Bash(railway status:*)",
-      "Bash(railway:*)"
+      "Bash(railway:*)",
+      "Bash(git push:*)",
+      "Bash(NODE_ENV=production npm run build)"
     ],
     "deny": []
   }
