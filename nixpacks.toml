@@ -8,7 +8,7 @@ NITRO_PRESET = "node-server"
 [phases.build]
 dependsOn = ["setup"]
 cmds = [
-  "npm ci",
+  "npm ci --production=false",
   "npm run build"
 ]
 
