@@ -52,11 +52,13 @@ export default defineEventHandler(async (event: H3Event) => {
     : DEFAULT_SECURITY_CONFIG;
 
   try {
-    // Skip security for health check and public endpoints
+    // Skip security for health check, public endpoints, and content API calls
     const isHealthCheck = event.node.req.url === "/api/health";
     const isPublicEndpoint = event.node.req.url?.includes("/public");
+    const isContentAPI = event.node.req.url?.includes("/_mdc/") || 
+                        event.node.req.url?.includes("/_content/");
 
-    if (isHealthCheck) {
+    if (isHealthCheck || isContentAPI) {
       return;
     }
 

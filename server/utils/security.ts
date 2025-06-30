@@ -94,7 +94,7 @@ interface ValidationConfig {
 
 const DEFAULT_VALIDATION_CONFIG: ValidationConfig = {
   maxBodySize: 1024 * 1024, // 1MB
-  maxUrlLength: 2048,
+  maxUrlLength: process.env.NODE_ENV === 'production' ? 4096 : 8192, // Increased for build-time content processing
   maxHeaderSize: 8192,
   allowedContentTypes: [
     "application/json",
