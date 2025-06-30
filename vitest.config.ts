@@ -1,8 +1,10 @@
 import { defineConfig } from "vitest/config";
+// @ts-ignore - Vitest plugin type conflicts with Vite version
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 
 export default defineConfig({
+  // @ts-ignore - Plugin type conflict
   plugins: [vue()],
   test: {
     globals: true,
@@ -23,10 +25,8 @@ export default defineConfig({
       // Mock CSS imports for testing
       include: [],
     },
-    transformMode: {
-      web: [/\.[jt]sx?$/, /\.vue$/],
-    },
     coverage: {
+      provider: "v8",
       reporter: ["text", "json", "html"],
       exclude: [
         "node_modules/",

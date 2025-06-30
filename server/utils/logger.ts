@@ -33,7 +33,7 @@ class SecureLogger {
   }
 
   private createLogEntry(
-    level: keyof LogLevel,
+    level: LogLevel,
     message: string,
     context?: Record<string, any>,
   ): LogEntry {

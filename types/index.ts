@@ -28,79 +28,11 @@ export interface SEOAudit {
   updated_at: string;
 }
 
-export interface SEOAuditResults {
-  url: string;
-  title: string;
-  metaDescription: string;
-  h1Tags: string[];
-  h2Tags: string[];
-  metaTags: Record<string, string>;
-  images: ImageAnalysis;
-  links: LinkAnalysis;
-  performance: PerformanceAnalysis;
-  technical: TechnicalSEOAnalysis;
-  score: number;
-  processingTime: number;
-  recommendations: AIRecommendation[];
-}
+// Import SEO types from dedicated file
+export * from './seo';
+import type { SEOAuditResults } from './seo';
 
-// Analysis types
-export interface ImageAnalysis {
-  total: number;
-  withAlt: number;
-  withoutAlt: number;
-  images: Array<{
-    src: string;
-    alt: string;
-    title: string;
-    hasAlt: boolean;
-    hasTitle: boolean;
-  }>;
-}
 
-export interface LinkAnalysis {
-  internal: number;
-  external: number;
-  nofollow: number;
-  total: number;
-}
-
-export interface PerformanceAnalysis {
-  loadTime: number;
-  status: number | string;
-  size: number;
-  compression: string;
-  coreWebVitals?: {
-    lcp: number;
-    fid: number;
-    cls: number;
-  };
-}
-
-export interface TechnicalSEOAnalysis {
-  hasRobotsMeta: boolean;
-  hasCanonical: boolean;
-  hasViewport: boolean;
-  hasCharset: boolean;
-  hasLangAttribute: boolean;
-  structuredData: {
-    count: number;
-    types: string[];
-  };
-  openGraph: Record<string, string>;
-  twitterCard: Record<string, string>;
-}
-
-export interface AIRecommendation {
-  id: string;
-  title: string;
-  description: string;
-  impact: "high" | "medium" | "low";
-  difficulty: "easy" | "medium" | "hard";
-  category: "technical" | "content" | "performance" | "mobile";
-  implementation: string;
-  resources: string[];
-}
 
 // Content types
 export interface ContentMeta {
@@ -172,14 +104,6 @@ export interface ContactForm {
   subject: string;
 }
 
-export interface AuditRequest {
-  url: string;
-  options: {
-    includeImages: boolean;
-    checkMobile: boolean;
-    includePerformance: boolean;
-  };
-}
 
 // Notification types
 export interface Notification {

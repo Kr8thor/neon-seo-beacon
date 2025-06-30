@@ -516,7 +516,7 @@ describe("SEO Analysis Engine", () => {
 
       // Mock cheerio loading
       const mockCheerio = {
-        load: vi.fn(() => ({
+        load: vi.fn((html?: string) => ({
           title: () => ({ text: () => "Test" }),
           meta: () => ({ attr: () => "Test description" }),
           h1: () => ({

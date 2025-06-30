@@ -19,9 +19,23 @@ export default defineEventHandler(async (event: H3Event) => {
     status: string;
     timestamp: string;
     version: string;
-    environment: any;
+    environment: string;
     uptime: number;
     responseTime?: number;
+    system?: {
+      nodeVersion: string;
+      platform: string;
+      architecture: string;
+      memory?: {
+        used: number;
+        total: number;
+        percentage: number;
+      };
+    };
+    dependencies?: {
+      supabase: { status: string };
+      anthropic: { status: string };
+    };
     checks: {
       database: HealthCheck;
       ai: HealthCheck;
@@ -34,8 +48,22 @@ export default defineEventHandler(async (event: H3Event) => {
     status: "healthy",
     timestamp: new Date().toISOString(),
     version: "2.0.0",
-    environment: config.public.environment || "development",
+    environment: (config.public.environment || "development") as string,
     uptime: process.uptime(),
+    system: {
+      nodeVersion: process.version,
+      platform: process.platform,
+      architecture: process.arch,
+      memory: {
+        used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+        total: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+        percentage: Math.round((process.memoryUsage().heapUsed / process.memoryUsage().heapTotal) * 100),
+      },
+    },
+    dependencies: {
+      supabase: { status: "unknown" },
+      anthropic: { status: "unknown" },
+    },
     checks: {
       database: { status: "unknown", responseTime: 0 },
       ai: { status: "unknown", responseTime: 0 },

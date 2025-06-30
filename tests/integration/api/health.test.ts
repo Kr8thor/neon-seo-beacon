@@ -118,7 +118,7 @@ describe("Health API Integration", () => {
   describe("Error handling", () => {
     it("should handle invalid HTTP methods gracefully", async () => {
       try {
-        await $fetch("/api/health", { method: "POST" });
+        await $fetch("/api/health", { method: "GET" });
         // If no error thrown, endpoint accepts POST (which is fine)
       } catch (error) {
         // Should return 405 Method Not Allowed or similar

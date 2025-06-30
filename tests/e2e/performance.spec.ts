@@ -78,16 +78,16 @@ test.describe("Performance Testing", () => {
     // Performance assertions
     expect(loadTime).toBeLessThan(5000); // 5 second max load time
 
-    if (vitals.fcp) {
-      expect(vitals.fcp).toBeLessThan(2000); // FCP < 2s
+    if ((vitals as any).fcp) {
+      expect((vitals as any).fcp).toBeLessThan(2000); // FCP < 2s
     }
 
-    if (vitals.lcp) {
-      expect(vitals.lcp).toBeLessThan(3000); // LCP < 3s
+    if ((vitals as any).lcp) {
+      expect((vitals as any).lcp).toBeLessThan(3000); // LCP < 3s
     }
 
-    if (vitals.cls !== undefined) {
-      expect(vitals.cls).toBeLessThan(0.1); // CLS < 0.1
+    if ((vitals as any).cls !== undefined) {
+      expect((vitals as any).cls).toBeLessThan(0.1); // CLS < 0.1
     }
   });
 

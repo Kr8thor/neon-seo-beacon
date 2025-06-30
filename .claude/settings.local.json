@@ -37,7 +37,9 @@
       "Bash(railway --version)",
       "Bash(npm ci:*)",
       "Bash(git commit:*)",
-      "Bash(npm run test:coverage:final:*)"
+      "Bash(npm run test:coverage:final:*)",
+      "Bash(npm run test:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }

@@ -92,7 +92,7 @@
           </div>
 
           <!-- Quick Issues -->
-          <div class="grid md:grid-cols-2 gap-4">
+          <div v-if="auditResults.topIssues?.length" class="grid md:grid-cols-2 gap-4">
             <div
               v-for="issue in auditResults.topIssues"
               :key="issue.type"
@@ -106,10 +106,10 @@
               "
             >
               <h5 class="font-medium text-gray-900 dark:text-white">
-                {{ issue.title }}
+                {{ issue.message }}
               </h5>
               <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                {{ issue.description }}
+                {{ issue.recommendation }}
               </p>
             </div>
           </div>
@@ -241,7 +241,7 @@
 </template>
 
 <script setup lang="ts">
-import type { SEOAuditResults } from "~/types";
+import type { SEOAuditResults } from "~/types/seo";
 
 const auditUrl = ref("");
 const isLoading = ref(false);
@@ -263,7 +263,16 @@ const handleQuickAudit = async () => {
       },
     });
 
-    auditResults.value = response;
+    // Handle different response structures
+    if (response.success && response.audit) {
+      auditResults.value = {
+        ...response.audit,
+        id: (response.audit as any)?.id || (response as any).id,
+        topIssues: (response.audit as any)?.topIssues || []
+      } as SEOAuditResults;
+    } else {
+      auditResults.value = response as SEOAuditResults;
+    }
   } catch (error) {
     console.error("Audit failed:", error);
     // Show error toast or message
@@ -281,7 +290,13 @@ const getScoreDescription = (score: number): string => {
 
 const navigateToFullReport = () => {
   // Navigate to detailed report page
-  navigateTo(`/dashboard/reports/${auditResults.value?.id}`);
+  const auditId = auditResults.value?.id;
+  if (auditId) {
+    navigateTo(`/dashboard/reports/${auditId}`);
+  } else {
+    // Fallback: navigate to dashboard if no ID available
+    navigateTo('/dashboard');
+  }
 };
 </script>
 
