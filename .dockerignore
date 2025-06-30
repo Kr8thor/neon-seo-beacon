@@ -1,53 +1,16 @@
-# Dependencies
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Build outputs
-.nuxt/
-.output/
-dist/
-.next/
-
-# Environment files
-.env*
-!.env.example
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-logs/
-*.log
-
-# Test files
-coverage/
-test-results/
-tests/
-*.test.js
-*.spec.js
-
-# Cache
-.cache/
-.temp/
-
-# Documentation
-*.md
-!README.md
-
-# Git
-.git/
+node_modules
+npm-debug.log
+.nuxt
+.output
+.git
 .gitignore
-.github/
-
-# Railway specific
-railway.json
-Dockerfile
+README.md
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+coverage
+.tmp
+.cache
+dist
