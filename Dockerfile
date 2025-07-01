@@ -1,5 +1,5 @@
-# Use Node.js 20.18.1 LTS - Build stage
-FROM node:20.18.1-alpine AS builder
+# Use official Node.js image
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install ALL dependencies (including dev dependencies for build)
-RUN npm ci --no-audit --no-fund
+# Install dependencies
+RUN npm ci --omit=dev
 
 # Copy source code
 COPY . .
@@ -16,23 +16,12 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Production stage
-FROM node:20.18.1-alpine AS runner
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm ci --omit=dev --no-audit --no-fund --ignore-scripts
-
-# Copy built application from builder stage
-COPY --from=builder /app/.output /app/.output
-
 # Expose port
 EXPOSE 3000
 
+# Set environment variables
+ENV NODE_ENV=production
+ENV PORT=3000
+
 # Start the application
-CMD ["node", ".output/server/index.mjs"]
+CMD ["npm", "run", "start"]
