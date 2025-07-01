@@ -10,25 +10,25 @@ export default defineNuxtConfig({
   // App configuration
   app: {
     head: {
-      title: "Marden SEO Audit - Professional SEO Analysis Tool",
+      title: "Neon SEO Beacon - Professional SEO Analysis Tool",
       meta: [
         { charset: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         {
           name: "description",
           content:
-            "Marden SEO Audit provides comprehensive website analysis, technical SEO insights, and AI-powered recommendations for businesses and agencies.",
+            "Neon SEO Beacon provides comprehensive website analysis, technical SEO insights, and AI-powered recommendations for businesses and agencies.",
         },
         {
           name: "keywords",
           content:
-            "SEO audit, website analysis, technical SEO, SEO tools, search engine optimization, Marden SEO",
+            "SEO audit, website analysis, technical SEO, SEO tools, search engine optimization, Neon SEO Beacon",
         },
-        { name: "author", content: "Marden SEO Audit" },
+        { name: "author", content: "Neon SEO Beacon" },
         { property: "og:type", content: "website" },
-        { property: "og:site_name", content: "Marden SEO Audit" },
+        { property: "og:site_name", content: "Neon SEO Beacon" },
         { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@mardenseo" },
+        { name: "twitter:site", content: "@neonseobeacon" },
       ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
@@ -55,7 +55,7 @@ export default defineNuxtConfig({
         default: "github-light",
         dark: "github-dark",
       },
-      preload: [
+      preload: process.env.NODE_ENV === 'production' ? [] : [
         "json",
         "js",
         "ts",
@@ -78,10 +78,11 @@ export default defineNuxtConfig({
     documentDriven: true,
   },
 
-  // Supabase configuration
+  // Supabase configuration - Fixed for Railway
   supabase: {
-    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
-    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+    // Ensure environment variables are properly read during build
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
+    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaHR3bmZkcWplaG16dG5uYmNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTkzMzE3NjMsImV4cCI6MjAzNDkwNzc2M30.w6lZNT5gF7T7QW8DHrFzFcO5MjMF1kGYzh3PfBpKt5M',
     redirectOptions: {
       login: "/auth/login",
       callback: "/auth/callback",
@@ -104,46 +105,49 @@ export default defineNuxtConfig({
         "/api/**", // API endpoints
       ],
     },
+    // Railway-specific client options
+    clientOptions: {
+      auth: {
+        flowType: 'pkce',
+        detectSessionInUrl: true,
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
   },
 
-  // Runtime configuration
+  // Runtime configuration - Fixed for Railway
   runtimeConfig: {
     // Private keys (only available on server-side)
-    supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
-    supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseUrl: process.env.SUPABASE_URL || process.env.NUXT_PUBLIC_SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
+    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     redisUrl: process.env.REDIS_URL,
     jwtSecret: process.env.JWT_SECRET,
+    csrfSecret: process.env.CSRF_SECRET,
     googlePagespeedApiKey: process.env.GOOGLE_PAGESPEED_API_KEY,
 
     // Public keys (exposed to client-side)
     public: {
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
-      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
-      apiUrl:
-        process.env.NUXT_PUBLIC_API_URL ||
-        (process.env.NODE_ENV === "production"
-          ? "https://audit.mardenseo.com"
-          : "http://localhost:3002"),
-      siteUrl:
-        process.env.NUXT_PUBLIC_SITE_URL ||
-        (process.env.NODE_ENV === "production"
-          ? "https://audit.mardenseo.com"
-          : "http://localhost:3002"),
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY,
+      apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://audit.mardenseo.com',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://audit.mardenseo.com',
+      appName: 'Neon SEO Beacon',
     },
   },
 
   // Development configuration
-  devtools: { enabled: true },
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
 
-  // TypeScript configuration - Relaxed for faster development
+  // TypeScript configuration - Relaxed for faster Railway builds
   typescript: {
     strict: false,
     typeCheck: false,
   },
 
-  // SEO and Security configuration
+  // Nitro configuration optimized for Railway
   nitro: {
     preset: 'node-server',
     output: {
@@ -151,6 +155,14 @@ export default defineNuxtConfig({
       serverDir: '.output/server',
       publicDir: '.output/public'
     },
+    // Railway-specific optimizations
+    experimental: {
+      wasm: false
+    },
+    minify: false, // Disable minification for faster builds
+    sourceMap: false, // Disable source maps for smaller builds
+    timing: process.env.NODE_ENV === 'production',
+    
     prerender: {
       routes: ["/sitemap.xml", "/robots.txt"],
     },
@@ -165,74 +177,66 @@ export default defineNuxtConfig({
           "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
         },
       },
-      // CSP for production
-      ...(process.env.NODE_ENV === "production" && {
-        "/**": {
-          headers: {
-            "Content-Security-Policy":
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; frame-ancestors 'none';",
-          },
-        },
-      }),
+      // API routes optimization
+      "/api/**": {
+        cors: true,
+        headers: {
+          "Cache-Control": "no-cache, no-store, must-revalidate"
+        }
+      }
     },
   },
 
-  // Build configuration
+  // Build configuration optimized for Railway
   build: {
     transpile: ["@anthropic-ai/sdk", "@vueuse/nuxt"],
     analyze: false,
   },
 
-  // Vite optimization
+  // Vite optimization for Railway
   vite: {
     build: {
-      chunkSizeWarningLimit: 1500,
-      sourcemap: false,
+      chunkSizeWarningLimit: 2000, // Increase threshold
+      sourcemap: false, // Disable sourcemaps for production
       rollupOptions: {
         output: {
-          manualChunks: (id) => {
-            // Create more efficient chunks
-            if (id.includes('node_modules')) {
-              if (id.includes('chart.js') || id.includes('vue-chartjs')) {
-                return 'vendor-charts';
-              }
-              if (id.includes('gsap') || id.includes('lottie-web')) {
-                return 'vendor-animations';
-              }
-              if (id.includes('axios') || id.includes('cheerio') || id.includes('xml2js')) {
-                return 'vendor-utils';
-              }
-              if (id.includes('@heroicons/vue')) {
-                return 'vendor-ui';
-              }
-              if (id.includes('vue') || id.includes('@vue')) {
-                return 'vendor-vue';
-              }
-              return 'vendor';
-            }
-          },
+          // Optimize chunking for Railway
+          manualChunks: undefined // Let Vite handle chunking automatically
         },
       },
     },
     optimizeDeps: {
-      include: ["chart.js", "vue-chartjs", "gsap"],
-      exclude: ["@vueuse/nuxt"],
+      include: ["chart.js", "vue-chartjs"],
+      exclude: ["@vueuse/nuxt", "fsevents"],
     },
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
     },
+    // Railway server configuration
+    server: {
+      port: Number(process.env.PORT) || 3000,
+      host: '0.0.0.0'
+    }
   },
 
-  // Experimental features
+  // Experimental features - Disabled for stability
   experimental: {
     payloadExtraction: false,
+    writeEarlyHints: false,
   },
 
-  // Performance optimizations
+  // Performance optimizations for Railway
   ssr: true,
-
-  // Reduce bundle size
   features: {
     devLogs: false,
   },
+
+  // Disable telemetry for production builds
+  telemetry: false,
+
+  // Server configuration for Railway
+  devServer: {
+    port: Number(process.env.PORT) || 3000,
+    host: '0.0.0.0'
+  }
 });
