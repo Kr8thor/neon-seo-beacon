@@ -1,18 +1,17 @@
-[start]
-cmd = "node .output/server/index.mjs"
-
 [variables]
 NODE_ENV = "production"
 NITRO_PRESET = "node-server"
-CI = "true"
-
-[phases.build]
-dependsOn = ["setup"]
-cmds = [
-  "npm ci --prefer-offline --no-audit --no-fund",
-  "npm run build"
-]
 
 [phases.setup]
-nixPkgs = ["nodejs-20_x", "python3"]
-nixLibs = ["nodejs-20_x"]
+nixPkgs = ["nodejs-20_x"]
+
+[phases.install]
+dependsOn = ["setup"]
+cmds = ["npm ci --prefer-offline --no-audit --no-fund"]
+
+[phases.build]
+dependsOn = ["install"]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm run start"

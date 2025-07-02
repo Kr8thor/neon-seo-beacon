@@ -159,8 +159,8 @@ export default defineNuxtConfig({
     experimental: {
       wasm: false
     },
-    minify: false, // Disable minification for faster builds
-    sourceMap: false, // Disable source maps for smaller builds
+    minify: true,
+    sourceMap: false,
     timing: process.env.NODE_ENV === 'production',
     
     prerender: {
