@@ -4,11 +4,18 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Install system dependencies for native modules
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    libc6-compat
+
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --omit=dev
+# Install ALL dependencies (including dev dependencies needed for build)
+RUN npm ci
 
 # Copy source code
 COPY . .
@@ -16,12 +23,14 @@ COPY . .
 # Build the application
 RUN npm run build
 
-# Expose port
-EXPOSE 3000
+# Remove dev dependencies after build to reduce image size
+RUN npm prune --production
+
+# Expose port (Railway will set this automatically)
+EXPOSE $PORT
 
 # Set environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
 
-# Start the application
+# Start the application using the built output
 CMD ["npm", "run", "start"]
