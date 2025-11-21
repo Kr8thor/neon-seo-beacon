@@ -4,16 +4,31 @@
       <!-- Header -->
       <div class="mb-8">
         <div class="flex items-center justify-between">
-          <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-              SEO Audit Results
-            </h1>
-            <p class="mt-1 text-gray-500 dark:text-gray-400" v-if="audit">
-              {{ audit.url }}
-            </p>
+          <div class="flex items-center gap-4">
+            <NuxtLink to="/dashboard" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+            </NuxtLink>
+            <div>
+              <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+                SEO Audit Results
+              </h1>
+              <p class="mt-1 text-gray-500 dark:text-gray-400" v-if="audit">
+                {{ audit.url }}
+              </p>
+            </div>
           </div>
-          <div v-if="audit" class="text-right">
-            <div class="text-sm text-gray-500">Status</div>
+          <div v-if="audit" class="flex items-center gap-4">
+            <button
+              @click="exportReport"
+              class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+              <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Export PDF
+            </button>
             <span
               :class="[
                 'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
@@ -39,47 +54,48 @@
 
       <!-- Results -->
       <div v-else-if="audit">
-        <!-- Score Overview -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <!-- Overall Score -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Overall Score</div>
-            <div class="mt-2 flex items-baseline">
-              <span
-                :class="[
-                  'text-4xl font-bold',
-                  scoreColor(audit.score)
-                ]"
-              >
-                {{ audit.score || 0 }}
-              </span>
-              <span class="ml-1 text-gray-500">/100</span>
+        <!-- Score Overview with Gauge -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <!-- Score Gauge -->
+          <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">Overall Score</h3>
+            <div class="flex justify-center">
+              <ScoreGauge :score="audit.score || 0" :size="180" :showLabel="true" />
             </div>
           </div>
 
-          <!-- Pages Analyzed -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Pages Analyzed</div>
-            <div class="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
-              {{ summary.totalPages || 0 }}
-            </div>
+          <!-- KPI Cards -->
+          <div class="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <KPICard
+              title="Pages Analyzed"
+              :value="summary.totalPages || 0"
+              icon="document"
+            />
+            <KPICard
+              title="Total Issues"
+              :value="summary.totalIssues || 0"
+              icon="alert"
+            />
+            <KPICard
+              title="Critical"
+              :value="summary.issuesBySeverity?.critical || 0"
+              severity="critical"
+            />
+            <KPICard
+              title="High Priority"
+              :value="summary.issuesBySeverity?.high || 0"
+              severity="high"
+            />
           </div>
+        </div>
 
-          <!-- Total Issues -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Issues</div>
-            <div class="mt-2 text-4xl font-bold text-gray-900 dark:text-white">
-              {{ summary.totalIssues || 0 }}
-            </div>
-          </div>
-
-          <!-- Critical Issues -->
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Critical Issues</div>
-            <div class="mt-2 text-4xl font-bold text-red-600">
-              {{ summary.issuesBySeverity?.critical || 0 }}
-            </div>
-          </div>
+        <!-- Category Breakdown -->
+        <div v-if="categoryData.length" class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 mb-8">
+          <CategoryBreakdown
+            :categories="categoryData"
+            title="Score by Category"
+            :height="250"
+          />
         </div>
 
         <!-- Issues by Severity -->
@@ -223,6 +239,10 @@
 </template>
 
 <script setup lang="ts">
+import ScoreGauge from '~/components/charts/ScoreGauge.vue'
+import CategoryBreakdown from '~/components/charts/CategoryBreakdown.vue'
+import KPICard from '~/components/KPICard.vue'
+
 const route = useRoute();
 const auditId = route.params.id as string;
 
@@ -233,6 +253,21 @@ const summary = ref<any>({});
 const topIssues = ref<any[]>([]);
 const pages = ref<any[]>([]);
 const recommendations = ref<any>(null);
+
+// Generate category data for breakdown chart
+const categoryData = computed(() => {
+  if (!audit.value?.categories) return []
+  return Object.entries(audit.value.categories).map(([name, data]: [string, any]) => ({
+    name: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' '),
+    value: data.score || 0,
+    impact: data.impact || 0
+  }))
+})
+
+// Export PDF report
+const exportReport = async () => {
+  window.open(`/api/sites/${auditId}/report`, '_blank')
+}
 
 const statusClasses: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
