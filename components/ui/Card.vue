@@ -71,15 +71,18 @@ const bodyClasses = computed(() => {
 
 <style scoped>
 .card-header {
-  @apply px-6 py-4 border-b border-border;
+  @apply px-6 py-4 border-b;
+  border-color: var(--border);
 }
 
 .card-title {
-  @apply text-lg font-semibold text-text-primary;
+  @apply text-lg font-semibold;
+  color: var(--text-primary);
 }
 
 .card-subtitle {
-  @apply mt-1 text-sm text-text-muted;
+  @apply mt-1 text-sm;
+  color: var(--text-muted);
 }
 
 .card-actions {
@@ -87,6 +90,7 @@ const bodyClasses = computed(() => {
 }
 
 .card-footer {
-  @apply px-6 py-4 border-t border-border bg-neutral-50 dark:bg-neutral-800/50;
+  @apply px-6 py-4 border-t bg-neutral-50 dark:bg-neutral-800/50;
+  border-color: var(--border);
 }
 </style>

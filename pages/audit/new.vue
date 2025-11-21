@@ -249,7 +249,7 @@ async function startAudit() {
       auditStarted.value = true;
 
       // Connect to SSE for progress
-      connectToStream(response.data.auditId);
+      connectToStream(response.data.jobId);
     } else {
       error.value = "Failed to start audit";
     }

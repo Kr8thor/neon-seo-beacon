@@ -112,7 +112,7 @@
               :key="severity"
               class="text-center p-4 rounded-lg bg-neutral-50 dark:bg-neutral-800"
             >
-              <div :class="['text-2xl font-bold', severityTextColors[severity as string]]">
+              <div :class="['text-2xl font-bold', severityTextColors[String(severity)]]">
                 {{ count }}
               </div>
               <div class="text-sm text-text-muted capitalize mt-1">{{ severity }}</div>

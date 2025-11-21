@@ -120,7 +120,8 @@ defineExpose({ inputRef })
 }
 
 .form-label {
-  @apply block text-sm font-medium text-text-secondary mb-1.5;
+  @apply block text-sm font-medium mb-1.5;
+  color: var(--text-secondary);
 }
 
 .form-input-wrapper {
@@ -140,6 +141,7 @@ defineExpose({ inputRef })
 }
 
 .form-hint {
-  @apply mt-1.5 text-sm text-text-muted;
+  @apply mt-1.5 text-sm;
+  color: var(--text-muted);
 }
 </style>
