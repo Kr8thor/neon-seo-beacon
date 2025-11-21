@@ -209,10 +209,4 @@ export const useFilterStore = defineStore('filters', {
       this.resetViewSettings()
     },
   },
-
-  persist: {
-    key: 'neon-seo-filters',
-    storage: typeof window !== 'undefined' ? sessionStorage : undefined,
-    paths: ['view.groupBy', 'view.showOnlyIssues'],
-  },
 })

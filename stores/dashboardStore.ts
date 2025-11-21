@@ -277,9 +277,4 @@ export const useDashboardStore = defineStore('dashboard', {
       this.currentLayout = 'default'
     },
   },
-
-  persist: {
-    key: 'neon-seo-dashboard',
-    storage: typeof window !== 'undefined' ? localStorage : undefined,
-  },
 })
