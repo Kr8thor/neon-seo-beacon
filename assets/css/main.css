@@ -1,3 +1,5 @@
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -74,6 +76,38 @@
 
   .badge-gray {
     @apply bg-gray-100 text-gray-800;
+  }
+
+  /* Dashboard Grid */
+  .dashboard-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: 80px;
+  }
+
+  /* Widget grid spans */
+  .widget-1x1 { grid-column: span 4; grid-row: span 1; }
+  .widget-2x1 { grid-column: span 4; grid-row: span 2; }
+  .widget-1x2 { grid-column: span 8; grid-row: span 1; }
+  .widget-2x2 { grid-column: span 4; grid-row: span 2; }
+  .widget-3x2 { grid-column: span 8; grid-row: span 2; }
+  .widget-4x2 { grid-column: span 4; grid-row: span 2; }
+  .widget-4x3 { grid-column: span 4; grid-row: span 3; }
+  .widget-8x3 { grid-column: span 8; grid-row: span 3; }
+
+  @media (max-width: 1024px) {
+    .widget-1x1, .widget-2x1, .widget-2x2, .widget-4x2, .widget-4x3 { grid-column: span 6; }
+    .widget-1x2, .widget-3x2, .widget-8x3 { grid-column: span 12; }
+  }
+
+  @media (max-width: 640px) {
+    .dashboard-grid {
+      grid-template-columns: 1fr;
+    }
+    .widget-1x1, .widget-2x1, .widget-1x2, .widget-2x2,
+    .widget-3x2, .widget-4x2, .widget-4x3, .widget-8x3 {
+      grid-column: span 1;
+    }
   }
 
   /* Loading spinner */

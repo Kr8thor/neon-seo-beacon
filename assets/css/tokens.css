@@ -1,0 +1,274 @@
+/* ==========================================================================
+   Design System Tokens - Neon SEO Beacon
+   Production-grade semantic token system for UI consistency
+   ========================================================================== */
+
+:root {
+  /* ==========================================================================
+     Color Tokens - Semantic Score Colors
+     Used for SEO scores, health indicators, performance metrics
+     ========================================================================== */
+  --color-score-excellent: hsl(142, 76%, 36%);      /* 90-100 score */
+  --color-score-good: hsl(142, 69%, 58%);           /* 70-89 score */
+  --color-score-average: hsl(45, 93%, 47%);         /* 50-69 score */
+  --color-score-poor: hsl(27, 96%, 61%);            /* 25-49 score */
+  --color-score-critical: hsl(0, 84%, 60%);         /* 0-24 score */
+
+  /* Score backgrounds (lighter variants for cards) */
+  --color-score-excellent-bg: hsl(142, 76%, 95%);
+  --color-score-good-bg: hsl(142, 69%, 95%);
+  --color-score-average-bg: hsl(45, 93%, 95%);
+  --color-score-poor-bg: hsl(27, 96%, 95%);
+  --color-score-critical-bg: hsl(0, 84%, 95%);
+
+  /* ==========================================================================
+     Color Tokens - Severity Levels
+     Used for issues, warnings, errors across the application
+     ========================================================================== */
+  --color-severity-critical: hsl(0, 84%, 60%);
+  --color-severity-high: hsl(27, 96%, 61%);
+  --color-severity-medium: hsl(45, 93%, 47%);
+  --color-severity-low: hsl(199, 89%, 48%);
+  --color-severity-info: hsl(217, 91%, 60%);
+
+  /* Severity backgrounds */
+  --color-severity-critical-bg: hsl(0, 84%, 97%);
+  --color-severity-high-bg: hsl(27, 96%, 97%);
+  --color-severity-medium-bg: hsl(45, 93%, 97%);
+  --color-severity-low-bg: hsl(199, 89%, 97%);
+  --color-severity-info-bg: hsl(217, 91%, 97%);
+
+  /* ==========================================================================
+     Color Tokens - UI Colors
+     Primary brand, neutrals, and functional colors
+     ========================================================================== */
+  --color-primary: hsl(217, 91%, 60%);
+  --color-primary-hover: hsl(217, 91%, 50%);
+  --color-primary-active: hsl(217, 91%, 45%);
+  --color-primary-bg: hsl(217, 91%, 97%);
+
+  /* Neutrals */
+  --color-neutral-50: hsl(210, 40%, 98%);
+  --color-neutral-100: hsl(210, 40%, 96%);
+  --color-neutral-200: hsl(214, 32%, 91%);
+  --color-neutral-300: hsl(213, 27%, 84%);
+  --color-neutral-400: hsl(215, 20%, 65%);
+  --color-neutral-500: hsl(215, 16%, 47%);
+  --color-neutral-600: hsl(215, 19%, 35%);
+  --color-neutral-700: hsl(215, 25%, 27%);
+  --color-neutral-800: hsl(217, 33%, 17%);
+  --color-neutral-900: hsl(222, 47%, 11%);
+
+  /* Functional */
+  --color-background: hsl(210, 40%, 98%);
+  --color-surface: hsl(0, 0%, 100%);
+  --color-border: hsl(214, 32%, 91%);
+  --color-text-primary: hsl(222, 47%, 11%);
+  --color-text-secondary: hsl(215, 16%, 47%);
+  --color-text-muted: hsl(215, 20%, 65%);
+
+  /* ==========================================================================
+     Typography Scale
+     Based on 16px base, using perfect fourth (1.333) scale
+     ========================================================================== */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+
+  /* Line heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Font weights */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Letter spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+
+  /* ==========================================================================
+     Spacing Scale
+     Based on 4px (0.25rem) base unit
+     ========================================================================== */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 0.125rem;   /* 2px */
+  --space-1: 0.25rem;      /* 4px */
+  --space-1-5: 0.375rem;   /* 6px */
+  --space-2: 0.5rem;       /* 8px */
+  --space-2-5: 0.625rem;   /* 10px */
+  --space-3: 0.75rem;      /* 12px */
+  --space-3-5: 0.875rem;   /* 14px */
+  --space-4: 1rem;         /* 16px */
+  --space-5: 1.25rem;      /* 20px */
+  --space-6: 1.5rem;       /* 24px */
+  --space-7: 1.75rem;      /* 28px */
+  --space-8: 2rem;         /* 32px */
+  --space-9: 2.25rem;      /* 36px */
+  --space-10: 2.5rem;      /* 40px */
+  --space-11: 2.75rem;     /* 44px */
+  --space-12: 3rem;        /* 48px */
+  --space-14: 3.5rem;      /* 56px */
+  --space-16: 4rem;        /* 64px */
+  --space-20: 5rem;        /* 80px */
+  --space-24: 6rem;        /* 96px */
+
+  /* ==========================================================================
+     Shadow System
+     Layered elevation system for depth and hierarchy
+     ========================================================================== */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+
+  /* Elevated shadows for floating elements */
+  --shadow-elevated: 0 10px 40px -10px rgb(0 0 0 / 0.15);
+  --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.08), 0 1px 2px -1px rgb(0 0 0 / 0.08);
+  --shadow-dropdown: 0 10px 15px -3px rgb(0 0 0 / 0.12), 0 4px 6px -4px rgb(0 0 0 / 0.08);
+
+  /* ==========================================================================
+     Border Radius Scale
+     ========================================================================== */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;   /* 2px */
+  --radius-md: 0.375rem;   /* 6px */
+  --radius-lg: 0.5rem;     /* 8px */
+  --radius-xl: 0.75rem;    /* 12px */
+  --radius-2xl: 1rem;      /* 16px */
+  --radius-3xl: 1.5rem;    /* 24px */
+  --radius-full: 9999px;
+
+  /* ==========================================================================
+     Transition Timings
+     Consistent animation speeds across the UI
+     ========================================================================== */
+  --transition-fast: 150ms;
+  --transition-base: 200ms;
+  --transition-slow: 300ms;
+  --transition-slower: 500ms;
+
+  /* Easing functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ==========================================================================
+     Z-Index Scale
+     Layering system for stacking contexts
+     ========================================================================== */
+  --z-base: 0;
+  --z-docked: 10;
+  --z-dropdown: 40;
+  --z-sticky: 45;
+  --z-fixed: 50;
+  --z-overlay: 55;
+  --z-modal: 60;
+  --z-popover: 70;
+  --z-toast: 80;
+  --z-tooltip: 90;
+
+  /* ==========================================================================
+     Layout Constants
+     ========================================================================== */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  --sidebar-width: 280px;
+  --header-height: 64px;
+  --footer-height: 48px;
+}
+
+/* ==========================================================================
+   Dark Mode Tokens
+   Automatically applies when user prefers dark color scheme
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Adjusted score colors for dark mode (slightly brighter) */
+    --color-score-excellent: hsl(142, 76%, 45%);
+    --color-score-good: hsl(142, 69%, 65%);
+    --color-score-average: hsl(45, 93%, 55%);
+    --color-score-poor: hsl(27, 96%, 65%);
+    --color-score-critical: hsl(0, 84%, 65%);
+
+    /* Dark mode backgrounds */
+    --color-score-excellent-bg: hsl(142, 76%, 15%);
+    --color-score-good-bg: hsl(142, 69%, 15%);
+    --color-score-average-bg: hsl(45, 93%, 15%);
+    --color-score-poor-bg: hsl(27, 96%, 15%);
+    --color-score-critical-bg: hsl(0, 84%, 15%);
+
+    /* Dark mode severity backgrounds */
+    --color-severity-critical-bg: hsl(0, 84%, 15%);
+    --color-severity-high-bg: hsl(27, 96%, 15%);
+    --color-severity-medium-bg: hsl(45, 93%, 15%);
+    --color-severity-low-bg: hsl(199, 89%, 15%);
+    --color-severity-info-bg: hsl(217, 91%, 15%);
+
+    /* Inverted neutrals */
+    --color-neutral-50: hsl(222, 47%, 11%);
+    --color-neutral-100: hsl(217, 33%, 17%);
+    --color-neutral-200: hsl(215, 25%, 27%);
+    --color-neutral-300: hsl(215, 19%, 35%);
+    --color-neutral-400: hsl(215, 16%, 47%);
+    --color-neutral-500: hsl(215, 20%, 65%);
+    --color-neutral-600: hsl(213, 27%, 84%);
+    --color-neutral-700: hsl(214, 32%, 91%);
+    --color-neutral-800: hsl(210, 40%, 96%);
+    --color-neutral-900: hsl(210, 40%, 98%);
+
+    /* Dark mode functional colors */
+    --color-background: hsl(222, 47%, 8%);
+    --color-surface: hsl(217, 33%, 12%);
+    --color-border: hsl(215, 25%, 22%);
+    --color-text-primary: hsl(210, 40%, 98%);
+    --color-text-secondary: hsl(215, 20%, 65%);
+    --color-text-muted: hsl(215, 16%, 47%);
+
+    /* Adjusted shadows for dark mode */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-dropdown: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-elevated: 0 10px 40px -10px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Dark mode class override (for manual toggle) */
+.dark {
+  --color-score-excellent: hsl(142, 76%, 45%);
+  --color-score-good: hsl(142, 69%, 65%);
+  --color-score-average: hsl(45, 93%, 55%);
+  --color-score-poor: hsl(27, 96%, 65%);
+  --color-score-critical: hsl(0, 84%, 65%);
+
+  --color-background: hsl(222, 47%, 8%);
+  --color-surface: hsl(217, 33%, 12%);
+  --color-border: hsl(215, 25%, 22%);
+  --color-text-primary: hsl(210, 40%, 98%);
+  --color-text-secondary: hsl(215, 20%, 65%);
+  --color-text-muted: hsl(215, 16%, 47%);
+}

@@ -78,6 +78,34 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Semantic score colors (from tokens.css)
+        'score-excellent': 'var(--color-score-excellent)',
+        'score-good': 'var(--color-score-good)',
+        'score-average': 'var(--color-score-average)',
+        'score-poor': 'var(--color-score-poor)',
+        'score-critical': 'var(--color-score-critical)',
+
+        // Score backgrounds
+        'score-excellent-bg': 'var(--color-score-excellent-bg)',
+        'score-good-bg': 'var(--color-score-good-bg)',
+        'score-average-bg': 'var(--color-score-average-bg)',
+        'score-poor-bg': 'var(--color-score-poor-bg)',
+        'score-critical-bg': 'var(--color-score-critical-bg)',
+
+        // Severity colors
+        'severity-critical': 'var(--color-severity-critical)',
+        'severity-high': 'var(--color-severity-high)',
+        'severity-medium': 'var(--color-severity-medium)',
+        'severity-low': 'var(--color-severity-low)',
+        'severity-info': 'var(--color-severity-info)',
+
+        // Severity backgrounds
+        'severity-critical-bg': 'var(--color-severity-critical-bg)',
+        'severity-high-bg': 'var(--color-severity-high-bg)',
+        'severity-medium-bg': 'var(--color-severity-medium-bg)',
+        'severity-low-bg': 'var(--color-severity-low-bg)',
+        'severity-info-bg': 'var(--color-severity-info-bg)',
+
         // Modern gradient colors
         neon: {
           blue: "#00d4ff",
