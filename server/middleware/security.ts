@@ -1,4 +1,5 @@
 import type { H3Event } from "h3";
+import { logger } from "../utils/logger";
 
 export default defineEventHandler(async (event: H3Event) => {
   // TEMPORARILY DISABLED FOR RAILWAY DEBUGGING
@@ -12,10 +13,10 @@ export default defineEventHandler(async (event: H3Event) => {
     // Basic security headers only
     setHeader(event, "X-Content-Type-Options", "nosniff");
     setHeader(event, "X-Frame-Options", "DENY");
-    
-    console.log(`[SECURITY] Minimal security applied to ${event.node.req.url}`);
+
+    logger.info(`Minimal security applied to ${event.node.req.url}`);
   } catch (error: any) {
-    console.error("[SECURITY] Error:", error.message);
+    logger.error("Security middleware error", { error, url: event.node.req.url });
     // Don't throw - let the request continue
   }
 });
