@@ -1,4 +1,5 @@
 import { getHealthStatus } from "~/server/utils/monitoring";
+import { logger } from "~/server/utils/logger";
 import type { H3Event } from "h3";
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -12,7 +13,7 @@ export default defineEventHandler(async (event: H3Event) => {
 
     return health;
   } catch (error) {
-    console.error("Health check error:", error);
+    logger.error("Health check error", { error });
 
     setResponseStatus(event, 500);
     return {

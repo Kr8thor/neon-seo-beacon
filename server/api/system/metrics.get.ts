@@ -1,6 +1,7 @@
 import { metricsCollector, getSystemMetrics } from "~/server/utils/monitoring";
 import { getAllCircuitBreakers } from "~/server/utils/circuitBreaker";
 import { getSupabasePool } from "~/server/utils/supabasePool";
+import { logger } from "~/server/utils/logger";
 import type { H3Event } from "h3";
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -44,7 +45,7 @@ export default defineEventHandler(async (event: H3Event) => {
       },
     };
   } catch (error) {
-    console.error("Metrics collection error:", error);
+    logger.error("Metrics collection error", { error });
 
     setResponseStatus(event, 500);
     return {

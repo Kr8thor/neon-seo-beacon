@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { logger } from "./logger";
 
 interface PoolConfig {
   min: number;
@@ -83,7 +84,7 @@ export class SupabaseConnectionPool {
         this.pool.push(connection);
         return connection.client;
       } catch (error) {
-        console.error("Failed to create new connection:", error);
+        logger.error("Failed to create new connection", { error });
       }
     }
 
@@ -106,7 +107,7 @@ export class SupabaseConnectionPool {
   release(client: SupabaseClient): void {
     const connection = this.pool.find((conn) => conn.client === client);
     if (!connection) {
-      console.warn("Attempted to release unknown connection");
+      logger.warn("Attempted to release unknown connection");
       return;
     }
 
@@ -212,9 +213,9 @@ export class SupabaseConnectionPool {
     try {
       // Supabase clients don't have explicit close methods
       // The connection will be garbage collected
-      console.log(`Destroyed connection ${connection.id}`);
+      logger.debug(`Destroyed connection ${connection.id}`);
     } catch (error) {
-      console.error(`Error destroying connection ${connection.id}:`, error);
+      logger.error(`Error destroying connection ${connection.id}`, { error });
     }
   }
 
@@ -224,7 +225,7 @@ export class SupabaseConnectionPool {
         const connection = await this.createConnection();
         this.pool.push(connection);
       } catch (error) {
-        console.error("Failed to create minimum connection:", error);
+        logger.error("Failed to create minimum connection", { error });
         // Wait before retrying
         await new Promise((resolve) =>
           setTimeout(resolve, this.config.createRetryIntervalMillis),

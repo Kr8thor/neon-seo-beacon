@@ -1,4 +1,5 @@
 import { getAllCircuitBreakers } from "~/server/utils/circuitBreaker";
+import { logger } from "~/server/utils/logger";
 import type { H3Event } from "h3";
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -21,7 +22,7 @@ export default defineEventHandler(async (event: H3Event) => {
       timestamp: new Date().toISOString(),
     };
   } catch (error) {
-    console.error("Circuit breaker status error:", error);
+    logger.error("Circuit breaker status error", { error });
 
     setResponseStatus(event, 500);
     return {

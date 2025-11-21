@@ -1,3 +1,5 @@
+import { logger } from "./logger";
+
 interface CircuitBreakerConfig {
   failureThreshold: number;
   successThreshold: number;
@@ -54,16 +56,12 @@ export class CircuitBreaker {
 
     if (this.stats.state === CircuitState.OPEN) {
       if (Date.now() < this.nextAttempt) {
-        console.log(
-          `[CIRCUIT-BREAKER] ${this.name}: Circuit is OPEN, rejecting call`,
-        );
+        logger.info(`Circuit breaker ${this.name} is OPEN, rejecting call`);
         return this.handleOpenCircuit();
       } else {
         // Try to transition to HALF_OPEN
         this.stats.state = CircuitState.HALF_OPEN;
-        console.log(
-          `[CIRCUIT-BREAKER] ${this.name}: Circuit transitioning to HALF_OPEN`,
-        );
+        logger.info(`Circuit breaker ${this.name} transitioning to HALF_OPEN`);
       }
     }
 
@@ -106,9 +104,7 @@ export class CircuitBreaker {
       if (this.stats.successes >= this.config.successThreshold) {
         this.stats.state = CircuitState.CLOSED;
         this.stats.successes = 0;
-        console.log(
-          `[CIRCUIT-BREAKER] ${this.name}: Circuit recovered, state: CLOSED`,
-        );
+        logger.info(`Circuit breaker ${this.name} recovered, state: CLOSED`);
       }
     }
   }
@@ -129,14 +125,12 @@ export class CircuitBreaker {
     this.stats.state = CircuitState.OPEN;
     this.nextAttempt = Date.now() + this.config.timeout;
     this.stats.successes = 0;
-    console.log(
-      `[CIRCUIT-BREAKER] ${this.name}: Circuit OPENED due to failures`,
-    );
+    logger.warn(`Circuit breaker ${this.name} OPENED due to failures`);
   }
 
   private async handleOpenCircuit<T>(): Promise<T> {
     if (this.config.fallbackFunction) {
-      console.log(`[CIRCUIT-BREAKER] ${this.name}: Using fallback function`);
+      logger.info(`Circuit breaker ${this.name} using fallback function`);
       return this.config.fallbackFunction();
     }
     throw new Error(
@@ -166,7 +160,7 @@ export class CircuitBreaker {
       state: CircuitState.CLOSED,
     };
     this.nextAttempt = 0;
-    console.log(`[CIRCUIT-BREAKER] ${this.name}: Circuit manually reset`);
+    logger.info(`Circuit breaker ${this.name} manually reset`);
   }
 }
 

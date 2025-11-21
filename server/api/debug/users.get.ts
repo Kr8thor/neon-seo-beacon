@@ -1,4 +1,5 @@
 import { createSupabaseClient } from "~/server/utils/supabase";
+import { logger } from "~/server/utils/logger";
 
 export default defineEventHandler(async (event) => {
   try {
@@ -11,7 +12,7 @@ export default defineEventHandler(async (event) => {
       .limit(5);
 
     if (error) {
-      console.log("Profiles table error:", error);
+      logger.warn("Profiles table error", { error });
 
       // Try auth.users table instead
       const { data: authUsers, error: authError } =

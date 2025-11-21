@@ -1,6 +1,7 @@
 // Improved background audit processing with proper job management and database integration
 import type { H3Event } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import { logger } from "./logger";
 
 interface AuditJob {
   id: string;
@@ -71,8 +72,8 @@ async function processJobAsync(job: AuditJob) {
   job.status = "processing";
   job.attempts++;
 
-  console.log(
-    `[AUDIT-PROCESSOR] Starting job ${job.id} for audit ${job.auditId} (attempt ${job.attempts}/${job.maxAttempts})`,
+  logger.info(
+    `Audit processor starting job ${job.id} for audit ${job.auditId} (attempt ${job.attempts}/${job.maxAttempts})`,
   );
 
   const startTime = Date.now();
@@ -108,11 +109,11 @@ async function processJobAsync(job: AuditJob) {
     await addAuditProgress(job.auditId, 5, 5, "Analysis complete!");
 
     job.status = "completed";
-    console.log(
-      `[AUDIT-PROCESSOR] Job ${job.id} completed successfully (score: ${score})`,
+    logger.info(
+      `Audit processor job ${job.id} completed successfully (score: ${score})`,
     );
   } catch (error: any) {
-    console.error(`[AUDIT-PROCESSOR] Job ${job.id} failed:`, error);
+    logger.error(`Audit processor job ${job.id} failed`, { error });
 
     job.error = error.message;
 
@@ -130,8 +131,8 @@ async function processJobAsync(job: AuditJob) {
       // Schedule retry with exponential backoff
       job.status = "pending";
       job.nextRetry = Date.now() + Math.pow(2, job.attempts - 1) * 5000; // 5s, 10s, 20s, 40s...
-      console.log(
-        `[AUDIT-PROCESSOR] Job ${job.id} will retry in ${(job.nextRetry - Date.now()) / 1000}s`,
+      logger.info(
+        `Audit processor job ${job.id} will retry in ${(job.nextRetry - Date.now()) / 1000}s`,
       );
     }
   } finally {
@@ -158,7 +159,7 @@ export function addAuditJob(
   };
 
   jobQueue.push(job);
-  console.log(`[AUDIT-PROCESSOR] Added job ${jobId} for audit ${auditId}`);
+  logger.info(`Audit processor added job ${jobId} for audit ${auditId}`);
 
   // Start processing if needed
   setTimeout(() => processAuditQueue(), 100);
@@ -211,11 +212,9 @@ async function updateAuditStatus(
       throw new Error(`Database error: ${dbError.message}`);
     }
 
-    console.log(
-      `[AUDIT-PROCESSOR] Updated audit ${auditId} status to ${status}`,
-    );
+    logger.info(`Audit processor updated audit ${auditId} status to ${status}`);
   } catch (error) {
-    console.error(`[AUDIT-PROCESSOR] Failed to update audit status:`, error);
+    logger.error("Audit processor failed to update audit status", { error, auditId });
     throw error;
   }
 }
@@ -243,11 +242,9 @@ async function addAuditProgress(
       throw new Error(`Database error: ${error.message}`);
     }
 
-    console.log(
-      `[AUDIT-PROCESSOR] Audit ${auditId} progress: ${step}/${totalSteps} - ${message}`,
-    );
+    logger.debug(`Audit ${auditId} progress: ${step}/${totalSteps} - ${message}`);
   } catch (error) {
-    console.error(`[AUDIT-PROCESSOR] Failed to add progress:`, error);
+    logger.error("Audit processor failed to add progress", { error, auditId });
     // Don't throw here - progress tracking failures shouldn't stop the audit
   }
 }
@@ -257,7 +254,7 @@ async function performSEOAnalysis(url: string) {
   const axios = require("axios");
   const cheerio = require("cheerio");
 
-  console.log(`[AUDIT-PROCESSOR] Performing SEO analysis for ${url}`);
+  logger.info(`Audit processor performing SEO analysis for ${url}`);
 
   try {
     // Fetch the webpage
@@ -465,7 +462,7 @@ function analyzeTwitterCard($: any): Record<string, string> {
 }
 
 async function generateRecommendations(analysisResult: any) {
-  console.log(`[AUDIT-PROCESSOR] Generating AI recommendations`);
+  logger.info("Audit processor generating AI recommendations");
 
   // Placeholder for AI recommendations - can integrate Claude API here
   const recommendations = [];
@@ -629,11 +626,9 @@ async function updateAuditResults(
       throw new Error(`Database error: ${error.message}`);
     }
 
-    console.log(
-      `[AUDIT-PROCESSOR] Updated audit ${auditId} with results (score: ${score})`,
-    );
+    logger.info(`Audit processor updated audit ${auditId} with results (score: ${score})`);
   } catch (error) {
-    console.error(`[AUDIT-PROCESSOR] Failed to update audit results:`, error);
+    logger.error("Audit processor failed to update audit results", { error, auditId });
     throw error;
   }
 }
@@ -641,5 +636,5 @@ async function updateAuditResults(
 // Start the queue processor
 if (process.env.NODE_ENV !== "test") {
   setInterval(processAuditQueue, 5000); // Process queue every 5 seconds
-  console.log("[AUDIT-PROCESSOR] Queue processor started");
+  logger.info("Audit processor queue processor started");
 }

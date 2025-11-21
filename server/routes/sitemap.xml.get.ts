@@ -1,3 +1,5 @@
+import { logger } from "~/server/utils/logger";
+
 export default defineEventHandler(async (event: any) => {
   const config = useRuntimeConfig();
   const siteUrl = config.public.siteUrl || "https://neonseobeacon.com";
@@ -45,7 +47,7 @@ export default defineEventHandler(async (event: any) => {
 
     return xml;
   } catch (error) {
-    console.error("Sitemap generation error:", error);
+    logger.error("Sitemap generation error", { error });
 
     setResponseStatus(event, 500);
     return `<?xml version="1.0" encoding="UTF-8"?>

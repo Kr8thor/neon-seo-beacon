@@ -1,6 +1,7 @@
 // Fixed audit processor - no immediate startup
 import type { H3Event } from "h3";
 import { createClient } from "@supabase/supabase-js";
+import { logger } from "./logger";
 
 interface AuditJob {
   id: string;
@@ -59,7 +60,7 @@ export function addAuditJob(
   };
 
   jobQueue.push(job);
-  console.log(`[AUDIT-PROCESSOR] Added job ${jobId} for audit ${auditId}`);
+  logger.info(`Audit processor added job ${jobId} for audit ${auditId}`);
 
   return jobId;
 }
@@ -70,11 +71,11 @@ export function getJobStatus(jobId: string): AuditJob | null {
 
 // Manual queue processing - no automatic interval
 export async function processAuditQueue() {
-  console.log("[AUDIT-PROCESSOR] Manual queue processing");
+  logger.info("Audit processor manual queue processing");
   // Implementation details removed for minimal startup
   return { processed: 0, pending: jobQueue.length };
 }
 
 // REMOVED: Automatic setInterval startup
 // This was causing startup issues in Railway
-console.log("[AUDIT-PROCESSOR] Module loaded (no auto-start)");
+logger.info("Audit processor module loaded (no auto-start)");
