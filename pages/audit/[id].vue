@@ -256,11 +256,15 @@ const recommendations = ref<any>(null);
 
 // Generate category data for breakdown chart
 const categoryData = computed(() => {
-  if (!audit.value?.categories) return []
-  return Object.entries(audit.value.categories).map(([name, data]: [string, any]) => ({
+  // Use issuesByCategory from summary if categories not available on audit
+  const categories = audit.value?.categories || summary.value?.issuesByCategory
+  if (!categories) return []
+
+  return Object.entries(categories).map(([name, data]: [string, any]) => ({
     name: name.charAt(0).toUpperCase() + name.slice(1).replace(/_/g, ' '),
-    value: data.score || 0,
-    impact: data.impact || 0
+    // If data is a number (issue count), use it as value. Otherwise extract score
+    value: typeof data === 'number' ? data : (data.score || 0),
+    impact: typeof data === 'number' ? 0 : (data.impact || 0)
   }))
 })
 
@@ -271,6 +275,7 @@ const exportReport = async () => {
 
 const statusClasses: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
+  queued: "bg-yellow-100 text-yellow-800",
   processing: "bg-blue-100 text-blue-800",
   completed: "bg-green-100 text-green-800",
   failed: "bg-red-100 text-red-800",

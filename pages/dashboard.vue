@@ -355,7 +355,7 @@ const trendData = computed(() => {
 
 // Methods
 async function refreshDashboard() {
-  await auditStore.fetchAudits(true)
+  await auditStore.fetchAudits({ forceRefresh: true })
   lastRefresh.value = Date.now()
 }
 
@@ -407,10 +407,11 @@ function getStatusClass(status: string): string {
   const classes: Record<string, string> = {
     completed: 'bg-score-excellent-bg text-score-excellent',
     processing: 'bg-severity-info-bg text-severity-info',
+    pending: 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400',
     queued: 'bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-400',
     failed: 'bg-severity-critical-bg text-severity-critical',
   }
-  return classes[status] || classes.queued
+  return classes[status] || classes.pending
 }
 
 // Lifecycle
