@@ -1,6 +1,7 @@
 // Delete an audit and all related data
 import { createClient } from "@supabase/supabase-js";
 import { logger } from "~/server/utils/logger";
+import { requireAuth } from "~/server/utils/authMiddleware";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
@@ -14,15 +15,18 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
+    // Require authentication
+    const user = await requireAuth(event);
+
     const supabase = createClient(
       config.supabaseUrl || config.public.supabaseUrl,
       config.supabaseServiceRoleKey
     );
 
-    // Check if audit exists
+    // Check if audit exists and user owns it
     const { data: audit, error: fetchError } = await supabase
       .from("audits")
-      .select("id, status")
+      .select("id, status, user_id")
       .eq("id", auditId)
       .single();
 
@@ -30,6 +34,14 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 404,
         message: "Audit not found",
+      });
+    }
+
+    // Validate ownership
+    if (audit.user_id && audit.user_id !== user.id) {
+      throw createError({
+        statusCode: 403,
+        message: "Access denied",
       });
     }
 

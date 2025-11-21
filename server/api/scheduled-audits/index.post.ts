@@ -13,11 +13,16 @@ const scheduleSchema = z.object({
   notify_email: z.string().email().optional(),
 });
 
+import { requireAuth } from "~/server/utils/authMiddleware";
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const body = await readBody(event);
 
   try {
+    // Require authentication
+    const user = await requireAuth(event);
+
     const validated = scheduleSchema.parse(body);
 
     const supabase = createClient(
@@ -31,6 +36,7 @@ export default defineEventHandler(async (event) => {
     const { data: schedule, error } = await supabase
       .from("scheduled_audits")
       .insert({
+        user_id: user.id,
         url: validated.url,
         frequency: validated.frequency,
         day_of_week: validated.day_of_week,
@@ -54,6 +60,10 @@ export default defineEventHandler(async (event) => {
       data: schedule,
     };
   } catch (error: any) {
+    if (error.statusCode) {
+      throw error;
+    }
+
     if (error instanceof z.ZodError) {
       throw createError({
         statusCode: 400,

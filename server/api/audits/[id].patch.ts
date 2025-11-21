@@ -1,11 +1,15 @@
 // Update an audit (status, cancel, retry)
 import { createClient } from "@supabase/supabase-js";
 import { logger } from "~/server/utils/logger";
+import { requireAuth } from "~/server/utils/authMiddleware";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const auditId = getRouterParam(event, 'id');
   const body = await readBody(event);
+
+  // Require authentication
+  const user = await requireAuth(event);
 
   if (!auditId) {
     throw createError({
@@ -46,10 +50,10 @@ export default defineEventHandler(async (event) => {
       config.supabaseServiceRoleKey
     );
 
-    // Get current audit state
+    // Get current audit state and verify ownership
     const { data: currentAudit, error: fetchError } = await supabase
       .from("audits")
-      .select("id, status")
+      .select("id, status, user_id")
       .eq("id", auditId)
       .single();
 
@@ -57,6 +61,14 @@ export default defineEventHandler(async (event) => {
       throw createError({
         statusCode: 404,
         message: "Audit not found",
+      });
+    }
+
+    // Validate ownership
+    if (currentAudit.user_id && currentAudit.user_id !== user.id) {
+      throw createError({
+        statusCode: 403,
+        message: "Access denied",
       });
     }
 
