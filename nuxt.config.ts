@@ -127,6 +127,7 @@ export default defineNuxtConfig({
     jwtSecret: process.env.JWT_SECRET,
     csrfSecret: process.env.CSRF_SECRET,
     googlePagespeedApiKey: process.env.GOOGLE_PAGESPEED_API_KEY,
+    publicUserId: process.env.PUBLIC_USER_ID, // UUID for anonymous/public audit submissions
 
     // Public keys (exposed to client-side)
     public: {

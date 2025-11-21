@@ -66,8 +66,17 @@ export default defineEventHandler(async (event: H3Event) => {
     // Create audit record - using minimal fields that exist in database
     const supabase = createSupabaseClient();
 
-    // Generate a random UUID for public user_id (you'll need to create this user)
-    const publicUserId = "ac67a5be-b6cb-40f0-95a3-d60d5d60ac46"; // Real UUID from Supabase
+    // Get public user ID from config (create this user in Supabase auth)
+    const config = useRuntimeConfig();
+    const publicUserId = config.publicUserId || config.public?.publicUserId;
+
+    if (!publicUserId) {
+      logger.error("PUBLIC_USER_ID not configured");
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Service configuration error",
+      });
+    }
 
     const { data: audit, error } = await supabase
       .from("audits")

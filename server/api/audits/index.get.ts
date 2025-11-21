@@ -45,11 +45,14 @@ export default defineEventHandler(async (event: H3Event) => {
 
     return {
       success: true,
-      audits: audits || [],
+      data: audits || [],
       pagination: {
+        page: Math.floor(offset / limit) + 1,
         limit,
-        offset,
         total: audits?.length || 0,
+        total_pages: Math.ceil((audits?.length || 0) / limit) || 1,
+        has_next: (audits?.length || 0) >= limit,
+        has_prev: offset > 0,
       },
     };
   } catch (error: any) {

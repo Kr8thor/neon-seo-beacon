@@ -21,7 +21,7 @@ export interface Audit {
   id: string
   url: string
   score: number
-  status: 'queued' | 'processing' | 'completed' | 'failed'
+  status: 'pending' | 'queued' | 'processing' | 'completed' | 'failed'
   findings: Finding[]
   createdAt: Date
   updatedAt: Date
@@ -173,7 +173,7 @@ export const useAuditStore = defineStore('audits', {
         total: audits.length,
         completed: completed.length,
         processing: audits.filter(a => a.status === 'processing').length,
-        queued: audits.filter(a => a.status === 'queued').length,
+        pending: audits.filter(a => a.status === 'pending' || a.status === 'queued').length,
         failed: audits.filter(a => a.status === 'failed').length,
         avgScore: completed.length
           ? Math.round(completed.reduce((sum, a) => sum + a.score, 0) / completed.length)
@@ -323,10 +323,10 @@ export const useAuditStore = defineStore('audits', {
       }
     },
 
-    setPageSize(limit: number) {
+    async setPageSize(limit: number) {
       this.pagination.limit = Math.min(100, Math.max(1, limit))
       this.pagination.page = 1
-      this.fetchAudits({ forceRefresh: true })
+      await this.fetchAudits({ forceRefresh: true })
     },
 
     // Fetch single audit
@@ -381,7 +381,7 @@ export const useAuditStore = defineStore('audits', {
           id: response.auditId || response.id,
           url,
           score: 0,
-          status: 'queued',
+          status: 'pending',
           findings: [],
           createdAt: new Date(),
           updatedAt: new Date(),
