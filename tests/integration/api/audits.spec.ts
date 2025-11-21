@@ -1,2 +1,2 @@
-// Vitest configuration
+// Audits API tests
 // See file in repository
