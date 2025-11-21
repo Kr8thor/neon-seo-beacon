@@ -78,11 +78,11 @@ export default defineNuxtConfig({
     documentDriven: true,
   },
 
-  // Supabase configuration - Fixed for Railway
+  // Supabase configuration - CORRECT PROJECT (qyspmedutegwcdwlbbot)
   supabase: {
-    // Ensure environment variables are properly read during build
-    url: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
-    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlaHR3bmZkcWplaG16dG5uYmNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk5NjM2MDgsImV4cCI6MjA2NTUzOTYwOH0.2Y2h_VpTnVlPVwbMzQaz2-f0Hgtrd_fWp5i1Z6-KkVk',
+    // Environment variables take priority, with correct project as fallback
+    url: process.env.SUPABASE_URL || process.env.NUXT_PUBLIC_SUPABASE_URL || 'https://qyspmedutegwcdwlbbot.supabase.co',
+    key: process.env.SUPABASE_ANON_KEY || process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5c3BtZWR1dGVnd2Nkd2xiYm90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MzQ1NTgsImV4cCI6MjA3OTMxMDU1OH0.DHayxPYKp6EiWsBvUxWAtsk3lr8REt2ADpIL-L1ggb8',
     redirectOptions: {
       login: "/auth/login",
       callback: "/auth/callback",
@@ -116,11 +116,11 @@ export default defineNuxtConfig({
     }
   },
 
-  // Runtime configuration - Fixed for Railway
+  // Runtime configuration - CORRECT PROJECT (qyspmedutegwcdwlbbot)
   runtimeConfig: {
     // Private keys (only available on server-side)
-    supabaseUrl: process.env.SUPABASE_URL || process.env.NUXT_PUBLIC_SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
-    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+    supabaseUrl: process.env.SUPABASE_URL || process.env.NUXT_PUBLIC_SUPABASE_URL || 'https://qyspmedutegwcdwlbbot.supabase.co',
+    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5c3BtZWR1dGVnd2Nkd2xiYm90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MzQ1NTgsImV4cCI6MjA3OTMxMDU1OH0.DHayxPYKp6EiWsBvUxWAtsk3lr8REt2ADpIL-L1ggb8',
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     anthropicApiKey: process.env.ANTHROPIC_API_KEY,
     redisUrl: process.env.REDIS_URL,
@@ -130,8 +130,8 @@ export default defineNuxtConfig({
 
     // Public keys (exposed to client-side)
     public: {
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://cehtwnfdqjehmztnnbch.supabase.co',
-      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY,
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || 'https://qyspmedutegwcdwlbbot.supabase.co',
+      supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5c3BtZWR1dGVnd2Nkd2xiYm90Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MzQ1NTgsImV4cCI6MjA3OTMxMDU1OH0.DHayxPYKp6EiWsBvUxWAtsk3lr8REt2ADpIL-L1ggb8',
       apiUrl: process.env.NUXT_PUBLIC_API_URL || 'https://audit.mardenseo.com',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://audit.mardenseo.com',
       appName: 'Neon SEO Beacon',
