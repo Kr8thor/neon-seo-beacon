@@ -55,7 +55,7 @@
             </span>
             <button
               v-else
-              @click="$emit('page', pageNum)"
+              @click="$emit('page', pageNum as number)"
               :class="[
                 'relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20',
                 pageNum === page

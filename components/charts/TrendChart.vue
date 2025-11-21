@@ -125,8 +125,7 @@ const chartData = computed(() => {
       pointBackgroundColor: 'rgba(156, 163, 175, 0.5)',
       pointBorderColor: '#fff',
       pointBorderWidth: 1,
-      borderDash: [5, 5],
-    })
+    } as any)
   }
 
   return {
@@ -176,11 +175,11 @@ const chartOptions = computed(() => ({
   },
   interaction: {
     intersect: false,
-    mode: 'index',
+    mode: 'index' as const,
   },
   animation: {
     duration: 750,
-    easing: 'easeOutQuart',
+    easing: 'easeOutQuart' as const,
   },
 }))
 </script>

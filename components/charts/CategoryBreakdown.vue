@@ -134,7 +134,7 @@ const chartOptions = computed(() => ({
   },
   animation: {
     duration: 750,
-    easing: 'easeOutQuart',
+    easing: 'easeOutQuart' as const,
   },
 }))
 </script>
