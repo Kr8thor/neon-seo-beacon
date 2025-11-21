@@ -195,7 +195,7 @@ const chartOptions = computed(() => ({
 }
 
 .chart-title {
-  @apply text-sm font-semibold text-text-primary;
+  @apply text-sm font-semibold text-gray-900 dark:text-white;
 }
 
 .trend-indicator {

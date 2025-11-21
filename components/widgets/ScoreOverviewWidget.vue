@@ -131,7 +131,7 @@ const getCategoryColorClass = (score: number) => {
 }
 
 .category-name {
-  @apply text-text-secondary;
+  @apply text-gray-500 dark:text-gray-400;
 }
 
 .category-score {

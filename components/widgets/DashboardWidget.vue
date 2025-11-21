@@ -206,17 +206,17 @@ defineExpose({
 
 <style scoped>
 .dashboard-widget {
-  @apply rounded-token-xl border border-border bg-surface shadow-card;
-  @apply transition-all duration-base ease-in-out;
+  @apply rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800;
+  @apply shadow-sm transition-all duration-200 ease-in-out;
   @apply flex flex-col overflow-hidden;
 }
 
 .dashboard-widget:hover {
-  @apply shadow-elevated;
+  @apply shadow-lg;
 }
 
 .widget-dragging {
-  @apply opacity-50 ring-2 ring-primary cursor-grabbing;
+  @apply opacity-50 ring-2 ring-blue-500 cursor-grabbing;
 }
 
 .widget-minimized {
@@ -224,7 +224,7 @@ defineExpose({
 }
 
 .widget-error {
-  @apply border-severity-high;
+  @apply border-orange-500;
 }
 
 /* Grid sizes */
@@ -237,8 +237,8 @@ defineExpose({
 
 /* Header */
 .widget-header {
-  @apply flex items-center justify-between px-4 py-3 border-b border-border;
-  @apply bg-neutral-50 dark:bg-neutral-800;
+  @apply flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700;
+  @apply bg-gray-50 dark:bg-gray-800;
 }
 
 .widget-title-area {
@@ -250,30 +250,30 @@ defineExpose({
 }
 
 .widget-title {
-  @apply text-sm font-semibold text-text-primary truncate;
+  @apply text-sm font-semibold text-gray-900 dark:text-white truncate;
 }
 
 .widget-badge {
   @apply text-xs px-2 py-0.5 rounded-full font-medium;
 }
 
-.badge-success { @apply bg-score-excellent-bg text-score-excellent; }
-.badge-warning { @apply bg-score-average-bg text-score-average; }
-.badge-error { @apply bg-score-critical-bg text-score-critical; }
-.badge-info { @apply bg-severity-info-bg text-severity-info; }
+.badge-success { @apply bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400; }
+.badge-warning { @apply bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400; }
+.badge-error { @apply bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400; }
+.badge-info { @apply bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400; }
 
 .widget-controls {
   @apply flex items-center gap-1;
 }
 
 .widget-btn {
-  @apply p-1.5 rounded-md text-text-muted;
-  @apply hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:text-text-primary;
-  @apply transition-colors duration-fast;
+  @apply p-1.5 rounded-md text-gray-400;
+  @apply hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white;
+  @apply transition-colors duration-150;
 }
 
 .widget-btn-danger:hover {
-  @apply bg-severity-critical-bg text-severity-critical;
+  @apply bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400;
 }
 
 /* Content */
@@ -304,7 +304,7 @@ defineExpose({
 
 /* Footer */
 .widget-footer {
-  @apply px-4 py-2 border-t border-border bg-neutral-50 dark:bg-neutral-800;
-  @apply text-xs text-text-muted;
+  @apply px-4 py-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800;
+  @apply text-xs text-gray-500;
 }
 </style>

@@ -135,18 +135,18 @@ const iconComponent = computed(() => {
 
 <style scoped>
 .kpi-card {
-  @apply bg-surface rounded-token-xl p-4 border border-border shadow-card;
-  @apply transition-all duration-base hover:shadow-elevated;
+  @apply bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700;
+  @apply shadow-sm transition-all duration-200 hover:shadow-lg;
 }
 
-.severity-critical { @apply border-l-4 border-l-severity-critical; }
-.severity-high { @apply border-l-4 border-l-severity-high; }
-.severity-medium { @apply border-l-4 border-l-severity-medium; }
-.severity-low { @apply border-l-4 border-l-severity-low; }
-.severity-info { @apply border-l-4 border-l-severity-info; }
+.severity-critical { @apply border-l-4 border-l-red-500; }
+.severity-high { @apply border-l-4 border-l-orange-500; }
+.severity-medium { @apply border-l-4 border-l-yellow-500; }
+.severity-low { @apply border-l-4 border-l-blue-500; }
+.severity-info { @apply border-l-4 border-l-blue-400; }
 
 .kpi-icon {
-  @apply w-10 h-10 rounded-lg bg-primary-bg text-primary flex items-center justify-center mb-3;
+  @apply w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center mb-3;
 }
 
 .kpi-content {
@@ -154,7 +154,7 @@ const iconComponent = computed(() => {
 }
 
 .kpi-title {
-  @apply text-sm font-medium text-text-secondary;
+  @apply text-sm font-medium text-gray-500 dark:text-gray-400;
 }
 
 .kpi-value-row {
@@ -166,11 +166,11 @@ const iconComponent = computed(() => {
 }
 
 .kpi-unit {
-  @apply text-sm text-text-muted;
+  @apply text-sm text-gray-400 dark:text-gray-500;
 }
 
 .kpi-total {
-  @apply text-sm text-text-muted;
+  @apply text-sm text-gray-400 dark:text-gray-500;
 }
 
 .kpi-trend {

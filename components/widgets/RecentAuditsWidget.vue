@@ -98,11 +98,11 @@ const formatDate = (dateStr: string) => {
 }
 
 .audit-url {
-  @apply text-sm font-medium text-text-primary truncate;
+  @apply text-sm font-medium text-gray-900 dark:text-white truncate;
 }
 
 .audit-date {
-  @apply text-xs text-text-muted;
+  @apply text-xs text-gray-400 dark:text-gray-500;
 }
 
 .audit-score {
@@ -110,6 +110,6 @@ const formatDate = (dateStr: string) => {
 }
 
 .view-all {
-  @apply pt-3 text-center border-t border-border mt-3;
+  @apply pt-3 text-center border-t border-gray-200 dark:border-gray-700 mt-3;
 }
 </style>

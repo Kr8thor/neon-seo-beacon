@@ -145,7 +145,7 @@ const chartOptions = computed(() => ({
 }
 
 .chart-title {
-  @apply text-sm font-semibold text-text-primary mb-4;
+  @apply text-sm font-semibold text-gray-900 dark:text-white mb-4;
 }
 
 .chart-container {

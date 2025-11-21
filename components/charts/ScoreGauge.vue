@@ -150,10 +150,10 @@ watch(() => props.score, (newVal, oldVal) => {
 .gauge-lg .gauge-value { @apply text-5xl; }
 
 .gauge-label {
-  @apply text-xs text-text-muted mt-0.5;
+  @apply text-xs text-gray-400 dark:text-gray-500 mt-0.5;
 }
 
 .gauge-subtitle {
-  @apply text-sm text-text-secondary mt-2 text-center;
+  @apply text-sm text-gray-500 dark:text-gray-400 mt-2 text-center;
 }
 </style>
