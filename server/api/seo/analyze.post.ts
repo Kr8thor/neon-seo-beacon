@@ -2,6 +2,7 @@ import { z } from "zod";
 import axios from "axios";
 import * as cheerio from "cheerio";
 import { UAParser } from "ua-parser-js";
+import { createClient } from "@supabase/supabase-js";
 import { withCircuitBreaker } from "~/server/utils/circuitBreaker";
 import { logger } from "~/server/utils/logger";
 
@@ -13,6 +14,7 @@ const analyzeSchema = z.object({
       includeImages: z.boolean().default(true),
       checkMobile: z.boolean().default(true),
       includePerformance: z.boolean().default(true),
+      save: z.boolean().default(false), // Save results to database
     })
     .default({}),
 });
@@ -59,10 +61,58 @@ export default defineEventHandler(async (event: any) => {
       },
     );
 
+    // Save to database if requested
+    let auditId = null;
+    if (options.save) {
+      const supabase = createClient(
+        config.supabaseUrl || config.public.supabaseUrl,
+        config.supabaseServiceRoleKey
+      );
+
+      // Create audit record
+      const { data: audit, error: auditError } = await supabase
+        .from("audits")
+        .insert({
+          url,
+          status: "completed",
+          score: analysis.score,
+          results: analysis,
+          completed_at: new Date().toISOString(),
+          metadata: { source: "quick_analyze", options },
+        })
+        .select("id")
+        .single();
+
+      if (auditError) {
+        logger.error("Failed to save audit", { error: auditError });
+      } else {
+        auditId = audit.id;
+
+        // Save issues based on analysis
+        const issues = generateIssuesFromAnalysis(analysis, auditId);
+        if (issues.length > 0) {
+          await supabase.from("audit_issues").insert(issues);
+        }
+
+        // Save performance metrics if available
+        if (analysis.performance && analysis.performance.loadTime) {
+          await supabase.from("performance_metrics").insert({
+            audit_id: auditId,
+            url,
+            ttfb: Math.round(analysis.performance.loadTime * 0.3),
+            fcp: Math.round(analysis.performance.loadTime * 0.5),
+            lcp: analysis.performance.loadTime,
+            load_time: analysis.performance.loadTime,
+          });
+        }
+      }
+    }
+
     // Return results
     return {
       success: true,
       data: analysis,
+      audit_id: auditId,
       timestamp: new Date().toISOString(),
     };
   } catch (error) {
@@ -85,6 +135,133 @@ export default defineEventHandler(async (event: any) => {
     };
   }
 });
+
+// Generate issues from analysis results
+function generateIssuesFromAnalysis(analysis: any, auditId: string) {
+  const issues: any[] = [];
+
+  // Title issues
+  if (!analysis.title) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "critical",
+      rule_id: "missing-title",
+      title: "Missing page title",
+      description: "The page has no title tag defined.",
+      recommendation: "Add a descriptive title tag between 30-60 characters.",
+    });
+  } else if (analysis.title.length < 30) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "medium",
+      rule_id: "short-title",
+      title: "Title tag is too short",
+      description: `Title is only ${analysis.title.length} characters.`,
+      recommendation: "Expand the title to at least 30 characters for better SEO.",
+    });
+  } else if (analysis.title.length > 60) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "low",
+      rule_id: "long-title",
+      title: "Title tag is too long",
+      description: `Title is ${analysis.title.length} characters and may be truncated.`,
+      recommendation: "Shorten the title to under 60 characters.",
+    });
+  }
+
+  // Meta description issues
+  if (!analysis.metaDescription) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "high",
+      rule_id: "missing-meta-description",
+      title: "Missing meta description",
+      description: "The page has no meta description.",
+      recommendation: "Add a meta description between 120-160 characters.",
+    });
+  }
+
+  // H1 issues
+  if (analysis.h1Tags.length === 0) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "high",
+      rule_id: "missing-h1",
+      title: "Missing H1 heading",
+      description: "The page has no H1 heading.",
+      recommendation: "Add exactly one H1 heading that describes the page content.",
+    });
+  } else if (analysis.h1Tags.length > 1) {
+    issues.push({
+      audit_id: auditId,
+      category: "content",
+      severity: "medium",
+      rule_id: "multiple-h1",
+      title: "Multiple H1 headings",
+      description: `The page has ${analysis.h1Tags.length} H1 headings.`,
+      recommendation: "Use only one H1 heading per page.",
+    });
+  }
+
+  // Image alt issues
+  if (analysis.images && analysis.images.withoutAlt > 0) {
+    issues.push({
+      audit_id: auditId,
+      category: "accessibility",
+      severity: analysis.images.withoutAlt > 5 ? "high" : "medium",
+      rule_id: "images-missing-alt",
+      title: "Images missing alt text",
+      description: `${analysis.images.withoutAlt} of ${analysis.images.total} images are missing alt text.`,
+      recommendation: "Add descriptive alt text to all images.",
+    });
+  }
+
+  // Technical SEO issues
+  if (!analysis.technical.hasViewport) {
+    issues.push({
+      audit_id: auditId,
+      category: "technical",
+      severity: "high",
+      rule_id: "missing-viewport",
+      title: "Missing viewport meta tag",
+      description: "The page has no viewport meta tag for mobile responsiveness.",
+      recommendation: 'Add <meta name="viewport" content="width=device-width, initial-scale=1">',
+    });
+  }
+
+  if (!analysis.technical.hasCanonical) {
+    issues.push({
+      audit_id: auditId,
+      category: "technical",
+      severity: "medium",
+      rule_id: "missing-canonical",
+      title: "Missing canonical URL",
+      description: "The page has no canonical URL defined.",
+      recommendation: "Add a canonical link to prevent duplicate content issues.",
+    });
+  }
+
+  // Performance issues
+  if (analysis.performance && analysis.performance.loadTime > 4000) {
+    issues.push({
+      audit_id: auditId,
+      category: "performance",
+      severity: analysis.performance.loadTime > 6000 ? "critical" : "high",
+      rule_id: "slow-load-time",
+      title: "Slow page load time",
+      description: `Page took ${analysis.performance.loadTime}ms to load.`,
+      recommendation: "Optimize images, enable compression, and reduce server response time.",
+    });
+  }
+
+  return issues;
+}
 
 async function performSEOAnalysis(url: string, options: any) {
   const startTime = Date.now();
