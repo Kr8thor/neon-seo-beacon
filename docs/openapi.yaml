@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: Neon SEO Beacon API
+  description: Professional SEO analysis platform API
+  version: 1.0.0
+  contact:
+    name: API Support
+    url: https://github.com/Kr8thor/neon-seo-beacon
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development
+  - url: https://staging.neon-seo-beacon.railway.app/api
+    description: Staging
+  - url: https://api.neon-seo-beacon.app/api
+    description: Production
+
+security:
+  - bearerAuth: []
+  - apiKey: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        display_name:
+          type: string
+        role:
+          type: string
+          enum: [admin, member, viewer]
+
+    Audit:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        overall_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                display_name:
+                  type: string
+      responses:
+        '201':
+          description: User created
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      responses:
+        '200':
+          description: Login successful
+
+  /organizations:
+    get:
+      tags:
+        - Organizations
+      summary: List organizations
+      responses:
+        '200':
+          description: List of organizations
+
+  /audits/{audit_id}:
+    get:
+      tags:
+        - Audits
+      summary: Get audit details
+      parameters:
+        - name: audit_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Audit details
+
+tags:
+  - name: Authentication
+    description: User authentication and authorization
+  - name: Organizations
+    description: Organization management
+  - name: Audits
+    description: SEO audit operations
