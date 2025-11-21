@@ -34,6 +34,15 @@ interface CacheEntry<T> {
   timestamp: number
 }
 
+interface Pagination {
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+  hasNext: boolean
+  hasPrev: boolean
+}
+
 interface AuditState {
   audits: Map<string, Audit>
   filter: {
@@ -47,6 +56,7 @@ interface AuditState {
     by: 'date' | 'score' | 'status' | 'url'
     order: 'asc' | 'desc'
   }
+  pagination: Pagination
   cache: Map<string, CacheEntry<any>>
   loading: boolean
   error: string | null
@@ -68,6 +78,14 @@ export const useAuditStore = defineStore('audits', {
     sort: {
       by: 'date',
       order: 'desc',
+    },
+    pagination: {
+      page: 1,
+      limit: 20,
+      total: 0,
+      totalPages: 0,
+      hasNext: false,
+      hasPrev: false,
     },
     cache: new Map(),
     loading: false,
@@ -204,13 +222,16 @@ export const useAuditStore = defineStore('audits', {
   },
 
   actions: {
-    // Fetch all audits
-    async fetchAudits(forceRefresh = false) {
-      const cacheKey = 'audits_list'
+    // Fetch audits with pagination
+    async fetchAudits(options: { page?: number; forceRefresh?: boolean } = {}) {
+      const page = options.page || this.pagination.page
+      const forceRefresh = options.forceRefresh || false
+      const cacheKey = `audits_page_${page}_${this.filter.search}_${this.filter.status.join(',')}`
 
       if (!forceRefresh && this.isCacheValid(cacheKey)) {
         const cached = this.cache.get(cacheKey)!
-        this.audits = new Map(cached.data)
+        this.audits = new Map(cached.data.audits)
+        this.pagination = cached.data.pagination
         return
       }
 
@@ -218,21 +239,61 @@ export const useAuditStore = defineStore('audits', {
       this.error = null
 
       try {
-        const response = await $fetch<{ audits: any[] }>('/api/sites/audits')
-        const data = response.audits || []
+        // Build query params
+        const params = new URLSearchParams({
+          page: page.toString(),
+          limit: this.pagination.limit.toString(),
+          sort_by: this.sort.by === 'date' ? 'created_at' : this.sort.by,
+          sort_order: this.sort.order,
+        })
+
+        if (this.filter.search) {
+          params.set('search', this.filter.search)
+        }
+
+        if (this.filter.status.length === 1) {
+          params.set('status', this.filter.status[0])
+        }
+
+        const response = await $fetch<{
+          success: boolean
+          data: any[]
+          pagination: {
+            page: number
+            limit: number
+            total: number
+            total_pages: number
+            has_next: boolean
+            has_prev: boolean
+          }
+        }>(`/api/sites/audits?${params.toString()}`)
+
+        const data = response.data || []
 
         this.audits = new Map(data.map((a: any) => [
           a.id,
           {
             ...a,
             createdAt: new Date(a.created_at || a.createdAt),
-            updatedAt: new Date(a.updated_at || a.updatedAt),
+            updatedAt: new Date(a.updated_at || a.updatedAt || a.created_at),
             findings: a.findings || [],
           },
         ]))
 
+        this.pagination = {
+          page: response.pagination.page,
+          limit: response.pagination.limit,
+          total: response.pagination.total,
+          totalPages: response.pagination.total_pages,
+          hasNext: response.pagination.has_next,
+          hasPrev: response.pagination.has_prev,
+        }
+
         this.cache.set(cacheKey, {
-          data: Array.from(this.audits.entries()),
+          data: {
+            audits: Array.from(this.audits.entries()),
+            pagination: this.pagination,
+          },
           timestamp: Date.now(),
         })
       } catch (err) {
@@ -241,6 +302,31 @@ export const useAuditStore = defineStore('audits', {
       } finally {
         this.loading = false
       }
+    },
+
+    // Pagination actions
+    async nextPage() {
+      if (this.pagination.hasNext) {
+        await this.fetchAudits({ page: this.pagination.page + 1 })
+      }
+    },
+
+    async prevPage() {
+      if (this.pagination.hasPrev) {
+        await this.fetchAudits({ page: this.pagination.page - 1 })
+      }
+    },
+
+    async goToPage(page: number) {
+      if (page >= 1 && page <= this.pagination.totalPages) {
+        await this.fetchAudits({ page })
+      }
+    },
+
+    setPageSize(limit: number) {
+      this.pagination.limit = Math.min(100, Math.max(1, limit))
+      this.pagination.page = 1
+      this.fetchAudits({ forceRefresh: true })
     },
 
     // Fetch single audit

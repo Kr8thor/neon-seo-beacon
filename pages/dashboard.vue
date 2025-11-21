@@ -151,7 +151,7 @@
             </thead>
             <tbody class="divide-y divide-border">
               <tr
-                v-for="audit in filteredAudits.slice(0, 10)"
+                v-for="audit in filteredAudits"
                 :key="audit.id"
                 class="hover:bg-neutral-50 dark:hover:bg-neutral-800/50 cursor-pointer transition-colors"
                 @click="viewAudit(audit.id)"
@@ -184,6 +184,20 @@
               </tr>
             </tbody>
           </table>
+
+          <!-- Pagination -->
+          <Pagination
+            v-if="pagination.total > 0"
+            :page="pagination.page"
+            :total-pages="pagination.totalPages"
+            :total="pagination.total"
+            :limit="pagination.limit"
+            :has-next="pagination.hasNext"
+            :has-prev="pagination.hasPrev"
+            @prev="auditStore.prevPage()"
+            @next="auditStore.nextPage()"
+            @page="auditStore.goToPage($event)"
+          />
         </div>
       </section>
 
@@ -308,6 +322,7 @@ const lastRefresh = ref(Date.now())
 const loading = computed(() => auditStore.loading)
 const statistics = computed(() => auditStore.statistics)
 const criticalIssues = computed(() => auditStore.criticalIssues)
+const pagination = computed(() => auditStore.pagination)
 
 const filteredAudits = computed(() => {
   let audits = auditStore.filteredAudits
